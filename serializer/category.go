@@ -1,6 +1,6 @@
 package serializer
 
-import "cmall/model"
+import "to-do-list/model"
 
 //分类序列化器
 type Category struct {

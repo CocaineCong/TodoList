@@ -1,10 +1,10 @@
 package service
 
 import (
-	"cmall/model"
-	"cmall/pkg/e"
-	"cmall/pkg/logging"
-	"cmall/serializer"
+	"to-do-list/model"
+	"to-do-list/pkg/e"
+	"to-do-list/pkg/logging"
+	"to-do-list/serializer"
 )
 
 // 收藏创建的服务

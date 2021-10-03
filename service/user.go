@@ -1,11 +1,11 @@
 package service
 
 import (
-	"cmall/model"
-	"cmall/pkg/e"
-	"cmall/pkg/logging"
-	"cmall/pkg/util"
-	"cmall/serializer"
+	"to-do-list/model"
+	"to-do-list/pkg/e"
+	"to-do-list/pkg/logging"
+	"to-do-list/pkg/util"
+	"to-do-list/serializer"
 	"github.com/jinzhu/gorm"
 )
 

@@ -1,7 +1,7 @@
 package cache
 
 import (
-	"cmall/pkg/logging"
+	"to-do-list/pkg/logging"
 	"github.com/go-redis/redis"
 	"os"
 	"strconv"

@@ -1,10 +1,10 @@
 package middleware
 
 import (
-	"cmall/pkg/e"
-	"cmall/pkg/util"
 	"github.com/gin-gonic/gin"
 	"time"
+	"to-do-list/pkg/e"
+	"to-do-list/pkg/util"
 )
 
 //JWT token验证中间件

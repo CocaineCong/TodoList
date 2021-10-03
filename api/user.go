@@ -1,11 +1,11 @@
 package api
 
 import (
-	"cmall/pkg/logging"
-	"cmall/serializer"
-	"cmall/service"
 	"github.com/gin-contrib/sessions"
 	"github.com/gin-gonic/gin"
+	"to-do-list/pkg/logging"
+	"to-do-list/serializer"
+	"to-do-list/service"
 )
 
 //UserRegister 用户注册

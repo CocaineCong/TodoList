@@ -1,8 +1,8 @@
 package routes
 
 import (
-	"cmall/api"
-	"cmall/middleware"
+	"to-do-list/api"
+	"to-do-list/middleware"
 	"github.com/gin-contrib/sessions"
 	"github.com/gin-contrib/sessions/cookie"
 	"github.com/gin-gonic/gin"

@@ -1,8 +1,8 @@
 package api
 
 import (
-	"cmall/pkg/logging"
-	"cmall/service"
+	"to-do-list/pkg/logging"
+	"to-do-list/service"
 	"github.com/gin-gonic/gin"
 )
 

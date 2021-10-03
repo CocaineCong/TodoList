@@ -1,8 +1,8 @@
 package api
 
 import (
-	"cmall/conf"
-	"cmall/serializer"
+	"to-do-list/conf"
+	"to-do-list/serializer"
 	"encoding/json"
 	"fmt"
 	"gopkg.in/go-playground/validator.v8"

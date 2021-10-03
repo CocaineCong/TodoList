@@ -1,6 +1,6 @@
 package serializer
 
-import "cmall/model"
+import "to-do-list/model"
 
 type Product struct {
 	ID           uint   `json:"id"`

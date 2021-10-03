@@ -1,8 +1,8 @@
 package main
 
 import (
-	"cmall/conf"
-	"cmall/routes"
+	"to-do-list/conf"
+	"to-do-list/routes"
 )
 
 func main() {

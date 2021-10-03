@@ -1,0 +1,20 @@
+# Binaries for programs and plugins
+*.exe
+*.exe~
+*.dll
+*.so
+*.dylib
+.idea
+# Test binary, built with `go test -c`
+*.test
+main
+# Output of the go coverage tool, specifically when used with LiteIDE
+*.out
+.ideax
+# Dependency directories (remove the comment below to include it)
+# vendor/
+uploadfile
+conf/config.ini
+conf/config_online.ini
+runtime
+go.sum
