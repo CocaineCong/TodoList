@@ -10,8 +10,9 @@ import (
 //任务模型
 type Task struct {
 	gorm.Model
+	UserId 		  uint
 	Title         string
-	Status        int
+	Status        int  `gorm:"default:'0'"`
 	Content       string `gorm:"size:1000"`
 	StartTime 	  time.Time
 	EndTime 	  time.Time

@@ -1,18 +1,17 @@
 package api
 
 import (
-	"to-do-list/pkg/logging"
-	"to-do-list/service"
 	"github.com/gin-gonic/gin"
+	"to-do-list/pkg/logging"
+	"to-do-list/pkg/util"
+	"to-do-list/service"
 )
 
-//TODO
-
-// 创建商品
-func CreateProduct(c *gin.Context) {
-	service := service.CreateProductService{}
+func CreateTask(c *gin.Context) {
+	service := service.CreateTaskService{}
+	chaim,_ := util.ParseToken(c.GetHeader("Authorization"))
 	if err := c.ShouldBind(&service); err == nil {
-		res := service.Create()
+		res := service.Create(chaim.Id)
 		c.JSON(200, res)
 	} else {
 		c.JSON(200, ErrorResponse(err))
@@ -20,11 +19,11 @@ func CreateProduct(c *gin.Context) {
 	}
 }
 
-//商品列表
 func ListTasks(c *gin.Context) {
 	service := service.ListTasksService{}
+	chaim ,_ := util.ParseToken(c.GetHeader("Authorization"))
 	if err := c.ShouldBind(&service); err == nil {
-		res := service.List()
+		res := service.List(chaim.Id)
 		c.JSON(200, res)
 	} else {
 		c.JSON(200, ErrorResponse(err))
@@ -32,36 +31,22 @@ func ListTasks(c *gin.Context) {
 	}
 }
 
-func ListSameProducts(c *gin.Context)  {
-	service := service.ListSameProductsService{}
-	if err := c.ShouldBind(&service); err == nil {
-		res := service.ListSame()
-		c.JSON(200, res)
-	} else {
-		c.JSON(200, ErrorResponse(err))
-		logging.Info(err)
-	}
-}
-
-//商品详情
-func ShowProduct(c *gin.Context) {
-	service := service.ShowProductService{}
+func ShowTask(c *gin.Context) {
+	service := service.ShowTaskService{}
 	res := service.Show(c.Param("id"))
 	c.JSON(200, res)
 }
 
-//删除商品
-func DeleteProduct(c *gin.Context) {
-	service := service.DeleteProductService{}
+func DeleteTask(c *gin.Context) {
+	service := service.DeleteTaskService{}
 	res := service.Delete(c.Param("id"))
 	c.JSON(200, res)
 }
 
-//更新商品
-func UpdateProduct(c *gin.Context) {
-	service := service.UpdateProductService{}
+func UpdateTask(c *gin.Context) {
+	service := service.UpdateTaskService{}
 	if err := c.ShouldBind(&service); err == nil {
-		res := service.Update()
+		res := service.Update(c.Param("id"))
 		c.JSON(200, res)
 	} else {
 		c.JSON(200, ErrorResponse(err))
@@ -69,23 +54,10 @@ func UpdateProduct(c *gin.Context) {
 	}
 }
 
-func UpProduct(c *gin.Context) {
-	service := service.UpProductService{}
+func SearchTasks(c *gin.Context) {
+	service := service.SearchTaskService{}
 	if err := c.ShouldBind(&service); err == nil {
-		res := service.UpProduct()
-		c.JSON(200, res)
-	} else {
-		c.JSON(200, ErrorResponse(err))
-		logging.Info(err)
-	}
-}
-
-
-//搜索商品
-func SearchProducts(c *gin.Context) {
-	service := service.SearchProductsService{}
-	if err := c.ShouldBind(&service); err == nil {
-		res := service.Show()
+		res := service.Search()
 		c.JSON(200, res)
 	} else {
 		c.JSON(200, ErrorResponse(err))

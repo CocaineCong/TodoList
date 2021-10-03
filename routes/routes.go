@@ -17,21 +17,16 @@ func NewRouter() *gin.Engine {
 	{
 		v1.POST("user/register", api.UserRegister) 	//用户注册
 		v1.POST("user/login", api.UserLogin)       	//用户登陆
-		//商品操作
-		v1.GET("tasks", api.ListTasks)
-		v1.POST("task", api.ListSameProducts)
-		v1.GET("products/:id", api.ShowProduct)
-		v1.GET("categories", api.ListCategories)    //商品分类操作
-
-		//v1.POST("payments",api.InitPay)
-
-		authed := v1.Group("/")            			//需要登陆保护
+		authed := v1.Group("/")     //需要登陆保护
 		authed.Use(middleware.JWT())
 		{
-			authed.PUT("products", api.UpdateProduct)
-			authed.GET("SearchProducts",api.SearchProducts)
-			authed.POST("products",api.CreateProduct)   //创建商品
-			authed.GET("ping", api.CheckToken)                //验证token
+			//任务操作
+			authed.GET("tasks", api.ListTasks)
+			authed.POST("task", api.CreateTask)
+			authed.GET("task/:id", api.ShowTask)
+			authed.DELETE("task", api.DeleteTask)
+			authed.PUT("task", api.UpdateTask)
+			authed.POST("search",api.SearchTasks)
 		}
 	}
 	return r
