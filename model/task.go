@@ -1,11 +1,33 @@
 package model
 
-import "github.com/jinzhu/gorm"
+import (
+	"github.com/jinzhu/gorm"
+	"strconv"
+	"time"
+	"to-do-list/cache"
+)
 
+//任务模型
 type Task struct {
 	gorm.Model
-	Title 	 string  `gorm:"type:varchar(100);not null" json:"title"` 	//标题
-	Content  string	`gorm:"type:varchar(200)" json:"content"`	//内容
-	StartTime int64		//开始时间
-	EndTime	  int64		//结束时间
+	Title         string
+	Status        int
+	Content       string `gorm:"size:1000"`
+	StartTime 	  time.Time
+	EndTime 	  time.Time
 }
+
+func (Task *Task) View() uint64 {
+	//增加点击数
+ 	countStr, _ := cache.RedisClient.Get(cache.ProductViewKey(Task.ID)).Result()
+	count, _ := strconv.ParseUint(countStr, 10, 64)
+	return count
+}
+
+//AddView
+func (Task *Task) AddView() {
+	cache.RedisClient.Incr(cache.ProductViewKey(Task.ID))	//增加视频点击数
+	cache.RedisClient.ZIncrBy(cache.RankKey, 1, strconv.Itoa(int(Task.ID)))	//增加排行点击数
+
+}
+

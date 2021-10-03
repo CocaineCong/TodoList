@@ -16,7 +16,7 @@ type CreateProductService struct {
 	BossID       int    `form:"boss_id" json:"boss_id" bind:"required"`
 	BossName     string `form:"boss_name" json:"boss_name"`
 }
-type ListProductsService struct {
+type ListTasksService struct {
 	Limit      int  `form:"limit" json:"limit"`
 	Start      int  `form:"start" json:"start"`
 	CategoryID uint `form:"category_id" json:"category_id"`
@@ -58,7 +58,7 @@ func (service *CreateProductService) Create() serializer.Response {
 	}
 }
 
-func (service *ListProductsService) List() serializer.Response {
+func (service *ListTasksService) List() serializer.Response {
 	products := []model.Product{}
 
 	total := 0

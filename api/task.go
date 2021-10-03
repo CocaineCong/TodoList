@@ -21,8 +21,8 @@ func CreateProduct(c *gin.Context) {
 }
 
 //商品列表
-func ListProducts(c *gin.Context) {
-	service := service.ListProductsService{}
+func ListTasks(c *gin.Context) {
+	service := service.ListTasksService{}
 	if err := c.ShouldBind(&service); err == nil {
 		res := service.List()
 		c.JSON(200, res)
