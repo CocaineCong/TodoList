@@ -1,7 +1,6 @@
 package service
 
 import (
-	"strconv"
 	"time"
 	"to-do-list/model"
 	"to-do-list/pkg/e"
@@ -45,10 +44,9 @@ type ListTasksService struct {
 	CategoryID uint `form:"category_id" json:"category_id"`
 }
 
-func (service *CreateTaskService) Create(id string) serializer.Response {
-	idInt,_ := strconv.Atoi(id)
+func (service *CreateTaskService) Create(id uint) serializer.Response {
 	task := model.Task{
-		UserId: uint(idInt),
+		UserId: id,
 		Title:         service.Title,
 		Content:          service.Content,
 		Status:          0,
@@ -73,7 +71,7 @@ func (service *CreateTaskService) Create(id string) serializer.Response {
 	}
 }
 
-func (service *ListTasksService) List(id string) serializer.Response {
+func (service *ListTasksService) List(id uint) serializer.Response {
 	var tasks []model.Task
 	total := 0
 	if service.Limit == 0 {
