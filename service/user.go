@@ -105,7 +105,7 @@ func (service *UserLoginService) Login(userID, status interface{}) serializer.Re
 			Msg:    e.GetMsg(code),
 		}
 	}
-	token, err := util.GenerateToken(service.UserName, service.Password, 0)
+	token, err := util.GenerateToken(user.ID,service.UserName, service.Password, 0)
 	if err != nil {
 		logging.Info(err)
 		code = e.ERROR_AUTH_TOKEN
