@@ -19,7 +19,6 @@ func BuildUser(user model.User) User {
 	return User{
 		ID:       user.ID,
 		UserName: user.UserName,
-		Status:   user.Status,
 		CreateAt: user.CreatedAt.Unix(),
 	}
 }
