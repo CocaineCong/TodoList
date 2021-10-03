@@ -18,3 +18,4 @@ conf/config.ini
 conf/config_online.ini
 runtime
 go.sum
+sql
