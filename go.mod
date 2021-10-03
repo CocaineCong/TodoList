@@ -12,5 +12,6 @@ require (
 	github.com/onsi/gomega v1.16.0 // indirect
 	golang.org/x/crypto v0.0.0-20210921155107-089bfa567519
 	gopkg.in/go-playground/validator.v8 v8.18.2
+	gopkg.in/ini.v1 v1.63.2 // indirect
 	gopkg.in/yaml.v2 v2.4.0
 )
