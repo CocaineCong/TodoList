@@ -1,21 +1,24 @@
 package service
 
 import (
+	"github.com/jinzhu/gorm"
 	"to-do-list/model"
 	"to-do-list/pkg/e"
 	"to-do-list/pkg/logging"
 	"to-do-list/pkg/util"
 	"to-do-list/serializer"
-	"github.com/jinzhu/gorm"
 )
 
 //UserRegisterService 管理用户注册服务
 type UserRegisterService struct {
 	UserName  string `form:"user_name" json:"user_name" binding:"required,min=3,max=15"`
 	Password  string `form:"password" json:"password" binding:"required,min=5,max=16"`
-	Challenge string `form:"challenge" json:"challenge"`
-	Validate  string `form:"validate" json:"validate"`
-	Seccode   string `form:"seccode" json:"seccode"`
+}
+
+//UserLoginService 管理用户登陆的服务
+type UserLoginService struct {
+	UserName  string `form:"user_name" json:"user_name" binding:"required,min=3,max=15"`
+	Password  string `form:"password" json:"password" binding:"required,min=5,max=16"`
 }
 
 //valid 验证表单 验证用户是否存在
@@ -44,7 +47,6 @@ func (service *UserRegisterService) Valid(userId, status interface{}) *serialize
 func (service *UserRegisterService) Register(userID, status interface{}) *serializer.Response {
 	user := model.User{
 		UserName: service.UserName,
-		Status:   model.Active,
 	}
 	code := e.SUCCESS
 	//表单验证
@@ -73,15 +75,6 @@ func (service *UserRegisterService) Register(userID, status interface{}) *serial
 		Status: code,
 		Msg:    e.GetMsg(code),
 	}
-}
-
-//UserLoginService 管理用户登陆的服务
-type UserLoginService struct {
-	UserName  string `form:"user_name" json:"user_name" binding:"required,min=3,max=15"`
-	Password  string `form:"password" json:"password" binding:"required,min=5,max=16"`
-	Challenge string `form:"challenge" json:"challenge"`
-	Validate  string `form:"validate" json:"validate"`
-	Seccode   string `form:"seccode" json:"seccode"`
 }
 
 //Login 用户登陆函数
@@ -124,48 +117,6 @@ func (service *UserLoginService) Login(userID, status interface{}) serializer.Re
 	return serializer.Response{
 		Status: code,
 		Data:   serializer.TokenData{User: serializer.BuildUser(user), Token: token},
-		Msg:    e.GetMsg(code),
-	}
-}
-
-//用户修改信息的服务
-type UserUpdateService struct {
-	ID       uint   `form:"id" json:"id"`
-	NickName string `form:"nickname" json:"nickname" binding:"required,min=2,max=10"`
-	UserName string `form:"user_name" json:"user_name" binding:"required,min=5,max=15"`
-	Avatar   string `form:"avatar" json:"avatar"`
-}
-
-//Update 用户修改信息
-func (service *UserUpdateService) Update() serializer.Response {
-	var user model.User
-	code := e.SUCCESS
-	//找到用户
-	err := model.DB.First(&user, service.ID).Error
-	if err != nil {
-		logging.Info(err)
-		code = e.ERROR_DATABASE
-		return serializer.Response{
-			Status: code,
-			Msg:    e.GetMsg(code),
-			Error:  err.Error(),
-		}
-	}
-	user.UserName = service.UserName
-
-	err = model.DB.Save(&user).Error
-	if err != nil {
-		logging.Info(err)
-		code = e.ERROR_DATABASE
-		return serializer.Response{
-			Status: code,
-			Msg:    e.GetMsg(code),
-			Error:  err.Error(),
-		}
-	}
-	return serializer.Response{
-		Status: code,
-		Data:   serializer.BuildUser(user),
 		Msg:    e.GetMsg(code),
 	}
 }

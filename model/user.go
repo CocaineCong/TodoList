@@ -10,22 +10,12 @@ type User struct {
 	gorm.Model
 	UserName       string `gorm:"unique"`
 	PasswordDigest string
-	Status         string
 }
 
 const (
-	PassWordCost        = 12         //密码加密难度
-	Active       string = "active"   //激活用户
-	Inactive     string = "inactive" //未激活用户
-	Suspend      string = "suspend"  //被封禁用户
+	PassWordCost = 12         //密码加密难度
 )
 
-//GetUser 用ID获取用户
-func GetUser(ID interface{}) (User, error) {
-	var user User
-	result := DB.First(&user, ID)
-	return user, result.Error
-}
 
 //SetPassword 设置密码
 func (user *User) SetPassword(password string) error {
