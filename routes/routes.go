@@ -12,6 +12,7 @@ import (
 func NewRouter() *gin.Engine {
 	r := gin.Default()
 	store := cookie.NewStore([]byte("something-very-secret"))
+	//middleware.HttpLogToFile(conf.AppMode)
 	r.Use(sessions.Sessions("mysession", store))
 	v1 := r.Group("api/v1")
 	{

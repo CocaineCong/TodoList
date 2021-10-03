@@ -10,5 +10,5 @@ func main() {
 	conf.Init()
 	//转载路由
 	r := routes.NewRouter()
-	_ = r.Run(":3000")
+	_ = r.Run(conf.HttpPort)
 }
