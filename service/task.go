@@ -29,8 +29,6 @@ type CreateTaskService struct {
 	Title         string `form:"title" json:"title" binding:"required,min=2,max=100"`
 	Content          string `form:"content" json:"content" binding:"max=1000"`
 	Status 		  int    `form:"status" json:"status"`   //0 待办   1已完成
-	StartTime time.Time `json:"start_time" form:"start_time"`
-	EndTime time.Time `json:"end_time" form:"end_time"`
 }
 
 //搜索任务的服务
@@ -50,8 +48,7 @@ func (service *CreateTaskService) Create(id uint) serializer.Response {
 		Title:         service.Title,
 		Content:          service.Content,
 		Status:          0,
-		StartTime:service.StartTime,
-		EndTime:service.EndTime,
+		StartTime: time.Now(),
 	}
 	code := e.SUCCESS
 	err := model.DB.Create(&task).Error
@@ -77,7 +74,7 @@ func (service *ListTasksService) List(id uint) serializer.Response {
 	if service.Limit == 0 {
 		service.Limit = 15
 	}
-	model.DB.Model(model.Task{}).Where("uid = ?",id).Count(&total).
+	model.DB.Model(model.Task{}).Where("user_id = ?",id).Count(&total).
 		Limit(service.Limit).Offset((service.Start-1)*service.Limit).
 		Find(&tasks)
 	return serializer.BuildListResponse(serializer.BuildTasks(tasks), uint(total))
