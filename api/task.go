@@ -2,7 +2,7 @@ package api
 
 import (
 	"github.com/gin-gonic/gin"
-	"to-do-list/pkg/logging"
+	logging "github.com/sirupsen/logrus"
 	"to-do-list/pkg/util"
 	"to-do-list/service"
 )

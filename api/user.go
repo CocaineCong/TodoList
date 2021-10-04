@@ -3,7 +3,7 @@ package api
 import (
 	"github.com/gin-contrib/sessions"
 	"github.com/gin-gonic/gin"
-	"to-do-list/pkg/logging"
+	logging "github.com/sirupsen/logrus"
 	"to-do-list/service"
 )
 

@@ -2,9 +2,9 @@ package service
 
 import (
 	"github.com/jinzhu/gorm"
+	logging "github.com/sirupsen/logrus"
 	"to-do-list/model"
 	"to-do-list/pkg/e"
-	"to-do-list/pkg/logging"
 	"to-do-list/pkg/util"
 	"to-do-list/serializer"
 )

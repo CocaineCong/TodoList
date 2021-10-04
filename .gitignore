@@ -19,3 +19,5 @@ conf/config_online.ini
 runtime
 go.sum
 sql
+docker-compose.yaml
+import.env

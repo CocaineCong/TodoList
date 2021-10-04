@@ -1,0 +1,35 @@
+version: '2'
+
+services:
+  todoList-api:
+    build: /
+    image: to_do_list
+    container_name: to_do_list
+    restart: always
+    environment:
+      MYSQL_DSN: "root:root@/to_do_list?charset=utf8&parseTime=True&loc=Local"
+    ports:
+      - 3002:3000
+    depends_on:
+      - redis
+      - mysql
+  mysql:
+    container_name: mysql
+    image: mysql:8.0
+    restart: always
+    environment:
+      MYSQL_ROOT_PASSWORD: root
+      MYSQL_DATABASE:
+    volumes:
+      - to_do_list: /var/lib/mysql/data
+    ports:
+      - "3306:3306"
+
+  redis:
+    container_name: redis
+    image: redis
+    restart: always
+    volumes:
+      - to_do_list: /data
+    ports:
+      - "6379:6379"

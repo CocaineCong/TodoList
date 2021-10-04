@@ -3,9 +3,9 @@ package cache
 import (
 	"fmt"
 	"github.com/go-redis/redis"
+	logging "github.com/sirupsen/logrus"
 	"gopkg.in/ini.v1"
 	"strconv"
-	"to-do-list/pkg/logging"
 )
 
 //RedisClient Redis缓存客户端单例

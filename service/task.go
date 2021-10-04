@@ -1,10 +1,10 @@
 package service
 
 import (
+	logging "github.com/sirupsen/logrus"
 	"time"
 	"to-do-list/model"
 	"to-do-list/pkg/e"
-	"to-do-list/pkg/logging"
 	"to-do-list/serializer"
 )
 
