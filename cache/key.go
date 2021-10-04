@@ -6,16 +6,12 @@ import (
 )
 
 const (
-	//RankKey 每日排名
+	//排名
 	RankKey = "rank"
-	////ElectricalRank 家电排名
-	TaskRank = "TaskRank"
-	////AccessoryRank 配件排名
-	//AccessoryRank = "acceRank"
 )
 
-//ProductViewKey 视频点击数的key
-func ProductViewKey(id uint) string {
-	fmt.Printf("view:product:%s", strconv.Itoa(int(id)))
-	return fmt.Sprintf("view:product:%s", strconv.Itoa(int(id)))
+// Task 点击数的key
+func TaskViewKey(id uint) string {
+	fmt.Printf("view:task:%s", strconv.Itoa(int(id)))
+	return fmt.Sprintf("view:task:%s", strconv.Itoa(int(id)))
 }
