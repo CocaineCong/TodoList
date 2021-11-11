@@ -3,19 +3,19 @@ package model
 import (
 	"github.com/jinzhu/gorm"
 	"strconv"
-	"time"
 	"to-do-list/cache"
 )
 
 //任务模型
 type Task struct {
 	gorm.Model
-	User 		  User   `gorm:"ForeignKey:UID"`
+	User 		  User   `gorm:"ForeignKey:Uid"`
+	Uid 		  uint 	 `gorm:"not null"`
 	Title         string `gorm:"index;not null"`
 	Status        int    `gorm:"default:'0'"`
 	Content       string `gorm:"type:longtext"`
-	StartTime 	  time.Time
-	EndTime 	  time.Time `gorm:"default:'0'"`
+	StartTime 	  int64
+	EndTime 	  int64 `gorm:"default:'0'"`
 }
 
 func (Task *Task) View() uint64 {

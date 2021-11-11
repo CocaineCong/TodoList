@@ -39,16 +39,17 @@ type SearchTaskService struct {
 type ListTasksService struct {
 	Limit      int  `form:"limit" json:"limit"`
 	Start      int  `form:"start" json:"start"`
-	CategoryID uint `form:"category_id" json:"category_id"`
 }
 
 func (service *CreateTaskService) Create(id uint) serializer.Response {
+	var user model.User
+	model.DB.First(&user,id)
 	task := model.Task{
-		UserID: id,
+		User:user,
 		Title: service.Title,
 		Content: service.Content,
 		Status: 0,
-		StartTime: time.Now(),
+		StartTime: time.Now().Unix(),
 	}
 	code := e.SUCCESS
 	err := model.DB.Create(&task).Error
@@ -74,7 +75,7 @@ func (service *ListTasksService) List(id uint) serializer.Response {
 	if service.Limit == 0 {
 		service.Limit = 15
 	}
-	model.DB.Model(model.Task{}).Where("user_id = ?",id).Count(&total).
+	model.DB.Model(model.Task{}).Preload("User").Where("uid = ?",id).Count(&total).
 		Limit(service.Limit).Offset((service.Start-1)*service.Limit).
 		Find(&tasks)
 	return serializer.BuildListResponse(serializer.BuildTasks(tasks), uint(total))
@@ -154,10 +155,11 @@ func (service *UpdateTaskService) Update(id string) serializer.Response {
 	}
 }
 
-func (service *SearchTaskService) Search() serializer.Response {
+func (service *SearchTaskService) Search(uId uint) serializer.Response {
 	var tasks []model.Task
 	code := e.SUCCESS
-	err := model.DB.Where("title LIKE ? OR content LIKE ?",
+	model.DB.Where("uid=?", uId).Preload("User").First(&tasks)
+	err := model.DB.Model(&model.Task{}).Where("title LIKE ? OR content LIKE ?",
 		"%"+service.Info+"%","%"+service.Info+"%").Find(&tasks).Error
 	if err != nil {
 		logging.Info(err)

@@ -110,8 +110,9 @@ func UpdateTask(c *gin.Context) {
 // @Router /search [post]
 func SearchTasks(c *gin.Context) {
 	searchTaskService := service.SearchTaskService{}
+	chaim ,_ := util.ParseToken(c.GetHeader("Authorization"))
 	if err := c.ShouldBind(&searchTaskService); err == nil {
-		res := searchTaskService.Search()
+		res := searchTaskService.Search(chaim.Id)
 		c.JSON(200, res)
 	} else {
 		c.JSON(200, ErrorResponse(err))
