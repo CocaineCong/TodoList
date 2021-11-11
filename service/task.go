@@ -133,7 +133,7 @@ func (service *DeleteTaskService) Delete(id string) serializer.Response {
 
 func (service *UpdateTaskService) Update(id string) serializer.Response {
 	var task model.Task
-	model.DB.Model(model.Task{}).Where("id = ?",task).First(&task)
+	model.DB.Model(model.Task{}).Where("id = ?",id).First(&task)
 	task.Content = service.Content
 	task.Status = service.Status
 	task.Title = service.Title
