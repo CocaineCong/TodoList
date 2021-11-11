@@ -7,8 +7,10 @@ import (
 	swaggerFiles "github.com/swaggo/files"
 	ginSwagger "github.com/swaggo/gin-swagger"
 	"to-do-list/api"
+	"to-do-list/conf"
 	_ "to-do-list/docs" // 这里需要引入本地已生成文档
 	"to-do-list/middleware"
+	"to-do-list/pkg/logging"
 )
 
 
@@ -16,14 +18,14 @@ import (
 func NewRouter() *gin.Engine {
 	r := gin.Default()
 	store := cookie.NewStore([]byte("something-very-secret"))
-	// middleware.HttpLogToFile(conf.AppMode)
-	// 开启swag
-	r.GET("/swagger/*any", ginSwagger.WrapHandler(swaggerFiles.Handler))
+	logging.HttpLogToFile(conf.AppMode)
+	r.GET("/swagger/*any", ginSwagger.WrapHandler(swaggerFiles.Handler))	// 开启swag
 	r.Use(sessions.Sessions("mysession", store))
 	v1 := r.Group("api/v1")
 	{
-		v1.POST("user/register", api.UserRegister) 	//用户注册
-		v1.POST("user/login", api.UserLogin)       	//用户登陆
+		// 用户操作
+		v1.POST("user/register", api.UserRegister)
+		v1.POST("user/login", api.UserLogin)
 		authed := v1.Group("/")     //需要登陆保护
 		authed.Use(middleware.JWT())
 		{

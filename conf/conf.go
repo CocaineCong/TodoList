@@ -2,7 +2,6 @@ package conf
 
 import (
 	"fmt"
-	logging "github.com/sirupsen/logrus"
 	"gopkg.in/ini.v1"
 	//"github.com/joho/godotenv"
 	"strings"
@@ -29,10 +28,6 @@ func Init() {
 	}
 	LoadServer(file)
 	LoadMysqlData(file)
-	if err := LoadLocales("conf/locales/zh-cn.yaml"); err != nil {
-		logging.Info(err) //日志内容
-		panic(err)
-	}
 	path := strings.Join([]string{DbUser, ":", DbPassWord, "@tcp(", DbHost, ":", DbPort, ")/", DbName, "?charset=utf8&parseTime=true"}, "")
 	model.Database(path)
 	cache.Redis()

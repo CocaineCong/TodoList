@@ -99,6 +99,15 @@ func UpdateTask(c *gin.Context) {
 	}
 }
 
+// @Tags TASK
+// @Summary 查询任务
+// @Produce json
+// @Accept json
+// @Header 200 {string} Authorization "必备"
+// @Param data body service.DeleteTaskService true "2"
+// @Success 200 {object} serializer.Response "{"success":true,"data":{},"msg":"ok"}"
+// @Failure 500 {json} {"status":500,"data":{},"Msg":{},"Error":"error"}
+// @Router /search [post]
 func SearchTasks(c *gin.Context) {
 	searchTaskService := service.SearchTaskService{}
 	if err := c.ShouldBind(&searchTaskService); err == nil {
