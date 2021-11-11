@@ -3,10 +3,10 @@ package serializer
 import "to-do-list/model"
 
 type User struct {
-	ID uint `json:"id" form:"id" example:"1"`  // 用户ID
-	UserName string `json:"user_name" form:"user_name" example:"FanOne"` // 用户名
-	Status string `json:"status" form:"status"`  // 用户状态
-	CreateAt int64 `json:"create_at" form:"create_at"` // 创建
+	ID 			uint   `json:"id" form:"id" example:"1"`  	// 用户ID
+	UserName 	string `json:"user_name" form:"user_name" example:"FanOne"` // 用户名
+	Status 		string `json:"status" form:"status"`  		// 用户状态
+	CreateAt 	int64  `json:"create_at" form:"create_at"`  // 创建
 }
 //BuildUser 序列化用户
 func BuildUser(user model.User) User {
@@ -15,12 +15,4 @@ func BuildUser(user model.User) User {
 		UserName: user.UserName,
 		CreateAt: user.CreatedAt.Unix(),
 	}
-}
-
-func BuildUsers(items []model.User) (users []User) {
-	for _, item := range items {
-		user := BuildUser(item)
-		users = append(users, user)
-	}
-	return users
 }
