@@ -4,15 +4,21 @@ import (
 	"github.com/gin-contrib/sessions"
 	"github.com/gin-contrib/sessions/cookie"
 	"github.com/gin-gonic/gin"
+	swaggerFiles "github.com/swaggo/files"
+	ginSwagger "github.com/swaggo/gin-swagger"
 	"to-do-list/api"
+	_ "to-do-list/docs" // 这里需要引入本地已生成文档
 	"to-do-list/middleware"
 )
+
 
 //路由配置
 func NewRouter() *gin.Engine {
 	r := gin.Default()
 	store := cookie.NewStore([]byte("something-very-secret"))
-	//middleware.HttpLogToFile(conf.AppMode)
+	// middleware.HttpLogToFile(conf.AppMode)
+	// 开启swag
+	r.GET("/swagger/*any", ginSwagger.WrapHandler(swaggerFiles.Handler))
 	r.Use(sessions.Sessions("mysession", store))
 	v1 := r.Group("api/v1")
 	{

@@ -11,8 +11,8 @@ import (
 
 //UserRegisterService 管理用户注册服务
 type UserRegisterService struct {
-	UserName  string `form:"user_name" json:"user_name" binding:"required,min=3,max=15"`
-	Password  string `form:"password" json:"password" binding:"required,min=5,max=16"`
+	UserName  string `form:"user_name" json:"user_name" binding:"required,min=3,max=15" example:"FanOne"`
+	Password  string `form:"password" json:"password" binding:"required,min=5,max=16" example:"FanOne666"`
 }
 
 //UserLoginService 管理用户登陆的服务
@@ -21,7 +21,7 @@ type UserLoginService struct {
 	Password  string `form:"password" json:"password" binding:"required,min=5,max=16"`
 }
 
-//valid 验证表单 验证用户是否存在
+
 func (service *UserRegisterService) Valid(userId, status interface{}) *serializer.Response {
 	var code int
 	count := 0
@@ -43,7 +43,8 @@ func (service *UserRegisterService) Valid(userId, status interface{}) *serialize
 	return nil
 }
 
-//Register 用户注册
+
+
 func (service *UserRegisterService) Register(userID, status interface{}) *serializer.Response {
 	user := model.User{
 		UserName: service.UserName,

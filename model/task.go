@@ -10,12 +10,12 @@ import (
 //任务模型
 type Task struct {
 	gorm.Model
-	UserId 		  uint
+	UserID uint `gorm:"ForeignKey:User"`
 	Title         string
 	Status        int  `gorm:"default:'0'"`
 	Content       string `gorm:"size:1000"`
 	StartTime 	  time.Time
-	EndTime 	  time.Time
+	EndTime 	  time.Time `gorm:"default:'0'"`
 }
 
 func (Task *Task) View() uint64 {

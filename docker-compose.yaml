@@ -1,9 +1,9 @@
 version: '2'
 
 services:
-  todoList-api:
-    build: /
-    image: to_do_list
+  todoList_api:
+    build: .
+    image: to_do_list:latest
     container_name: to_do_list
     restart: always
     environment:
@@ -13,23 +13,34 @@ services:
     depends_on:
       - redis
       - mysql
+    networks:
+      - hello
+
   mysql:
     container_name: mysql
-    image: mysql:8.0
+    image: mysql:5.7
     restart: always
     environment:
-      MYSQL_ROOT_PASSWORD: root
-      MYSQL_DATABASE:
+      MYSQL_ROOT_PASSWORD: "root"
+      MYSQL_DATABASE: "to_do_list"
     volumes:
-      - to_do_list: /var/lib/mysql/data
+      - conf/config.ini: /etc/conf/config.ini
     ports:
       - "3306:3306"
+    networks:
+      - hello
 
   redis:
     container_name: redis
-    image: redis
+    image: redis:5.0.10
     restart: always
-    volumes:
-      - to_do_list: /data
     ports:
       - "6379:6379"
+    networks:
+      - hello
+
+
+networks:
+  hello:
+    external:
+      true

@@ -20,14 +20,14 @@ type DeleteTaskService struct {
 type UpdateTaskService struct {
 	ID            uint   `form:"id" json:"id"`
 	Title         string `form:"title" json:"title" binding:"required,min=2,max=100"`
-	Content          string `form:"content" json:"content" binding:"max=1000"`
-	Status 		  int   `form:"status" json:"status"`   //0 待办   1已完成
+	Content       string `form:"content" json:"content" binding:"max=1000"`
+	Status 		  int    `form:"status" json:"status"`   //0 待办   1已完成
 }
 
 //创建任务的服务
 type CreateTaskService struct {
 	Title         string `form:"title" json:"title" binding:"required,min=2,max=100"`
-	Content          string `form:"content" json:"content" binding:"max=1000"`
+	Content       string `form:"content" json:"content" binding:"max=1000"`
 	Status 		  int    `form:"status" json:"status"`   //0 待办   1已完成
 }
 
@@ -44,10 +44,10 @@ type ListTasksService struct {
 
 func (service *CreateTaskService) Create(id uint) serializer.Response {
 	task := model.Task{
-		UserId: id,
-		Title:         service.Title,
-		Content:          service.Content,
-		Status:          0,
+		UserID: id,
+		Title: service.Title,
+		Content: service.Content,
+		Status: 0,
 		StartTime: time.Now(),
 	}
 	code := e.SUCCESS
