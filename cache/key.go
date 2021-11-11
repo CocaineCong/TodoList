@@ -6,7 +6,6 @@ import (
 )
 
 const (
-	//排名
 	RankKey = "rank"
 )
 
