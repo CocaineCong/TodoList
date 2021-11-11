@@ -1,20 +1,19 @@
 package e
 
 const (
-	SUCCESS                 = 200
-	ERROR                   = 500
-	INVALID_PARAMS          = 400
+	SUCCESS       = 200
+	ERROR         = 500
+	InvalidParams = 400
 
 	//成员错误
-	ERROR_EXIST_USER           = 10002
-	ERROR_NOT_EXIST_USER       = 10003
-	ERROR_FAIL_ENCRYPTION      = 10006
-	ERROR_NOT_COMPARE = 10007
+	ErrorExistUser      = 10002
+	ErrorNotExistUser   = 10003
+	ErrorFailEncryption = 10006
+	ErrorNotCompare     = 10007
 
-	ERROR_AUTH_CHECK_TOKEN_FAIL       = 30001 //token 错误
-	ERROR_AUTH_CHECK_TOKEN_TIMEOUT    = 30002 //token 过期
-	ERROR_AUTH_TOKEN                  = 30003
-	ERROR_AUTH                        = 30004
-	ERROR_AUTH_INSUFFICIENT_AUTHORITY = 30005
-	ERROR_DATABASE = 40001
+	ErrorAuthCheckTokenFail        = 30001 //token 错误
+	ErrorAuthCheckTokenTimeout     = 30002 //token 过期
+	ErrorAuthToken                 = 30003
+	ErrorAuth                      = 30004
+	ErrorDatabase                  = 40001
 )

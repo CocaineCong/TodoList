@@ -19,40 +19,9 @@ func JWT() gin.HandlerFunc {
 		} else {
 			claims, err := util.ParseToken(token)
 			if err != nil {
-				code = e.ERROR_AUTH_CHECK_TOKEN_FAIL
+				code = e.ErrorAuthCheckTokenFail
 			} else if time.Now().Unix() > claims.ExpiresAt {
-				code = e.ERROR_AUTH_CHECK_TOKEN_TIMEOUT
-			}
-		}
-		if code != e.SUCCESS {
-			c.JSON(200, gin.H{
-				"status": code,
-				"msg":    e.GetMsg(code),
-				"data":   data,
-			})
-			c.Abort()
-			return
-		}
-		c.Next()
-	}
-}
-
-//JWTAdmin token验证中间件
-func JWTAdmin() gin.HandlerFunc {
-	return func(c *gin.Context) {
-		var code int
-		var data interface{}
-		token := c.GetHeader("Authorization")
-		if token == "" {
-			code = e.INVALID_PARAMS
-		} else {
-			claims, err := util.ParseToken(token)
-			if err != nil {
-				code = e.ERROR_AUTH_CHECK_TOKEN_FAIL
-			} else if time.Now().Unix() > claims.ExpiresAt {
-				code = e.ERROR_AUTH_CHECK_TOKEN_TIMEOUT
-			} else if claims.Authority == 0 {
-				code = e.ERROR_AUTH_INSUFFICIENT_AUTHORITY
+				code = e.ErrorAuthCheckTokenTimeout
 			}
 		}
 		if code != e.SUCCESS {

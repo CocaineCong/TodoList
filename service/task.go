@@ -54,7 +54,7 @@ func (service *CreateTaskService) Create(id uint) serializer.Response {
 	err := model.DB.Create(&task).Error
 	if err != nil {
 		logging.Info(err)
-		code = e.ERROR_DATABASE
+		code = e.ErrorDatabase
 		return serializer.Response{
 			Status: code,
 			Msg:    e.GetMsg(code),
@@ -86,7 +86,7 @@ func (service *ShowTaskService) Show(id string) serializer.Response {
 	err := model.DB.First(&task, id).Error
 	if err != nil {
 		logging.Info(err)
-		code = e.ERROR_DATABASE
+		code = e.ErrorDatabase
 		return serializer.Response{
 			Status: code,
 			Msg:    e.GetMsg(code),
@@ -107,7 +107,7 @@ func (service *DeleteTaskService) Delete(id string) serializer.Response {
 	err := model.DB.First(&task, id).Error
 	if err != nil {
 		logging.Info(err)
-		code = e.ERROR_DATABASE
+		code = e.ErrorDatabase
 		return serializer.Response{
 			Status: code,
 			Msg:    e.GetMsg(code),
@@ -117,7 +117,7 @@ func (service *DeleteTaskService) Delete(id string) serializer.Response {
 	err = model.DB.Delete(&task).Error
 	if err != nil {
 		logging.Info(err)
-		code = e.ERROR_DATABASE
+		code = e.ErrorDatabase
 		return serializer.Response{
 			Status: code,
 			Msg:    e.GetMsg(code),
@@ -140,7 +140,7 @@ func (service *UpdateTaskService) Update(id string) serializer.Response {
 	err := model.DB.Save(&task).Error
 	if err != nil {
 		logging.Info(err)
-		code = e.ERROR_DATABASE
+		code = e.ErrorDatabase
 		return serializer.Response{
 			Status: code,
 			Msg:    e.GetMsg(code),
@@ -161,7 +161,7 @@ func (service *SearchTaskService) Search() serializer.Response {
 		"%"+service.Info+"%","%"+service.Info+"%").Find(&tasks).Error
 	if err != nil {
 		logging.Info(err)
-		code = e.ERROR_DATABASE
+		code = e.ErrorDatabase
 		return serializer.Response{
 			Status: code,
 			Msg:    e.GetMsg(code),

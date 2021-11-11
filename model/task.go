@@ -10,10 +10,10 @@ import (
 //任务模型
 type Task struct {
 	gorm.Model
-	UserID uint `gorm:"ForeignKey:User"`
-	Title         string
-	Status        int  `gorm:"default:'0'"`
-	Content       string `gorm:"size:1000"`
+	User 		  User   `gorm:"ForeignKey:UID"`
+	Title         string `gorm:"index;not null"`
+	Status        int    `gorm:"default:'0'"`
+	Content       string `gorm:"type:longtext"`
 	StartTime 	  time.Time
 	EndTime 	  time.Time `gorm:"default:'0'"`
 }
