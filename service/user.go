@@ -16,37 +16,21 @@ type UserService struct {
 }
 
 
-func (service *UserService) Valid(userId, status interface{}) *serializer.Response {
-	var code int
-	count := 0
-	err := model.DB.Model(&model.User{}).Where("user_name=?", service.UserName).Count(&count).Error
-	if err != nil {
-		code = e.ErrorDatabase
-		return &serializer.Response{
-			Status: code,
-			Msg:    e.GetMsg(code),
-		}
-	}
-	if count > 0 {
+
+func (service *UserService) Register() *serializer.Response {
+	code := e.SUCCESS
+	var user model.User
+	var count int
+	model.DB.Model(&model.User{}).Where("user_name=?",service.UserName).First(&user).Count(&count)
+	//表单验证
+	if count == 1 {
 		code = e.ErrorExistUser
 		return &serializer.Response{
 			Status: code,
 			Msg:    e.GetMsg(code),
 		}
 	}
-	return nil
-}
-
-
-func (service *UserService) Register(userID, status interface{}) *serializer.Response {
-	user := model.User{
-		UserName: service.UserName,
-	}
-	code := e.SUCCESS
-	//表单验证
-	if res := service.Valid(userID, status); res != nil {
-		return res
-	}
+	user.UserName=service.UserName
 	//加密密码
 	if err := user.SetPassword(service.Password); err != nil {
 		logging.Info(err)

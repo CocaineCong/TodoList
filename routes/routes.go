@@ -16,9 +16,9 @@ import (
 
 //路由配置
 func NewRouter() *gin.Engine {
-	r := gin.Default()
+	r := gin.Default()   //生成了一个WSGI应用程序实例
 	store := cookie.NewStore([]byte("something-very-secret"))
-	logging.HttpLogToFile(conf.AppMode)
+	logging.HttpLogToFile(conf.AppMode) 	// 日志输出
 	r.GET("/swagger/*any", ginSwagger.WrapHandler(swaggerFiles.Handler))	// 开启swag
 	r.Use(sessions.Sessions("mysession", store))
 	v1 := r.Group("api/v1")

@@ -20,4 +20,5 @@ runtime
 go.sum
 sql
 docker-compose.yaml
+Dockerfile
 import.env
