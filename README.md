@@ -44,7 +44,7 @@ TodoList/
 │  ├── util
 ├── routes
 ├── serializer
-└── servive
+└── service
 ```
 
 - api : 用于定义接口函数
@@ -57,7 +57,7 @@ TodoList/
 - pkg/util : 工具函数
 - routes : 路由逻辑处理
 - serializer : 将数据序列化为 json 的函数
-- servive : 接口函数的实现
+- service : 接口函数的实现
 
 ## 配置文件
 
