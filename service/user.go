@@ -83,7 +83,7 @@ func (service *UserService)Login() serializer.Response {
 			Msg:    e.GetMsg(code),
 		}
 	}
-	token, err := util.GenerateToken(user.ID,service.UserName, service.Password, 0)
+	token, err := util.GenerateToken(user.ID,service.UserName, 0)
 	if err != nil {
 		logging.Info(err)
 		code = e.ErrorAuthToken
