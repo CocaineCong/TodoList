@@ -121,29 +121,6 @@ info:
   title: ToDoList API
   version: 0.0.1
 paths:
-  /login:
-    post:
-      consumes:
-      - application/json
-      description: login
-      parameters:
-      - description: account
-        in: path
-        name: account
-        required: true
-        type: string
-      - description: password
-        in: path
-        name: password
-        required: true
-        type: string
-      produces:
-      - application/json
-      responses:
-        "200":
-          description: ok
-          schema:
-            type: string
   /search:
     post:
       consumes:
