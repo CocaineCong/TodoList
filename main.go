@@ -8,7 +8,6 @@ import (
 // @title ToDoList API
 // @version 0.0.1
 // @description This is a sample Server pets
-// @securityDefinitions.apikey ApiKeyAuth
 // @name FanOne
 // @BasePath /api/v1
 func main() { // http://localhost:3000/swagger/index.html

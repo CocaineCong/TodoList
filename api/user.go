@@ -10,7 +10,7 @@ import (
 // @Summary 用户注册
 // @Produce json
 // @Accept json
-// @Param data body service.UserRegisterService true "用户名, 密码"
+// @Param data body service.UserService true "用户名, 密码"
 // @Success 200 {object} serializer.ResponseUser "{"status":200,"data":{},"msg":"ok"}"
 // @Failure 500  {object} serializer.ResponseUser "{"status":500,"data":{},"Msg":{},"Error":"error"}"
 // @Router /user/register [post]
@@ -29,7 +29,7 @@ func UserRegister(c *gin.Context) {
 // @Summary 用户登录
 // @Produce json
 // @Accept json
-// @Param     data    body     service.UserLoginService    true      "user_name, password"
+// @Param     data    body     service.UserService    true      "user_name, password"
 // @Success 200 {object} serializer.ResponseUser "{"success":true,"data":{},"msg":"登陆成功"}"
 // @Failure 500 {object} serializer.ResponseUser "{"status":500,"data":{},"Msg":{},"Error":"error"}"
 // @Router /user/login [post]

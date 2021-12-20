@@ -23,47 +23,43 @@ var doc = `{
     "host": "{{.Host}}",
     "basePath": "{{.BasePath}}",
     "paths": {
-        "/api/v1/user/register": {
+        "/login": {
             "post": {
+                "description": "login",
                 "consumes": [
                     "application/json"
                 ],
                 "produces": [
                     "application/json"
                 ],
-                "tags": [
-                    "USER"
-                ],
-                "summary": "用户注册",
                 "parameters": [
                     {
-                        "description": "用户名, 密码",
-                        "name": "data",
-                        "in": "body",
-                        "required": true,
-                        "schema": {
-                            "$ref": "#/definitions/service.UserRegisterService"
-                        }
+                        "type": "string",
+                        "description": "account",
+                        "name": "account",
+                        "in": "path",
+                        "required": true
+                    },
+                    {
+                        "type": "string",
+                        "description": "password",
+                        "name": "password",
+                        "in": "path",
+                        "required": true
                     }
                 ],
                 "responses": {
                     "200": {
-                        "description": "{\"status\":200,\"data\":{},\"msg\":\"ok\"}",
+                        "description": "ok",
                         "schema": {
-                            "$ref": "#/definitions/serializer.ResponseUser"
-                        }
-                    },
-                    "500": {
-                        "description": "{\"status\":500,\"data\":{},\"Msg\":{},\"Error\":\"error\"}",
-                        "schema": {
-                            "$ref": "#/definitions/serializer.ResponseUser"
+                            "type": "string"
                         }
                     }
                 }
             }
         },
-        "/task": {
-            "get": {
+        "/search": {
+            "post": {
                 "consumes": [
                     "application/json"
                 ],
@@ -73,15 +69,15 @@ var doc = `{
                 "tags": [
                     "TASK"
                 ],
-                "summary": "展示任务详细信息",
+                "summary": "查询任务",
                 "parameters": [
                     {
-                        "description": "rush",
+                        "description": "2",
                         "name": "data",
                         "in": "body",
                         "required": true,
                         "schema": {
-                            "$ref": "#/definitions/service.ShowTaskService"
+                            "$ref": "#/definitions/service.DeleteTaskService"
                         }
                     }
                 ],
@@ -89,7 +85,7 @@ var doc = `{
                     "200": {
                         "description": "{\"success\":true,\"data\":{},\"msg\":\"ok\"}",
                         "schema": {
-                            "$ref": "#/definitions/serializer.ResponseTask"
+                            "$ref": "#/definitions/serializer.Response"
                         }
                     },
                     "500": {
@@ -99,7 +95,9 @@ var doc = `{
                         }
                     }
                 }
-            },
+            }
+        },
+        "/task": {
             "put": {
                 "consumes": [
                     "application/json"
@@ -156,6 +154,45 @@ var doc = `{
                         "required": true,
                         "schema": {
                             "$ref": "#/definitions/service.CreateTaskService"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "{\"success\":true,\"data\":{},\"msg\":\"ok\"}",
+                        "schema": {
+                            "$ref": "#/definitions/serializer.ResponseTask"
+                        }
+                    },
+                    "500": {
+                        "description": "status\":500,\"data\":{},\"Msg\":{},\"Error\":\"error\"}",
+                        "schema": {
+                            "type": "json"
+                        }
+                    }
+                }
+            }
+        },
+        "/task/:id": {
+            "get": {
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "TASK"
+                ],
+                "summary": "展示任务详细信息",
+                "parameters": [
+                    {
+                        "description": "rush",
+                        "name": "data",
+                        "in": "body",
+                        "required": true,
+                        "schema": {
+                            "$ref": "#/definitions/service.ShowTaskService"
                         }
                     }
                 ],
@@ -270,13 +307,52 @@ var doc = `{
                         "in": "body",
                         "required": true,
                         "schema": {
-                            "$ref": "#/definitions/service.UserLoginService"
+                            "$ref": "#/definitions/service.UserService"
                         }
                     }
                 ],
                 "responses": {
                     "200": {
                         "description": "{\"success\":true,\"data\":{},\"msg\":\"登陆成功\"}",
+                        "schema": {
+                            "$ref": "#/definitions/serializer.ResponseUser"
+                        }
+                    },
+                    "500": {
+                        "description": "{\"status\":500,\"data\":{},\"Msg\":{},\"Error\":\"error\"}",
+                        "schema": {
+                            "$ref": "#/definitions/serializer.ResponseUser"
+                        }
+                    }
+                }
+            }
+        },
+        "/user/register": {
+            "post": {
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "USER"
+                ],
+                "summary": "用户注册",
+                "parameters": [
+                    {
+                        "description": "用户名, 密码",
+                        "name": "data",
+                        "in": "body",
+                        "required": true,
+                        "schema": {
+                            "$ref": "#/definitions/service.UserService"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "{\"status\":200,\"data\":{},\"msg\":\"ok\"}",
                         "schema": {
                             "$ref": "#/definitions/serializer.ResponseUser"
                         }
@@ -355,7 +431,7 @@ var doc = `{
                     "type": "integer"
                 },
                 "end_time": {
-                    "type": "string"
+                    "type": "integer"
                 },
                 "id": {
                     "description": "任务ID",
@@ -363,7 +439,7 @@ var doc = `{
                     "example": 1
                 },
                 "start_time": {
-                    "type": "string"
+                    "type": "integer"
                 },
                 "status": {
                     "description": "状态(0未完成，1已完成)",
@@ -429,9 +505,6 @@ var doc = `{
         "service.ListTasksService": {
             "type": "object",
             "properties": {
-                "category_id": {
-                    "type": "integer"
-                },
                 "limit": {
                     "type": "integer"
                 },
@@ -443,22 +516,7 @@ var doc = `{
         "service.ShowTaskService": {
             "type": "object"
         },
-        "service.UserLoginService": {
-            "type": "object",
-            "required": [
-                "password",
-                "user_name"
-            ],
-            "properties": {
-                "password": {
-                    "type": "string"
-                },
-                "user_name": {
-                    "type": "string"
-                }
-            }
-        },
-        "service.UserRegisterService": {
+        "service.UserService": {
             "type": "object",
             "required": [
                 "password",
@@ -474,13 +532,6 @@ var doc = `{
                     "example": "FanOne"
                 }
             }
-        }
-    },
-    "securityDefinitions": {
-        "ApiKeyAuth": {
-            "type": "apiKey",
-            "name": "x-token",
-            "in": "header"
         }
     }
 }`
