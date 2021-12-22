@@ -22,3 +22,6 @@ sql
 docker-compose.yaml
 Dockerfile
 import.env
+todo-list-view/.idea
+todo-list-view/node_modules
+todo-list-view/.gitignore
