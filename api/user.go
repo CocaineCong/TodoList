@@ -2,7 +2,7 @@ package api
 
 import (
 	"github.com/gin-gonic/gin"
-	logging "github.com/sirupsen/logrus"
+	"to-do-list/pkg/util"
 	"to-do-list/service"
 )
 
@@ -21,7 +21,7 @@ func UserRegister(c *gin.Context) {
 		c.JSON(200, res)
 	} else {
 		c.JSON(200, ErrorResponse(err))
-		logging.Info(err)
+		util.Logger().Info(err)
 	}
 }
 
@@ -40,6 +40,6 @@ func UserLogin(c *gin.Context) {
 		c.JSON(200, res)
 	} else {
 		c.JSON(200, ErrorResponse(err))
-		logging.Info(err)
+		util.Logger().Info(err)
 	}
 }

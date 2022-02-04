@@ -2,7 +2,6 @@ package api
 
 import (
 	"github.com/gin-gonic/gin"
-	logging "github.com/sirupsen/logrus"
 	"to-do-list/pkg/util"
 	"to-do-list/service"
 )
@@ -24,7 +23,7 @@ func CreateTask(c *gin.Context) {
 		c.JSON(200, res)
 	} else {
 		c.JSON(200, ErrorResponse(err))
-		logging.Info(err)
+		util.Logger().Info(err)
 	}
 }
 
@@ -45,7 +44,7 @@ func ListTasks(c *gin.Context) {
 		c.JSON(200, res)
 	} else {
 		c.JSON(200, ErrorResponse(err))
-		logging.Info(err)
+		util.Logger().Info(err)
 	}
 }
 
@@ -95,7 +94,7 @@ func UpdateTask(c *gin.Context) {
 		c.JSON(200, res)
 	} else {
 		c.JSON(200, ErrorResponse(err))
-		logging.Info(err)
+		util.Logger().Info(err)
 	}
 }
 
@@ -116,6 +115,6 @@ func SearchTasks(c *gin.Context) {
 		c.JSON(200, res)
 	} else {
 		c.JSON(200, ErrorResponse(err))
-		logging.Info(err)
+		util.Logger().Info(err)
 	}
 }

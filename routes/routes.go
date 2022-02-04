@@ -20,10 +20,9 @@ import (
 func NewRouter() *gin.Engine {
 	r := gin.Default() //生成了一个WSGI应用程序实例
 	store := cookie.NewStore([]byte("something-very-secret"))
-	log.HttpLogToFile(conf.AppMode)                                      // 日志输出
 	r.GET("/swagger/*any", ginSwagger.WrapHandler(swaggerFiles.Handler)) // 开启swag
 	r.Use(sessions.Sessions("mysession", store))
-	r.Use(Recovery)
+	r.Use(middleware.NewLogger(),middleware.Cors(),gin.Recovery())
 	v1 := r.Group("api/v1")
 	{
 		// 用户操作
