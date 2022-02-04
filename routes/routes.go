@@ -4,15 +4,11 @@ import (
 	"github.com/gin-contrib/sessions"
 	"github.com/gin-contrib/sessions/cookie"
 	"github.com/gin-gonic/gin"
-	logging "github.com/sirupsen/logrus"
 	swaggerFiles "github.com/swaggo/files"
 	ginSwagger "github.com/swaggo/gin-swagger"
-	"net/http"
 	"to-do-list/api"
-	"to-do-list/conf"
 	_ "to-do-list/docs" // 这里需要引入本地已生成文档
 	"to-do-list/middleware"
-	"to-do-list/pkg/log"
 )
 
 
@@ -41,14 +37,4 @@ func NewRouter() *gin.Engine {
 		}
 	}
 	return r
-}
-
-func Recovery(c *gin.Context) {
-	defer func() {
-		if r := recover(); r != nil {
-			logging.Error("gin catch error: ", r)
-			c.JSON(http.StatusInternalServerError, "系统内部错误")
-		}
-	}()
-	c.Next()
 }

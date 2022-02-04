@@ -21,4 +21,4 @@ go.sum
 sql
 docker-compose.yaml
 Dockerfile
-import.env
+logs

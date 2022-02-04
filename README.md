@@ -10,6 +10,10 @@
 
 **密码：0000**
 
+也可以启动项目后，直接访问 http://localhost:3000/swagger/index.html 
+
+查看**swagger**文档
+
 ## 项目主要功能介绍
 
 - 用户注册登录 ( jwt-go鉴权 )
@@ -28,6 +32,8 @@
 - redis
 - ini
 - jwt-go
+- logrus
+- go-swagger
 
 ## 项目结构
 

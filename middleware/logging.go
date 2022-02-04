@@ -2,8 +2,8 @@ package middleware
 
 import (
 	"github.com/gin-gonic/gin"
-	"mall/pkg/utils"
 	"time"
+	"to-do-list/pkg/util"
 )
 
 func NewLogger() gin.HandlerFunc {
