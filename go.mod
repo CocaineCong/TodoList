@@ -22,5 +22,4 @@ require (
 	golang.org/x/tools v0.1.7 // indirect
 	gopkg.in/go-playground/validator.v8 v8.18.2
 	gopkg.in/ini.v1 v1.63.2
-	gopkg.in/yaml.v2 v2.4.0
 )

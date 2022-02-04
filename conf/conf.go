@@ -1,11 +1,11 @@
 package conf
 
 import (
-	"fmt"
 	"gopkg.in/ini.v1"
 	"strings"
 	"to-do-list/cache"
 	"to-do-list/model"
+	"to-do-list/pkg/util"
 )
 
 
@@ -23,7 +23,12 @@ var (
 func Init() {
 	file, err := ini.Load("./conf/config.ini")
 	if err != nil {
-		fmt.Println("配置文件读取错误，请检查文件路径:", err)
+		util.Logger().Info("配置文件读取错误，请检查文件路径:", err)
+		panic(err)
+	}
+	if err := LoadLocales("conf/locales/zh-cn.yaml"); err != nil {
+		util.Logger().Info(err) //日志内容
+		panic(err)
 	}
 	LoadServer(file)
 	LoadMysqlData(file)
