@@ -8,6 +8,8 @@ type User struct {
 	Status 		string `json:"status" form:"status"`  		// 用户状态
 	CreateAt 	int64  `json:"create_at" form:"create_at"`  // 创建
 }
+
+
 //BuildUser 序列化用户
 func BuildUser(user model.User) User {
 	return User{
