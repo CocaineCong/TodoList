@@ -1,13 +1,13 @@
 version: '2'
 
 services:
-  todoList:
+  todo_list:
     build: ./
-    image: todoList:latest
-    container_name: todoList
+    image: todolist:latest
+    container_name: todo_list
     restart: always
     environment:
-      MYSQL_DSN: "root:root@tcp/todoList?charset=utf8&parseTime=True&loc=Local"
+      MYSQL_DSN: "root:root@tcp/todo_list?charset=utf8&parseTime=True&loc=Local"
     ports:
       - 3000:3000
     depends_on:
@@ -20,7 +20,7 @@ services:
     restart: always
     environment:
       MYSQL_ROOT_PASSWORD: root
-      MYSQL_DATABASE: todoList
+      MYSQL_DATABASE: todo_list
     volumes:
       - /var/lib/mysql:/var/lib/mysql
     ports:
