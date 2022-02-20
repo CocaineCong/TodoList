@@ -1,13 +1,13 @@
 version: '2'
 
 services:
-  civil:
+  todoList:
     build: ./
-    image: civil:latest
-    container_name: civil
+    image: todoList:latest
+    container_name: todoList
     restart: always
     environment:
-      MYSQL_DSN: "root:root@tcp/civil?charset=utf8&parseTime=True&loc=Local"
+      MYSQL_DSN: "root:root@tcp/todoList?charset=utf8&parseTime=True&loc=Local"
     ports:
       - 3000:3000
     depends_on:
@@ -20,7 +20,7 @@ services:
     restart: always
     environment:
       MYSQL_ROOT_PASSWORD: root
-      MYSQL_DATABASE: civil
+      MYSQL_DATABASE: todoList
     volumes:
       - /var/lib/mysql:/var/lib/mysql
     ports:
