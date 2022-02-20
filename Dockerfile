@@ -8,8 +8,7 @@ COPY . .
 RUN CGO_ENABLED=0 GOOS=linux GOARCH=amd64 go build -ldflags="-w -s" -o main
 RUN mkdir publish  \
     && cp main publish  \
-    && cp -r conf publish \
-    && cp -r logs publish
+    && cp -r conf publish
 
 
 FROM busybox:1.28.4
