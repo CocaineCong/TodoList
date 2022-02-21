@@ -22,7 +22,7 @@ func CreateTask(c *gin.Context) {
 		res := createService.Create(chaim.Id)
 		c.JSON(200, res)
 	} else {
-		c.JSON(200, ErrorResponse(err))
+		c.JSON(400, ErrorResponse(err))
 		util.Logger().Info(err)
 	}
 }
@@ -43,7 +43,7 @@ func ListTasks(c *gin.Context) {
 		res := listService.List(chaim.Id)
 		c.JSON(200, res)
 	} else {
-		c.JSON(200, ErrorResponse(err))
+		c.JSON(400, ErrorResponse(err))
 		util.Logger().Info(err)
 	}
 }
@@ -93,7 +93,7 @@ func UpdateTask(c *gin.Context) {
 		res := updateTaskService.Update(c.Param("id"))
 		c.JSON(200, res)
 	} else {
-		c.JSON(200, ErrorResponse(err))
+		c.JSON(400, ErrorResponse(err))
 		util.Logger().Info(err)
 	}
 }
@@ -114,7 +114,7 @@ func SearchTasks(c *gin.Context) {
 		res := searchTaskService.Search(chaim.Id)
 		c.JSON(200, res)
 	} else {
-		c.JSON(200, ErrorResponse(err))
+		c.JSON(400, ErrorResponse(err))
 		util.Logger().Info(err)
 	}
 }
