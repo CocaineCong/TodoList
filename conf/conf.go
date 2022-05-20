@@ -21,7 +21,7 @@ var (
 )
 
 func Init() {
-	file, err := ini.Load("./conf/config.ini")
+	file, err := ini.Load("conf/config.ini")
 	if err != nil {
 		util.LogrusObj.Info("配置文件读取错误，请检查文件路径:", err)
 		panic(err)

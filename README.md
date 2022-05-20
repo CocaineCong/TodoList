@@ -46,8 +46,7 @@ TodoList/
 ├── model
 ├── pkg
 │  ├── e
-│  ├── logging
-│  ├── util
+│  └──  util
 ├── routes
 ├── serializer
 └── service
