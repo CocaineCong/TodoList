@@ -4,6 +4,12 @@
 
 **此项目比较适合小白入门`web开发`这一方面**
 
+# 详细教程
+
+B站: https://www.bilibili.com/video/BV1GT4y1R7tX \
+
+博客: https://blog.csdn.net/weixin_45304503/article/details/120680957
+
 # 接口文档
 
 [Todo List 接口文档](https://www.showdoc.cc/1510696761141710)
