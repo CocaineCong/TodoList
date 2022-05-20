@@ -23,7 +23,7 @@ func CreateTask(c *gin.Context) {
 		c.JSON(200, res)
 	} else {
 		c.JSON(400, ErrorResponse(err))
-		util.Logger().Info(err)
+		util.LogrusObj.Info(err)
 	}
 }
 
@@ -44,7 +44,7 @@ func ListTasks(c *gin.Context) {
 		c.JSON(200, res)
 	} else {
 		c.JSON(400, ErrorResponse(err))
-		util.Logger().Info(err)
+		util.LogrusObj.Info(err)
 	}
 }
 
@@ -94,7 +94,7 @@ func UpdateTask(c *gin.Context) {
 		c.JSON(200, res)
 	} else {
 		c.JSON(400, ErrorResponse(err))
-		util.Logger().Info(err)
+		util.LogrusObj.Info(err)
 	}
 }
 
@@ -115,6 +115,6 @@ func SearchTasks(c *gin.Context) {
 		c.JSON(200, res)
 	} else {
 		c.JSON(400, ErrorResponse(err))
-		util.Logger().Info(err)
+		util.LogrusObj.Info(err)
 	}
 }

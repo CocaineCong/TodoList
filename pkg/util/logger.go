@@ -8,14 +8,14 @@ import (
 	"time"
 )
 
-var logrusObj *logrus.Logger
+var LogrusObj *logrus.Logger
 
-func Logger() *logrus.Logger {
-	if logrusObj != nil {
+func init() {
+	if LogrusObj != nil {
 		src, _ := setOutputFile()
 		//设置输出
-		logrusObj.Out = src
-		return logrusObj
+		LogrusObj.Out = src
+		return
 	}
 
 	//实例化
@@ -29,9 +29,10 @@ func Logger() *logrus.Logger {
 	logger.SetFormatter(&logrus.TextFormatter{
 		TimestampFormat: "2006-01-02 15:04:05",
 	})
-	logrusObj = logger
-	return logger
+	LogrusObj = logger
 }
+
+
 func setOutputFile() (*os.File, error) {
 	now := time.Now()
 	logFilePath := ""

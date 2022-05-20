@@ -21,7 +21,7 @@ func UserRegister(c *gin.Context) {
 		c.JSON(200, res)
 	} else {
 		c.JSON(400, ErrorResponse(err))
-		util.Logger().Info(err)
+		util.LogrusObj.Info(err)
 	}
 }
 
@@ -40,6 +40,6 @@ func UserLogin(c *gin.Context) {
 		c.JSON(200, res)
 	} else {
 		c.JSON(400, ErrorResponse(err))
-		util.Logger().Info(err)
+		util.LogrusObj.Info(err)
 	}
 }

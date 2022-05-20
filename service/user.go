@@ -2,7 +2,6 @@ package service
 
 import (
 	"github.com/jinzhu/gorm"
-	logging "github.com/sirupsen/logrus"
 	"to-do-list/model"
 	"to-do-list/pkg/e"
 	"to-do-list/pkg/util"
@@ -33,7 +32,7 @@ func (service *UserService) Register() *serializer.Response {
 	user.UserName=service.UserName
 	//加密密码
 	if err := user.SetPassword(service.Password); err != nil {
-		logging.Info(err)
+		util.LogrusObj.Info(err)
 		code = e.ErrorFailEncryption
 		return &serializer.Response{
 			Status: code,
@@ -42,7 +41,7 @@ func (service *UserService) Register() *serializer.Response {
 	}
 	//创建用户
 	if err := model.DB.Create(&user).Error; err != nil {
-		logging.Info(err)
+		util.LogrusObj.Info(err)
 		code = e.ErrorDatabase
 		return &serializer.Response{
 			Status: code,
@@ -62,14 +61,14 @@ func (service *UserService)Login() serializer.Response {
 	if err := model.DB.Where("user_name=?", service.UserName).First(&user).Error; err != nil {
 		//如果查询不到，返回相应的错误
 		if gorm.IsRecordNotFoundError(err) {
-			logging.Info(err)
+			util.LogrusObj.Info(err)
 			code = e.ErrorNotExistUser
 			return serializer.Response{
 				Status: code,
 				Msg:    e.GetMsg(code),
 			}
 		}
-		logging.Info(err)
+		util.LogrusObj.Info(err)
 		code = e.ErrorDatabase
 		return serializer.Response{
 			Status: code,
@@ -85,7 +84,7 @@ func (service *UserService)Login() serializer.Response {
 	}
 	token, err := util.GenerateToken(user.ID,service.UserName, 0)
 	if err != nil {
-		logging.Info(err)
+		util.LogrusObj.Info(err)
 		code = e.ErrorAuthToken
 		return serializer.Response{
 			Status: code,

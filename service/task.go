@@ -1,10 +1,10 @@
 package service
 
 import (
-	logging "github.com/sirupsen/logrus"
 	"time"
 	"to-do-list/model"
 	"to-do-list/pkg/e"
+	"to-do-list/pkg/util"
 	"to-do-list/serializer"
 )
 
@@ -54,7 +54,7 @@ func (service *CreateTaskService) Create(id uint) serializer.Response {
 	code := e.SUCCESS
 	err := model.DB.Create(&task).Error
 	if err != nil {
-		logging.Info(err)
+		util.LogrusObj.Info(err)
 		code = e.ErrorDatabase
 		return serializer.Response{
 			Status: code,
@@ -86,7 +86,7 @@ func (service *ShowTaskService) Show(id string) serializer.Response {
 	code := e.SUCCESS
 	err := model.DB.First(&task, id).Error
 	if err != nil {
-		logging.Info(err)
+		util.LogrusObj.Info(err)
 		code = e.ErrorDatabase
 		return serializer.Response{
 			Status: code,
@@ -107,7 +107,7 @@ func (service *DeleteTaskService) Delete(id string) serializer.Response {
 	code := e.SUCCESS
 	err := model.DB.First(&task, id).Error
 	if err != nil {
-		logging.Info(err)
+		util.LogrusObj.Info(err)
 		code = e.ErrorDatabase
 		return serializer.Response{
 			Status: code,
@@ -117,7 +117,7 @@ func (service *DeleteTaskService) Delete(id string) serializer.Response {
 	}
 	err = model.DB.Delete(&task).Error
 	if err != nil {
-		logging.Info(err)
+		util.LogrusObj.Info(err)
 		code = e.ErrorDatabase
 		return serializer.Response{
 			Status: code,
@@ -140,7 +140,7 @@ func (service *UpdateTaskService) Update(id string) serializer.Response {
 	code := e.SUCCESS
 	err := model.DB.Save(&task).Error
 	if err != nil {
-		logging.Info(err)
+		util.LogrusObj.Info(err)
 		code = e.ErrorDatabase
 		return serializer.Response{
 			Status: code,
@@ -162,7 +162,7 @@ func (service *SearchTaskService) Search(uId uint) serializer.Response {
 	err := model.DB.Model(&model.Task{}).Where("title LIKE ? OR content LIKE ?",
 		"%"+service.Info+"%","%"+service.Info+"%").Find(&tasks).Error
 	if err != nil {
-		logging.Info(err)
+		util.LogrusObj.Info(err)
 		code = e.ErrorDatabase
 		return serializer.Response{
 			Status: code,

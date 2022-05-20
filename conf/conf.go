@@ -23,11 +23,11 @@ var (
 func Init() {
 	file, err := ini.Load("./conf/config.ini")
 	if err != nil {
-		util.Logger().Info("配置文件读取错误，请检查文件路径:", err)
+		util.LogrusObj.Info("配置文件读取错误，请检查文件路径:", err)
 		panic(err)
 	}
 	if err := LoadLocales("conf/locales/zh-cn.yaml"); err != nil {
-		util.Logger().Info(err) //日志内容
+		util.LogrusObj.Info(err) //日志内容
 		panic(err)
 	}
 	LoadServer(file)
