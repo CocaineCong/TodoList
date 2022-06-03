@@ -1,0 +1,796 @@
+{
+	"info": {
+		"_postman_id": "d35a30df-eb0b-430a-b7dc-0f9ee182cca3",
+		"name": "TodoList",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+		"_exporter_id": "10242828"
+	},
+	"item": [
+		{
+			"name": "用户模块",
+			"item": [
+				{
+					"name": "用户注册",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "formdata",
+							"formdata": [
+								{
+									"key": "user_name",
+									"value": "FanOne",
+									"type": "text"
+								},
+								{
+									"key": "password",
+									"value": "FanOne666",
+									"type": "text"
+								}
+							]
+						},
+						"url": {
+							"raw": "{{url}}api/v1/user/register",
+							"host": [
+								"{{url}}api"
+							],
+							"path": [
+								"v1",
+								"user",
+								"register"
+							]
+						}
+					},
+					"response": [
+						{
+							"name": "用户注册",
+							"originalRequest": {
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "formdata",
+									"formdata": [
+										{
+											"key": "user_name",
+											"value": "FanOne",
+											"type": "text"
+										},
+										{
+											"key": "password",
+											"value": "FanOne666",
+											"type": "text"
+										}
+									]
+								},
+								"url": {
+									"raw": "{{url}}api/v1/user/register",
+									"host": [
+										"{{url}}api"
+									],
+									"path": [
+										"v1",
+										"user",
+										"register"
+									]
+								}
+							},
+							"status": "OK",
+							"code": 200,
+							"_postman_previewlanguage": "json",
+							"header": [
+								{
+									"key": "Content-Type",
+									"value": "application/json; charset=utf-8"
+								},
+								{
+									"key": "Date",
+									"value": "Fri, 03 Jun 2022 11:32:05 GMT"
+								},
+								{
+									"key": "Content-Length",
+									"value": "48"
+								}
+							],
+							"cookie": [],
+							"body": "{\n    \"status\": 200,\n    \"data\": null,\n    \"msg\": \"ok\",\n    \"error\": \"\"\n}"
+						}
+					]
+				},
+				{
+					"name": "用户登录",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "formdata",
+							"formdata": [
+								{
+									"key": "user_name",
+									"value": "FanOne",
+									"type": "text"
+								},
+								{
+									"key": "password",
+									"value": "FanOne666",
+									"type": "text"
+								}
+							]
+						},
+						"url": {
+							"raw": "{{url}}api/v1/user/login",
+							"host": [
+								"{{url}}api"
+							],
+							"path": [
+								"v1",
+								"user",
+								"login"
+							]
+						}
+					},
+					"response": [
+						{
+							"name": "用户登录",
+							"originalRequest": {
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "formdata",
+									"formdata": [
+										{
+											"key": "user_name",
+											"value": "FanOne",
+											"type": "text"
+										},
+										{
+											"key": "password",
+											"value": "FanOne666",
+											"type": "text"
+										}
+									]
+								},
+								"url": {
+									"raw": "{{url}}api/v1/user/login",
+									"host": [
+										"{{url}}api"
+									],
+									"path": [
+										"v1",
+										"user",
+										"login"
+									]
+								}
+							},
+							"status": "OK",
+							"code": 200,
+							"_postman_previewlanguage": "json",
+							"header": [
+								{
+									"key": "Content-Type",
+									"value": "application/json; charset=utf-8"
+								},
+								{
+									"key": "Date",
+									"value": "Fri, 03 Jun 2022 11:34:19 GMT"
+								},
+								{
+									"key": "Content-Length",
+									"value": "301"
+								}
+							],
+							"cookie": [],
+							"body": "{\n    \"status\": 200,\n    \"data\": {\n        \"user\": {\n            \"id\": 1,\n            \"user_name\": \"FanOne\",\n            \"create_at\": 1654255925\n        },\n        \"token\": \"eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MSwidXNlcm5hbWUiOiJGYW5PbmUiLCJhdXRob3JpdHkiOjAsImV4cCI6MTY1NDM0MjQ1OSwiaXNzIjoidG8tZG8tbGlzdCJ9.LoN_NZu3p5y8XiOH9z5-Lf6GMLSazAX44j8SYut49vc\"\n    },\n    \"msg\": \"ok\",\n    \"error\": \"\"\n}"
+						}
+					]
+				}
+			]
+		},
+		{
+			"name": "备忘录模块",
+			"item": [
+				{
+					"name": "创建备忘录",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "{{token}}",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "formdata",
+							"formdata": [
+								{
+									"key": "title",
+									"value": "BiliBili",
+									"type": "text"
+								},
+								{
+									"key": "content",
+									"value": "我太喜欢一键三连啦！",
+									"type": "text"
+								},
+								{
+									"key": "status",
+									"value": "1",
+									"type": "text",
+									"disabled": true
+								}
+							]
+						},
+						"url": {
+							"raw": "{{url}}api/v1/task",
+							"host": [
+								"{{url}}api"
+							],
+							"path": [
+								"v1",
+								"task"
+							]
+						}
+					},
+					"response": [
+						{
+							"name": "创建备忘录",
+							"originalRequest": {
+								"method": "POST",
+								"header": [
+									{
+										"key": "Authorization",
+										"value": "{{token}}",
+										"type": "text"
+									}
+								],
+								"body": {
+									"mode": "formdata",
+									"formdata": [
+										{
+											"key": "title",
+											"value": "BiliBili",
+											"type": "text"
+										},
+										{
+											"key": "content",
+											"value": "一键三连",
+											"type": "text"
+										},
+										{
+											"key": "status",
+											"value": "1",
+											"type": "text",
+											"disabled": true
+										}
+									]
+								},
+								"url": {
+									"raw": "{{url}}api/v1/task",
+									"host": [
+										"{{url}}api"
+									],
+									"path": [
+										"v1",
+										"task"
+									]
+								}
+							},
+							"status": "OK",
+							"code": 200,
+							"_postman_previewlanguage": "json",
+							"header": [
+								{
+									"key": "Content-Type",
+									"value": "application/json; charset=utf-8"
+								},
+								{
+									"key": "Date",
+									"value": "Fri, 03 Jun 2022 11:54:07 GMT"
+								},
+								{
+									"key": "Content-Length",
+									"value": "177"
+								}
+							],
+							"cookie": [],
+							"body": "{\n    \"status\": 200,\n    \"data\": {\n        \"id\": 1,\n        \"title\": \"BiliBili\",\n        \"content\": \"一键三连\",\n        \"view\": 0,\n        \"status\": 0,\n        \"created_at\": 1654257247,\n        \"start_time\": 1654257247,\n        \"end_time\": 0\n    },\n    \"msg\": \"ok\",\n    \"error\": \"\"\n}"
+						}
+					]
+				},
+				{
+					"name": "获取用户的所有备忘录",
+					"protocolProfileBehavior": {
+						"disableBodyPruning": true
+					},
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "{{token}}",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "formdata",
+							"formdata": [
+								{
+									"key": "limit",
+									"value": "1",
+									"description": "页面数量",
+									"type": "text"
+								},
+								{
+									"key": "start",
+									"value": "2",
+									"description": "页码",
+									"type": "text"
+								}
+							]
+						},
+						"url": {
+							"raw": "{{url}}api/v1/tasks",
+							"host": [
+								"{{url}}api"
+							],
+							"path": [
+								"v1",
+								"tasks"
+							]
+						}
+					},
+					"response": [
+						{
+							"name": "获取用户的所有备忘录",
+							"originalRequest": {
+								"method": "GET",
+								"header": [
+									{
+										"key": "Authorization",
+										"value": "{{token}}",
+										"type": "text"
+									}
+								],
+								"body": {
+									"mode": "formdata",
+									"formdata": [
+										{
+											"key": "limit",
+											"value": "1",
+											"description": "页面数量",
+											"type": "text"
+										},
+										{
+											"key": "start",
+											"value": "2",
+											"description": "页码",
+											"type": "text"
+										}
+									]
+								},
+								"url": {
+									"raw": "{{url}}api/v1/tasks",
+									"host": [
+										"{{url}}api"
+									],
+									"path": [
+										"v1",
+										"tasks"
+									]
+								}
+							},
+							"status": "OK",
+							"code": 200,
+							"_postman_previewlanguage": "json",
+							"header": [
+								{
+									"key": "Content-Type",
+									"value": "application/json; charset=utf-8"
+								},
+								{
+									"key": "Date",
+									"value": "Fri, 03 Jun 2022 11:57:09 GMT"
+								},
+								{
+									"key": "Content-Length",
+									"value": "216"
+								}
+							],
+							"cookie": [],
+							"body": "{\n    \"status\": 200,\n    \"data\": {\n        \"item\": [\n            {\n                \"id\": 2,\n                \"title\": \"BiliBili\",\n                \"content\": \"我太喜欢一键三连啦！\",\n                \"view\": 0,\n                \"status\": 0,\n                \"created_at\": 1654257326,\n                \"start_time\": 1654257325,\n                \"end_time\": 0\n            }\n        ],\n        \"total\": 2\n    },\n    \"msg\": \"ok\",\n    \"error\": \"\"\n}"
+						}
+					]
+				},
+				{
+					"name": "获取某条备忘录详情",
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "{{token}}",
+								"type": "text"
+							}
+						],
+						"url": {
+							"raw": "{{url}}api/v1/task/1",
+							"host": [
+								"{{url}}api"
+							],
+							"path": [
+								"v1",
+								"task",
+								"1"
+							]
+						}
+					},
+					"response": [
+						{
+							"name": "获取某条备忘录详情",
+							"originalRequest": {
+								"method": "GET",
+								"header": [
+									{
+										"key": "Authorization",
+										"value": "{{token}}",
+										"type": "text"
+									}
+								],
+								"url": {
+									"raw": "{{url}}api/v1/task/1",
+									"host": [
+										"{{url}}api"
+									],
+									"path": [
+										"v1",
+										"task",
+										"1"
+									]
+								}
+							},
+							"status": "OK",
+							"code": 200,
+							"_postman_previewlanguage": "json",
+							"header": [
+								{
+									"key": "Content-Type",
+									"value": "application/json; charset=utf-8"
+								},
+								{
+									"key": "Date",
+									"value": "Fri, 03 Jun 2022 11:58:29 GMT"
+								},
+								{
+									"key": "Content-Length",
+									"value": "177"
+								}
+							],
+							"cookie": [],
+							"body": "{\n    \"status\": 200,\n    \"data\": {\n        \"id\": 1,\n        \"title\": \"BiliBili\",\n        \"content\": \"一键三连\",\n        \"view\": 1,\n        \"status\": 0,\n        \"created_at\": 1654257248,\n        \"start_time\": 1654257247,\n        \"end_time\": 0\n    },\n    \"msg\": \"ok\",\n    \"error\": \"\"\n}"
+						}
+					]
+				},
+				{
+					"name": "更改某条备忘录信息",
+					"request": {
+						"method": "PUT",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "{{token}}",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "formdata",
+							"formdata": [
+								{
+									"key": "title",
+									"value": "OHHHHH",
+									"type": "text"
+								},
+								{
+									"key": "content",
+									"value": "更改一下",
+									"type": "text"
+								},
+								{
+									"key": "status",
+									"value": "1",
+									"type": "text"
+								}
+							]
+						},
+						"url": {
+							"raw": "{{url}}api/v1/task/1",
+							"host": [
+								"{{url}}api"
+							],
+							"path": [
+								"v1",
+								"task",
+								"1"
+							]
+						}
+					},
+					"response": [
+						{
+							"name": "更改某条备忘录信息",
+							"originalRequest": {
+								"method": "PUT",
+								"header": [
+									{
+										"key": "Authorization",
+										"value": "{{token}}",
+										"type": "text"
+									}
+								],
+								"body": {
+									"mode": "formdata",
+									"formdata": [
+										{
+											"key": "title",
+											"value": "OHHHHH",
+											"type": "text"
+										},
+										{
+											"key": "content",
+											"value": "更改一下",
+											"type": "text"
+										},
+										{
+											"key": "status",
+											"value": "1",
+											"type": "text"
+										}
+									]
+								},
+								"url": {
+									"raw": "{{url}}api/v1/task/1",
+									"host": [
+										"{{url}}api"
+									],
+									"path": [
+										"v1",
+										"task",
+										"1"
+									]
+								}
+							},
+							"status": "OK",
+							"code": 200,
+							"_postman_previewlanguage": "json",
+							"header": [
+								{
+									"key": "Content-Type",
+									"value": "application/json; charset=utf-8"
+								},
+								{
+									"key": "Date",
+									"value": "Fri, 03 Jun 2022 12:00:24 GMT"
+								},
+								{
+									"key": "Content-Length",
+									"value": "58"
+								}
+							],
+							"cookie": [],
+							"body": "{\n    \"status\": 200,\n    \"data\": \"修改成功\",\n    \"msg\": \"ok\",\n    \"error\": \"\"\n}"
+						}
+					]
+				},
+				{
+					"name": "搜索用户的备忘录",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "{{token}}",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "formdata",
+							"formdata": [
+								{
+									"key": "info",
+									"value": "一键三连",
+									"type": "text"
+								}
+							]
+						},
+						"url": {
+							"raw": "{{url}}api/v1/search",
+							"host": [
+								"{{url}}api"
+							],
+							"path": [
+								"v1",
+								"search"
+							]
+						}
+					},
+					"response": [
+						{
+							"name": "搜索用户的备忘录",
+							"originalRequest": {
+								"method": "POST",
+								"header": [
+									{
+										"key": "Authorization",
+										"value": "{{token}}",
+										"type": "text"
+									}
+								],
+								"body": {
+									"mode": "formdata",
+									"formdata": [
+										{
+											"key": "info",
+											"value": "一键三连",
+											"type": "text"
+										}
+									]
+								},
+								"url": {
+									"raw": "{{url}}api/v1/search",
+									"host": [
+										"{{url}}api"
+									],
+									"path": [
+										"v1",
+										"search"
+									]
+								}
+							},
+							"status": "OK",
+							"code": 200,
+							"_postman_previewlanguage": "json",
+							"header": [
+								{
+									"key": "Content-Type",
+									"value": "application/json; charset=utf-8"
+								},
+								{
+									"key": "Date",
+									"value": "Fri, 03 Jun 2022 12:01:57 GMT"
+								},
+								{
+									"key": "Content-Length",
+									"value": "197"
+								}
+							],
+							"cookie": [],
+							"body": "{\n    \"status\": 200,\n    \"data\": [\n        {\n            \"id\": 2,\n            \"title\": \"BiliBili\",\n            \"content\": \"我太喜欢一键三连啦！\",\n            \"view\": 0,\n            \"status\": 0,\n            \"created_at\": 1654257326,\n            \"start_time\": 1654257325,\n            \"end_time\": 0\n        }\n    ],\n    \"msg\": \"ok\",\n    \"error\": \"\"\n}"
+						}
+					]
+				},
+				{
+					"name": "删除用户某条备忘录",
+					"request": {
+						"method": "DELETE",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "{{token}}",
+								"type": "text"
+							}
+						],
+						"url": {
+							"raw": "{{url}}api/v1/task/1",
+							"host": [
+								"{{url}}api"
+							],
+							"path": [
+								"v1",
+								"task",
+								"1"
+							]
+						}
+					},
+					"response": [
+						{
+							"name": "删除用户某条备忘录",
+							"originalRequest": {
+								"method": "DELETE",
+								"header": [
+									{
+										"key": "Authorization",
+										"value": "{{token}}",
+										"type": "text"
+									}
+								],
+								"url": {
+									"raw": "{{url}}api/v1/task/1",
+									"host": [
+										"{{url}}api"
+									],
+									"path": [
+										"v1",
+										"task",
+										"1"
+									]
+								}
+							},
+							"status": "OK",
+							"code": 200,
+							"_postman_previewlanguage": "json",
+							"header": [
+								{
+									"key": "Content-Type",
+									"value": "application/json; charset=utf-8"
+								},
+								{
+									"key": "Date",
+									"value": "Fri, 03 Jun 2022 12:02:36 GMT"
+								},
+								{
+									"key": "Content-Length",
+									"value": "48"
+								}
+							],
+							"cookie": [],
+							"body": "{\n    \"status\": 200,\n    \"data\": null,\n    \"msg\": \"ok\",\n    \"error\": \"\"\n}"
+						}
+					]
+				}
+			]
+		},
+		{
+			"name": "测试连接",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "{{url}}api/v1/ping",
+					"host": [
+						"{{url}}api"
+					],
+					"path": [
+						"v1",
+						"ping"
+					]
+				}
+			},
+			"response": [
+				{
+					"name": "测试连接",
+					"originalRequest": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{url}}api/v1/ping",
+							"host": [
+								"{{url}}api"
+							],
+							"path": [
+								"v1",
+								"ping"
+							]
+						}
+					},
+					"status": "OK",
+					"code": 200,
+					"_postman_previewlanguage": "json",
+					"header": [
+						{
+							"key": "Content-Type",
+							"value": "application/json; charset=utf-8"
+						},
+						{
+							"key": "Date",
+							"value": "Fri, 03 Jun 2022 11:30:44 GMT"
+						},
+						{
+							"key": "Content-Length",
+							"value": "9"
+						}
+					],
+					"cookie": [],
+					"body": "\"success\""
+				}
+			]
+		}
+	]
+}

@@ -20,6 +20,22 @@ B站: https://www.bilibili.com/video/BV1GT4y1R7tX \
 
 查看**swagger**文档
 
+也可以选择postman文档导入
+
+打开postman，点击导入
+
+![postman导入](docs/1.点击import导入.png)
+
+选择导入文件
+![选择导入接口文件](docs/2.选择文件.png)
+
+![导入](docs/3.导入.png)
+
+效果
+
+![展示](docs/4.效果.png)
+
+
 ## 项目主要功能介绍
 
 - 用户注册登录 ( jwt-go鉴权 )

@@ -45,10 +45,11 @@ func (service *CreateTaskService) Create(id uint) serializer.Response {
 	var user model.User
 	model.DB.First(&user,id)
 	task := model.Task{
-		User:user,
-		Title: service.Title,
-		Content: service.Content,
-		Status: 0,
+		User:      user,
+		Uid:       user.ID,
+		Title:     service.Title,
+		Content:   service.Content,
+		Status:    0,
 		StartTime: time.Now().Unix(),
 	}
 	code := e.SUCCESS
