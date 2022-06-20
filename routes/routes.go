@@ -11,18 +11,17 @@ import (
 	"to-do-list/middleware"
 )
 
-
 //路由配置
 func NewRouter() *gin.Engine {
 	r := gin.Default() //生成了一个WSGI应用程序实例
 	store := cookie.NewStore([]byte("something-very-secret"))
 	r.GET("/swagger/*any", ginSwagger.WrapHandler(swaggerFiles.Handler)) // 开启swag
 	r.Use(sessions.Sessions("mysession", store))
-	r.Use(middleware.Cors(),gin.Recovery())
+	r.Use(middleware.Cors())
 	v1 := r.Group("api/v1")
 	{
 		v1.GET("ping", func(c *gin.Context) {
-			c.JSON(200,"success")
+			c.JSON(200, "success")
 		})
 		// 用户操作
 		v1.POST("user/register", api.UserRegister)
