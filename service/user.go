@@ -8,7 +8,7 @@ import (
 	"to-do-list/serializer"
 )
 
-//UserRegisterService 用户注册服务
+// UserService 用户注册服务
 type UserService struct {
 	UserName string `form:"user_name" json:"user_name" binding:"required,min=3,max=15" example:"FanOne"`
 	Password string `form:"password" json:"password" binding:"required,min=5,max=16" example:"FanOne666"`
