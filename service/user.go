@@ -10,17 +10,15 @@ import (
 
 //UserRegisterService 用户注册服务
 type UserService struct {
-	UserName  string `form:"user_name" json:"user_name" binding:"required,min=3,max=15" example:"FanOne"`
-	Password  string `form:"password" json:"password" binding:"required,min=5,max=16" example:"FanOne666"`
+	UserName string `form:"user_name" json:"user_name" binding:"required,min=3,max=15" example:"FanOne"`
+	Password string `form:"password" json:"password" binding:"required,min=5,max=16" example:"FanOne666"`
 }
-
-
 
 func (service *UserService) Register() *serializer.Response {
 	code := e.SUCCESS
 	var user model.User
-	var count int
-	model.DB.Model(&model.User{}).Where("user_name=?",service.UserName).First(&user).Count(&count)
+	var count int64
+	model.DB.Model(&model.User{}).Where("user_name=?", service.UserName).First(&user).Count(&count)
 	//表单验证
 	if count == 1 {
 		code = e.ErrorExistUser
@@ -29,7 +27,7 @@ func (service *UserService) Register() *serializer.Response {
 			Msg:    e.GetMsg(code),
 		}
 	}
-	user.UserName=service.UserName
+	user.UserName = service.UserName
 	//加密密码
 	if err := user.SetPassword(service.Password); err != nil {
 		util.LogrusObj.Info(err)
@@ -55,7 +53,7 @@ func (service *UserService) Register() *serializer.Response {
 }
 
 //Login 用户登陆函数
-func (service *UserService)Login() serializer.Response {
+func (service *UserService) Login() serializer.Response {
 	var user model.User
 	code := e.SUCCESS
 	if err := model.DB.Where("user_name=?", service.UserName).First(&user).Error; err != nil {
@@ -82,7 +80,7 @@ func (service *UserService)Login() serializer.Response {
 			Msg:    e.GetMsg(code),
 		}
 	}
-	token, err := util.GenerateToken(user.ID,service.UserName, 0)
+	token, err := util.GenerateToken(user.ID, service.UserName, 0)
 	if err != nil {
 		util.LogrusObj.Info(err)
 		code = e.ErrorAuthToken

@@ -18,17 +18,17 @@ type DeleteTaskService struct {
 
 //更新任务的服务
 type UpdateTaskService struct {
-	ID            uint   `form:"id" json:"id"`
-	Title         string `form:"title" json:"title" binding:"required,min=2,max=100"`
-	Content       string `form:"content" json:"content" binding:"max=1000"`
-	Status 		  int    `form:"status" json:"status"`   //0 待办   1已完成
+	ID      uint   `form:"id" json:"id"`
+	Title   string `form:"title" json:"title" binding:"required,min=2,max=100"`
+	Content string `form:"content" json:"content" binding:"max=1000"`
+	Status  int    `form:"status" json:"status"` //0 待办   1已完成
 }
 
 //创建任务的服务
 type CreateTaskService struct {
-	Title         string `form:"title" json:"title" binding:"required,min=2,max=100"`
-	Content       string `form:"content" json:"content" binding:"max=1000"`
-	Status 		  int    `form:"status" json:"status"`   //0 待办   1已完成
+	Title   string `form:"title" json:"title" binding:"required,min=2,max=100"`
+	Content string `form:"content" json:"content" binding:"max=1000"`
+	Status  int    `form:"status" json:"status"` //0 待办   1已完成
 }
 
 //搜索任务的服务
@@ -37,13 +37,13 @@ type SearchTaskService struct {
 }
 
 type ListTasksService struct {
-	Limit      int  `form:"limit" json:"limit"`
-	Start      int  `form:"start" json:"start"`
+	Limit int `form:"limit" json:"limit"`
+	Start int `form:"start" json:"start"`
 }
 
 func (service *CreateTaskService) Create(id uint) serializer.Response {
 	var user model.User
-	model.DB.First(&user,id)
+	model.DB.First(&user, id)
 	task := model.Task{
 		User:      user,
 		Uid:       user.ID,
@@ -72,12 +72,12 @@ func (service *CreateTaskService) Create(id uint) serializer.Response {
 
 func (service *ListTasksService) List(id uint) serializer.Response {
 	var tasks []model.Task
-	total := 0
+	var total int64
 	if service.Limit == 0 {
 		service.Limit = 15
 	}
-	model.DB.Model(model.Task{}).Preload("User").Where("uid = ?",id).Count(&total).
-		Limit(service.Limit).Offset((service.Start-1)*service.Limit).
+	model.DB.Model(model.Task{}).Preload("User").Where("uid = ?", id).Count(&total).
+		Limit(service.Limit).Offset((service.Start - 1) * service.Limit).
 		Find(&tasks)
 	return serializer.BuildListResponse(serializer.BuildTasks(tasks), uint(total))
 }
@@ -95,7 +95,7 @@ func (service *ShowTaskService) Show(id string) serializer.Response {
 			Error:  err.Error(),
 		}
 	}
-	task.AddView()  //增加点击数
+	task.AddView() //增加点击数
 	return serializer.Response{
 		Status: code,
 		Data:   serializer.BuildTask(task),
@@ -134,7 +134,7 @@ func (service *DeleteTaskService) Delete(id string) serializer.Response {
 
 func (service *UpdateTaskService) Update(id string) serializer.Response {
 	var task model.Task
-	model.DB.Model(model.Task{}).Where("id = ?",id).First(&task)
+	model.DB.Model(model.Task{}).Where("id = ?", id).First(&task)
 	task.Content = service.Content
 	task.Status = service.Status
 	task.Title = service.Title
@@ -152,7 +152,7 @@ func (service *UpdateTaskService) Update(id string) serializer.Response {
 	return serializer.Response{
 		Status: code,
 		Msg:    e.GetMsg(code),
-		Data:  "修改成功",
+		Data:   "修改成功",
 	}
 }
 
@@ -161,7 +161,7 @@ func (service *SearchTaskService) Search(uId uint) serializer.Response {
 	code := e.SUCCESS
 	model.DB.Where("uid=?", uId).Preload("User").First(&tasks)
 	err := model.DB.Model(&model.Task{}).Where("title LIKE ? OR content LIKE ?",
-		"%"+service.Info+"%","%"+service.Info+"%").Find(&tasks).Error
+		"%"+service.Info+"%", "%"+service.Info+"%").Find(&tasks).Error
 	if err != nil {
 		util.LogrusObj.Info(err)
 		code = e.ErrorDatabase
