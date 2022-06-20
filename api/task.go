@@ -6,7 +6,7 @@ import (
 	"to-do-list/service"
 )
 
-// @Tags TASK
+// CreateTask @Tags TASK
 // @Summary 创建任务
 // @Produce json
 // @Accept json
@@ -17,7 +17,7 @@ import (
 // @Router /task [post]
 func CreateTask(c *gin.Context) {
 	createService := service.CreateTaskService{}
-	chaim,_ := util.ParseToken(c.GetHeader("Authorization"))
+	chaim, _ := util.ParseToken(c.GetHeader("Authorization"))
 	if err := c.ShouldBind(&createService); err == nil {
 		res := createService.Create(chaim.Id)
 		c.JSON(200, res)
@@ -27,7 +27,7 @@ func CreateTask(c *gin.Context) {
 	}
 }
 
-// @Tags TASK
+// ListTasks @Tags TASK
 // @Summary 获取任务列表
 // @Produce json
 // @Accept json
@@ -38,7 +38,7 @@ func CreateTask(c *gin.Context) {
 // @Router /tasks [get]
 func ListTasks(c *gin.Context) {
 	listService := service.ListTasksService{}
-	chaim ,_ := util.ParseToken(c.GetHeader("Authorization"))
+	chaim, _ := util.ParseToken(c.GetHeader("Authorization"))
 	if err := c.ShouldBind(&listService); err == nil {
 		res := listService.List(chaim.Id)
 		c.JSON(200, res)
@@ -48,7 +48,7 @@ func ListTasks(c *gin.Context) {
 	}
 }
 
-// @Tags TASK
+// ShowTask @Tags TASK
 // @Summary 展示任务详细信息
 // @Produce json
 // @Accept json
@@ -63,7 +63,7 @@ func ShowTask(c *gin.Context) {
 	c.JSON(200, res)
 }
 
-// @Tags TASK
+// DeleteTask @Tags TASK
 // @Summary 删除任务
 // @Produce json
 // @Accept json
@@ -78,7 +78,7 @@ func DeleteTask(c *gin.Context) {
 	c.JSON(200, res)
 }
 
-// @Tags TASK
+// UpdateTask @Tags TASK
 // @Summary 修改任务
 // @Produce json
 // @Accept json
@@ -98,7 +98,7 @@ func UpdateTask(c *gin.Context) {
 	}
 }
 
-// @Tags TASK
+// SearchTasks @Tags TASK
 // @Summary 查询任务
 // @Produce json
 // @Accept json
@@ -109,7 +109,7 @@ func UpdateTask(c *gin.Context) {
 // @Router /search [post]
 func SearchTasks(c *gin.Context) {
 	searchTaskService := service.SearchTaskService{}
-	chaim ,_ := util.ParseToken(c.GetHeader("Authorization"))
+	chaim, _ := util.ParseToken(c.GetHeader("Authorization"))
 	if err := c.ShouldBind(&searchTaskService); err == nil {
 		res := searchTaskService.Search(chaim.Id)
 		c.JSON(200, res)

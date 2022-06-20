@@ -6,7 +6,7 @@ import (
 	"to-do-list/service"
 )
 
-// @Tags USER
+// UserRegister @Tags USER
 // @Summary 用户注册
 // @Produce json
 // @Accept json
@@ -25,7 +25,7 @@ func UserRegister(c *gin.Context) {
 	}
 }
 
-// @Tags USER
+// UserLogin @Tags USER
 // @Summary 用户登录
 // @Produce json
 // @Accept json

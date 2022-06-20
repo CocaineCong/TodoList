@@ -75,7 +75,7 @@ func (service *UserService)Login() serializer.Response {
 			Msg:    e.GetMsg(code),
 		}
 	}
-	if user.CheckPassword(service.Password) == false {
+	if !user.CheckPassword(service.Password) {
 		code = e.ErrorNotCompare
 		return serializer.Response{
 			Status: code,
