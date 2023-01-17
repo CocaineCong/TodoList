@@ -43,8 +43,8 @@ func ListTasks(c *gin.Context) {
 		res := listService.List(chaim.Id)
 		c.JSON(200, res)
 	} else {
-		c.JSON(400, ErrorResponse(err))
 		util.LogrusObj.Info(err)
+		c.JSON(400, ErrorResponse(err))
 	}
 }
 

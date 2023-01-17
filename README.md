@@ -87,6 +87,7 @@ TodoList/
 - service : 接口函数的实现
 
 ## 配置文件
+配置文件在conf/config.ini.example中，把.example去掉，然后根据自己的情况配置就好了
 
 **conf/config.ini**
 ```ini

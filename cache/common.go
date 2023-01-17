@@ -2,18 +2,19 @@ package cache
 
 import (
 	"fmt"
+	"strconv"
+
 	"github.com/go-redis/redis"
 	logging "github.com/sirupsen/logrus"
 	"gopkg.in/ini.v1"
-	"strconv"
 )
 
-//RedisClient Redis缓存客户端单例
+// RedisClient Redis缓存客户端单例
 var (
 	RedisClient *redis.Client
-	RedisAddr  			string
-	RedisPw    			string
-	RedisDbName    		string
+	RedisAddr   string
+	RedisPw     string
+	RedisDbName string
 )
 
 func init() {
@@ -25,7 +26,7 @@ func init() {
 	Redis()
 }
 
-//初始化redis链接
+// 初始化redis链接
 func Redis() {
 	db, _ := strconv.ParseUint(RedisDbName, 10, 64)
 	client := redis.NewClient(&redis.Options{

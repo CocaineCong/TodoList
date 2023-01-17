@@ -1,17 +1,17 @@
 package middleware
 
 import (
-	"github.com/gin-gonic/gin"
 	"time"
+
+	"github.com/gin-gonic/gin"
 	"to-do-list/pkg/e"
 	"to-do-list/pkg/util"
 )
 
-//JWT token验证中间件
+// JWT token验证中间件
 func JWT() gin.HandlerFunc {
 	return func(c *gin.Context) {
 		var code int
-		var data interface{}
 		code = 200
 		token := c.GetHeader("Authorization")
 		if token == "" {
@@ -28,7 +28,7 @@ func JWT() gin.HandlerFunc {
 			c.JSON(400, gin.H{
 				"status": code,
 				"msg":    e.GetMsg(code),
-				"data":   data,
+				"data":   "可能是身份过期了，请重新登录",
 			})
 			c.Abort()
 			return

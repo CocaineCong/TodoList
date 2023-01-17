@@ -2,36 +2,37 @@ package service
 
 import (
 	"time"
+
 	"to-do-list/model"
 	"to-do-list/pkg/e"
 	"to-do-list/pkg/util"
 	"to-do-list/serializer"
 )
 
-//展示任务详情的服务
+// 展示任务详情的服务
 type ShowTaskService struct {
 }
 
-//删除任务的服务
+// 删除任务的服务
 type DeleteTaskService struct {
 }
 
-//更新任务的服务
+// 更新任务的服务
 type UpdateTaskService struct {
 	ID      uint   `form:"id" json:"id"`
 	Title   string `form:"title" json:"title" binding:"required,min=2,max=100"`
 	Content string `form:"content" json:"content" binding:"max=1000"`
-	Status  int    `form:"status" json:"status"` //0 待办   1已完成
+	Status  int    `form:"status" json:"status"` // 0 待办   1已完成
 }
 
-//创建任务的服务
+// 创建任务的服务
 type CreateTaskService struct {
 	Title   string `form:"title" json:"title" binding:"required,min=2,max=100"`
 	Content string `form:"content" json:"content" binding:"max=1000"`
-	Status  int    `form:"status" json:"status"` //0 待办   1已完成
+	Status  int    `form:"status" json:"status"` // 0 待办   1已完成
 }
 
-//搜索任务的服务
+// 搜索任务的服务
 type SearchTaskService struct {
 	Info string `form:"info" json:"info"`
 }
@@ -95,7 +96,7 @@ func (service *ShowTaskService) Show(id string) serializer.Response {
 			Error:  err.Error(),
 		}
 	}
-	task.AddView() //增加点击数
+	task.AddView() // 增加点击数
 	return serializer.Response{
 		Status: code,
 		Data:   serializer.BuildTask(task),
