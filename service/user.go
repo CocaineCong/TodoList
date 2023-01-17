@@ -19,7 +19,7 @@ func (service *UserService) Register() *serializer.Response {
 	var user model.User
 	var count int64
 	model.DB.Model(&model.User{}).Where("user_name=?", service.UserName).First(&user).Count(&count)
-	//表单验证
+	// 表单验证
 	if count == 1 {
 		code = e.ErrorExistUser
 		return &serializer.Response{
@@ -28,7 +28,7 @@ func (service *UserService) Register() *serializer.Response {
 		}
 	}
 	user.UserName = service.UserName
-	//加密密码
+	// 加密密码
 	if err := user.SetPassword(service.Password); err != nil {
 		util.LogrusObj.Info(err)
 		code = e.ErrorFailEncryption
@@ -37,7 +37,7 @@ func (service *UserService) Register() *serializer.Response {
 			Msg:    e.GetMsg(code),
 		}
 	}
-	//创建用户
+	// 创建用户
 	if err := model.DB.Create(&user).Error; err != nil {
 		util.LogrusObj.Info(err)
 		code = e.ErrorDatabase
@@ -52,13 +52,13 @@ func (service *UserService) Register() *serializer.Response {
 	}
 }
 
-//Login 用户登陆函数
+// Login 用户登陆函数
 func (service *UserService) Login() serializer.Response {
 	var user model.User
 	code := e.SUCCESS
 	if err := model.DB.Where("user_name=?", service.UserName).First(&user).Error; err != nil {
-		//如果查询不到，返回相应的错误
-		if gorm.IsRecordNotFoundError(err) {
+		// 如果查询不到，返回相应的错误
+		if err.Error() == gorm.ErrRecordNotFound.Error() {
 			util.LogrusObj.Info(err)
 			code = e.ErrorNotExistUser
 			return serializer.Response{
