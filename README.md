@@ -4,6 +4,9 @@
 
 **此项目比较适合小白入门`web开发`这一方面**
 
+## 注意：这个仓库已经不再维护了，代码结构已经更新了，并且仓库已经迁移到以下地址：**https://github.com/todolist-demo/TodoList**
+
+
 # 详细教程
 
 B站: https://www.bilibili.com/video/BV1GT4y1R7tX \
