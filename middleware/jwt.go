@@ -4,6 +4,7 @@ import (
 	"time"
 
 	"github.com/gin-gonic/gin"
+
 	"to-do-list/pkg/e"
 	"to-do-list/pkg/util"
 )
@@ -23,6 +24,7 @@ func JWT() gin.HandlerFunc {
 			} else if time.Now().Unix() > claims.ExpiresAt {
 				code = e.ErrorAuthCheckTokenTimeout
 			}
+			c.Set("user_id", claims.Id)
 		}
 		if code != e.SUCCESS {
 			c.JSON(400, gin.H{
@@ -33,6 +35,7 @@ func JWT() gin.HandlerFunc {
 			c.Abort()
 			return
 		}
+
 		c.Next()
 	}
 }

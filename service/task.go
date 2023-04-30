@@ -1,180 +1,125 @@
 package service
 
 import (
+	"context"
+	"sync"
 	"time"
 
-	"to-do-list/model"
+	"github.com/spf13/cast"
+
 	"to-do-list/pkg/e"
 	"to-do-list/pkg/util"
+	"to-do-list/repository/dao"
+	model2 "to-do-list/repository/model"
 	"to-do-list/serializer"
+	"to-do-list/types"
 )
 
-// 展示任务详情的服务
-type ShowTaskService struct {
+var TaskSrvIns *TaskSrv
+var TaskSrvOnce sync.Once
+
+type TaskSrv struct {
 }
 
-// 删除任务的服务
-type DeleteTaskService struct {
+func GetTaskSrv() *TaskSrv {
+	TaskSrvOnce.Do(func() {
+		TaskSrvIns = &TaskSrv{}
+	})
+	return TaskSrvIns
 }
 
-// 更新任务的服务
-type UpdateTaskService struct {
-	ID      uint   `form:"id" json:"id"`
-	Title   string `form:"title" json:"title" binding:"required,min=2,max=100"`
-	Content string `form:"content" json:"content" binding:"max=1000"`
-	Status  int    `form:"status" json:"status"` // 0 待办   1已完成
-}
-
-// 创建任务的服务
-type CreateTaskService struct {
-	Title   string `form:"title" json:"title" binding:"required,min=2,max=100"`
-	Content string `form:"content" json:"content" binding:"max=1000"`
-	Status  int    `form:"status" json:"status"` // 0 待办   1已完成
-}
-
-// 搜索任务的服务
-type SearchTaskService struct {
-	Info string `form:"info" json:"info"`
-}
-
-type ListTasksService struct {
-	Limit int `form:"limit" json:"limit"`
-	Start int `form:"start" json:"start"`
-}
-
-func (service *CreateTaskService) Create(id uint) serializer.Response {
-	var user model.User
-	model.DB.First(&user, id)
-	task := model.Task{
-		User:      user,
-		Uid:       user.ID,
-		Title:     service.Title,
-		Content:   service.Content,
+func (s *TaskSrv) CreateTask(ctx context.Context, req *types.CreateTaskReq, userId uint) (resp interface{}, err error) {
+	u, err := dao.NewUserDao(ctx).FindUserByUserId(userId)
+	task := &model2.Task{
+		User:      u,
+		Uid:       u.ID,
+		Title:     req.Title,
+		Content:   req.Content,
 		Status:    0,
 		StartTime: time.Now().Unix(),
 	}
 	code := e.SUCCESS
-	err := model.DB.Create(&task).Error
+	err = dao.NewTaskDao(ctx).CreateTask(task)
 	if err != nil {
 		util.LogrusObj.Info(err)
-		code = e.ErrorDatabase
-		return serializer.Response{
-			Status: code,
-			Msg:    e.GetMsg(code),
-			Error:  err.Error(),
-		}
+		return nil, err
 	}
 	return serializer.Response{
 		Status: code,
 		Data:   serializer.BuildTask(task),
 		Msg:    e.GetMsg(code),
-	}
+	}, nil
 }
 
-func (service *ListTasksService) List(id uint) serializer.Response {
-	var tasks []model.Task
-	var total int64
-	if service.Limit == 0 {
-		service.Limit = 15
+func (s *TaskSrv) ListTask(ctx context.Context, req *types.ListTasksReq, uId uint) (*serializer.Response, error) {
+	if req.Limit == 0 {
+		req.Limit = 15
 	}
-	model.DB.Model(model.Task{}).Preload("User").Where("uid = ?", id).Count(&total).
-		Limit(service.Limit).Offset((service.Start - 1) * service.Limit).
-		Find(&tasks)
-	return serializer.BuildListResponse(serializer.BuildTasks(tasks), uint(total))
+	tasks, total, err := dao.NewTaskDao(ctx).ListTask(req.Start, req.Limit, uId)
+	if err != nil {
+		return nil, err
+	}
+	return serializer.BuildListResponse(serializer.BuildTasks(tasks), uint(total)), nil
 }
 
-func (service *ShowTaskService) Show(id string) serializer.Response {
-	var task model.Task
+// ShowTask 展示Task作用
+func (s *TaskSrv) ShowTask(ctx context.Context, uId uint, tId string) (resp interface{}, err error) {
 	code := e.SUCCESS
-	err := model.DB.First(&task, id).Error
+	task, err := dao.NewTaskDao(ctx).FindTaskByIdAndUserId(uId, cast.ToUint(tId))
 	if err != nil {
 		util.LogrusObj.Info(err)
 		code = e.ErrorDatabase
-		return serializer.Response{
-			Status: code,
-			Msg:    e.GetMsg(code),
-			Error:  err.Error(),
-		}
+		return nil, err
 	}
 	task.AddView() // 增加点击数
 	return serializer.Response{
 		Status: code,
 		Data:   serializer.BuildTask(task),
 		Msg:    e.GetMsg(code),
-	}
+	}, nil
 }
 
-func (service *DeleteTaskService) Delete(id string) serializer.Response {
-	var task model.Task
+func (s *TaskSrv) DeleteTask(ctx context.Context, uId uint, tId string) (resp interface{}, err error) {
 	code := e.SUCCESS
-	err := model.DB.First(&task, id).Error
+	taskDao := dao.NewTaskDao(ctx)
+
+	err = taskDao.DeleteTaskById(uId, cast.ToUint(tId))
 	if err != nil {
 		util.LogrusObj.Info(err)
 		code = e.ErrorDatabase
-		return serializer.Response{
-			Status: code,
-			Msg:    e.GetMsg(code),
-			Error:  err.Error(),
-		}
+		return nil, err
 	}
-	err = model.DB.Delete(&task).Error
-	if err != nil {
-		util.LogrusObj.Info(err)
-		code = e.ErrorDatabase
-		return serializer.Response{
-			Status: code,
-			Msg:    e.GetMsg(code),
-			Error:  err.Error(),
-		}
-	}
+
 	return serializer.Response{
 		Status: code,
 		Msg:    e.GetMsg(code),
-	}
+	}, nil
 }
 
-func (service *UpdateTaskService) Update(id string) serializer.Response {
-	var task model.Task
-	model.DB.Model(model.Task{}).Where("id = ?", id).First(&task)
-	task.Content = service.Content
-	task.Status = service.Status
-	task.Title = service.Title
-	code := e.SUCCESS
-	err := model.DB.Save(&task).Error
+func (s *TaskSrv) UpdateTask(ctx context.Context, req *types.UpdateTaskReq, uId uint, tId string) (resp interface{}, err error) {
+	err = dao.NewTaskDao(ctx).UpdateTask(uId, cast.ToUint(tId), req)
 	if err != nil {
 		util.LogrusObj.Info(err)
-		code = e.ErrorDatabase
-		return serializer.Response{
-			Status: code,
-			Msg:    e.GetMsg(code),
-			Error:  err.Error(),
-		}
+		return nil, err
 	}
+	code := e.SUCCESS
 	return serializer.Response{
 		Status: code,
 		Msg:    e.GetMsg(code),
 		Data:   "修改成功",
-	}
+	}, nil
 }
 
-func (service *SearchTaskService) Search(uId uint) serializer.Response {
-	var tasks []model.Task
-	code := e.SUCCESS
-	model.DB.Where("uid=?", uId).Preload("User").First(&tasks)
-	err := model.DB.Model(&model.Task{}).Where("title LIKE ? OR content LIKE ?",
-		"%"+service.Info+"%", "%"+service.Info+"%").Find(&tasks).Error
+func (s *TaskSrv) SearchTask(ctx context.Context, req *types.SearchTaskReq, uId uint) (resp interface{}, err error) {
+	tasks, err := dao.NewTaskDao(ctx).SearchTask(uId, req.Info)
 	if err != nil {
 		util.LogrusObj.Info(err)
-		code = e.ErrorDatabase
-		return serializer.Response{
-			Status: code,
-			Msg:    e.GetMsg(code),
-			Error:  err.Error(),
-		}
+		return nil, err
 	}
+	code := e.SUCCESS
 	return serializer.Response{
 		Status: code,
 		Msg:    e.GetMsg(code),
 		Data:   serializer.BuildTasks(tasks),
-	}
+	}, nil
 }

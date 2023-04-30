@@ -1,9 +1,13 @@
 package api
 
 import (
-	"github.com/gin-gonic/gin"
+	"net/http"
+
 	"to-do-list/pkg/util"
 	"to-do-list/service"
+	"to-do-list/types"
+
+	"github.com/gin-gonic/gin"
 )
 
 // CreateTask @Tags TASK
@@ -15,15 +19,23 @@ import (
 // @Success 200 {object} serializer.ResponseTask "{"success":true,"data":{},"msg":"ok"}"
 // @Failure 500 {json} {"status":500,"data":{},"Msg":{},"Error":"error"}
 // @Router /task [post]
-func CreateTask(c *gin.Context) {
-	createService := service.CreateTaskService{}
-	chaim, _ := util.ParseToken(c.GetHeader("Authorization"))
-	if err := c.ShouldBind(&createService); err == nil {
-		res := createService.Create(chaim.Id)
-		c.JSON(200, res)
-	} else {
-		c.JSON(400, ErrorResponse(err))
-		util.LogrusObj.Info(err)
+func CreateTask() gin.HandlerFunc {
+	return func(ctx *gin.Context) {
+		var req types.CreateTaskReq
+		if err := ctx.ShouldBind(&req); err == nil {
+			// 参数校验
+			l := service.GetTaskSrv()
+			resp, err := l.CreateTask(ctx.Request.Context(), &req, ctx.Keys["user_id"].(uint))
+			if err != nil {
+				ctx.JSON(http.StatusInternalServerError, ErrorResponse(err))
+				return
+			}
+			ctx.JSON(http.StatusOK, resp)
+		} else {
+			util.LogrusObj.Infoln(err)
+			ctx.JSON(http.StatusBadRequest, ErrorResponse(err))
+		}
+
 	}
 }
 
@@ -36,15 +48,23 @@ func CreateTask(c *gin.Context) {
 // @Success 200 {object} serializer.ResponseTask "{"success":true,"data":{},"msg":"ok"}"
 // @Failure 500 {json} {"status":500,"data":{},"Msg":{},"Error":"error"}
 // @Router /tasks [get]
-func ListTasks(c *gin.Context) {
-	listService := service.ListTasksService{}
-	chaim, _ := util.ParseToken(c.GetHeader("Authorization"))
-	if err := c.ShouldBind(&listService); err == nil {
-		res := listService.List(chaim.Id)
-		c.JSON(200, res)
-	} else {
-		util.LogrusObj.Info(err)
-		c.JSON(400, ErrorResponse(err))
+func ListTasks() gin.HandlerFunc {
+	return func(ctx *gin.Context) {
+		var req types.ListTasksReq
+		if err := ctx.ShouldBind(&req); err == nil {
+			// 参数校验
+			l := service.GetTaskSrv()
+			resp, err := l.ListTask(ctx.Request.Context(), &req, ctx.Keys["user_id"].(uint))
+			if err != nil {
+				ctx.JSON(http.StatusInternalServerError, ErrorResponse(err))
+				return
+			}
+			ctx.JSON(http.StatusOK, resp)
+		} else {
+			util.LogrusObj.Infoln(err)
+			ctx.JSON(http.StatusBadRequest, ErrorResponse(err))
+		}
+
 	}
 }
 
@@ -57,10 +77,24 @@ func ListTasks(c *gin.Context) {
 // @Success 200 {object} serializer.ResponseTask "{"success":true,"data":{},"msg":"ok"}"
 // @Failure 500 {json} {"status":500,"data":{},"Msg":{},"Error":"error"}
 // @Router /task/:id [get]
-func ShowTask(c *gin.Context) {
-	showTaskService := service.ShowTaskService{}
-	res := showTaskService.Show(c.Param("id"))
-	c.JSON(200, res)
+func ShowTask() gin.HandlerFunc {
+	return func(ctx *gin.Context) {
+		var req types.ShowTaskReq
+		if err := ctx.ShouldBind(&req); err == nil {
+			// 参数校验
+			l := service.GetTaskSrv()
+			resp, err := l.ShowTask(ctx.Request.Context(), ctx.Keys["user_id"].(uint), ctx.Param("id"))
+			if err != nil {
+				ctx.JSON(http.StatusInternalServerError, ErrorResponse(err))
+				return
+			}
+			ctx.JSON(http.StatusOK, resp)
+		} else {
+			util.LogrusObj.Infoln(err)
+			ctx.JSON(http.StatusBadRequest, ErrorResponse(err))
+		}
+
+	}
 }
 
 // DeleteTask @Tags TASK
@@ -72,10 +106,24 @@ func ShowTask(c *gin.Context) {
 // @Success 200 {object} serializer.Response "{"success":true,"data":{},"msg":"ok"}"
 // @Failure 500 {json} {"status":500,"data":{},"Msg":{},"Error":"error"}
 // @Router /task/:id [delete]
-func DeleteTask(c *gin.Context) {
-	deleteTaskService := service.DeleteTaskService{}
-	res := deleteTaskService.Delete(c.Param("id"))
-	c.JSON(200, res)
+func DeleteTask() gin.HandlerFunc {
+	return func(ctx *gin.Context) {
+		var req types.DeleteTaskReq
+		if err := ctx.ShouldBind(&req); err == nil {
+			// 参数校验
+			l := service.GetTaskSrv()
+			resp, err := l.DeleteTask(ctx.Request.Context(), ctx.Keys["user_id"].(uint), ctx.Param("id"))
+			if err != nil {
+				ctx.JSON(http.StatusInternalServerError, ErrorResponse(err))
+				return
+			}
+			ctx.JSON(http.StatusOK, resp)
+		} else {
+			util.LogrusObj.Infoln(err)
+			ctx.JSON(http.StatusBadRequest, ErrorResponse(err))
+		}
+
+	}
 }
 
 // UpdateTask @Tags TASK
@@ -87,14 +135,23 @@ func DeleteTask(c *gin.Context) {
 // @Success 200 {object} serializer.Response "{"success":true,"data":{},"msg":"ok"}"
 // @Failure 500 {json} {"status":500,"data":{},"Msg":{},"Error":"error"}
 // @Router /task [put]
-func UpdateTask(c *gin.Context) {
-	updateTaskService := service.UpdateTaskService{}
-	if err := c.ShouldBind(&updateTaskService); err == nil {
-		res := updateTaskService.Update(c.Param("id"))
-		c.JSON(200, res)
-	} else {
-		c.JSON(400, ErrorResponse(err))
-		util.LogrusObj.Info(err)
+func UpdateTask() gin.HandlerFunc {
+	return func(ctx *gin.Context) {
+		req := new(types.UpdateTaskReq)
+		if err := ctx.ShouldBind(&req); err == nil {
+			// 参数校验
+			l := service.GetTaskSrv()
+			resp, err := l.UpdateTask(ctx.Request.Context(), req, ctx.Keys["user_id"].(uint), ctx.Param("id"))
+			if err != nil {
+				ctx.JSON(http.StatusInternalServerError, ErrorResponse(err))
+				return
+			}
+			ctx.JSON(http.StatusOK, resp)
+		} else {
+			util.LogrusObj.Infoln(err)
+			ctx.JSON(http.StatusBadRequest, ErrorResponse(err))
+		}
+
 	}
 }
 
@@ -107,14 +164,22 @@ func UpdateTask(c *gin.Context) {
 // @Success 200 {object} serializer.Response "{"success":true,"data":{},"msg":"ok"}"
 // @Failure 500 {json} {"status":500,"data":{},"Msg":{},"Error":"error"}
 // @Router /search [post]
-func SearchTasks(c *gin.Context) {
-	searchTaskService := service.SearchTaskService{}
-	chaim, _ := util.ParseToken(c.GetHeader("Authorization"))
-	if err := c.ShouldBind(&searchTaskService); err == nil {
-		res := searchTaskService.Search(chaim.Id)
-		c.JSON(200, res)
-	} else {
-		c.JSON(400, ErrorResponse(err))
-		util.LogrusObj.Info(err)
+func SearchTasks() gin.HandlerFunc {
+	return func(ctx *gin.Context) {
+		req := new(types.SearchTaskReq)
+		if err := ctx.ShouldBind(&req); err == nil {
+			// 参数校验
+			l := service.GetTaskSrv()
+			resp, err := l.SearchTask(ctx.Request.Context(), req, ctx.Keys["user_id"].(uint))
+			if err != nil {
+				ctx.JSON(http.StatusInternalServerError, ErrorResponse(err))
+				return
+			}
+			ctx.JSON(http.StatusOK, resp)
+		} else {
+			util.LogrusObj.Infoln(err)
+			ctx.JSON(http.StatusBadRequest, ErrorResponse(err))
+		}
+
 	}
 }

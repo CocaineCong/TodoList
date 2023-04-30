@@ -3,12 +3,14 @@ package api
 import (
 	"encoding/json"
 	"fmt"
+
 	"gopkg.in/go-playground/validator.v8"
+
 	"to-do-list/conf"
 	"to-do-list/serializer"
 )
 
-//返回错误信息 ErrorResponse
+// 返回错误信息 ErrorResponse
 func ErrorResponse(err error) serializer.Response {
 	if ve, ok := err.(validator.ValidationErrors); ok {
 		for _, e := range ve {

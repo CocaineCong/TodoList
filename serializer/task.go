@@ -1,7 +1,7 @@
 package serializer
 
 import (
-	"to-do-list/model"
+	"to-do-list/repository/model"
 )
 
 // swagger:response Resp
@@ -16,20 +16,20 @@ type Task struct {
 	EndTime   int64  `json:"end_time"`
 }
 
-func BuildTask(item model.Task) Task {
-	return Task{
-		ID:           item.ID,
-		Title:        item.Title,
-		Content:      item.Content,
-		Status:       item.Status,
-		View:         item.View(),
-		CreatedAt:    item.CreatedAt.Unix(),
-		StartTime:    item.StartTime,
-		EndTime:      item.EndTime,
+func BuildTask(item *model.Task) *Task {
+	return &Task{
+		ID:        item.ID,
+		Title:     item.Title,
+		Content:   item.Content,
+		Status:    item.Status,
+		View:      item.View(),
+		CreatedAt: item.CreatedAt.Unix(),
+		StartTime: item.StartTime,
+		EndTime:   item.EndTime,
 	}
 }
 
-func BuildTasks(items []model.Task) (tasks []Task) {
+func BuildTasks(items []*model.Task) (tasks []*Task) {
 	for _, item := range items {
 		task := BuildTask(item)
 		tasks = append(tasks, task)

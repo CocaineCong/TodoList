@@ -1,11 +1,12 @@
 package util
 
 import (
-	"github.com/sirupsen/logrus"
 	"log"
 	"os"
 	"path"
 	"time"
+
+	"github.com/sirupsen/logrus"
 )
 
 var LogrusObj *logrus.Logger
@@ -31,7 +32,6 @@ func init() {
 	})
 	LogrusObj = logger
 }
-
 
 func setOutputFile() (*os.File, error) {
 	now := time.Now()
@@ -63,4 +63,3 @@ func setOutputFile() (*os.File, error) {
 	}
 	return src, nil
 }
-

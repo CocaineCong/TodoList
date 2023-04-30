@@ -1,9 +1,10 @@
 package util
 
 import (
-	"github.com/dgrijalva/jwt-go"
 	"os"
 	"time"
+
+	"github.com/dgrijalva/jwt-go"
 )
 
 var jwtSecret = []byte(os.Getenv("JWT_SECRET"))
@@ -16,11 +17,11 @@ type Claims struct {
 }
 
 //GenerateToken 签发用户Token
-func GenerateToken(id uint,username string, authority int) (string, error) {
+func GenerateToken(id uint, username string, authority int) (string, error) {
 	nowTime := time.Now()
 	expireTime := nowTime.Add(24 * time.Hour)
 	claims := Claims{
-		Id : id,
+		Id:        id,
 		Username:  username,
 		Authority: authority,
 		StandardClaims: jwt.StandardClaims{

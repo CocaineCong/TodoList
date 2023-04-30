@@ -1,23 +1,24 @@
 package conf
 
 import (
-	"gopkg.in/ini.v1"
 	"strings"
+
+	"gopkg.in/ini.v1"
+
 	"to-do-list/cache"
-	"to-do-list/model"
 	"to-do-list/pkg/util"
+	"to-do-list/repository/dao"
 )
 
-
 var (
-	AppMode  			string
-	HttpPort 			string
-	Db         			string
-	DbHost     			string
-	DbPort     			string
-	DbUser     			string
-	DbPassWord 			string
-	DbName     			string
+	AppMode    string
+	HttpPort   string
+	Db         string
+	DbHost     string
+	DbPort     string
+	DbUser     string
+	DbPassWord string
+	DbName     string
 )
 
 func Init() {
@@ -27,13 +28,13 @@ func Init() {
 		panic(err)
 	}
 	if err := LoadLocales("conf/locales/zh-cn.yaml"); err != nil {
-		util.LogrusObj.Info(err) //日志内容
+		util.LogrusObj.Info(err) // 日志内容
 		panic(err)
 	}
 	LoadServer(file)
 	LoadMysqlData(file)
 	path := strings.Join([]string{DbUser, ":", DbPassWord, "@tcp(", DbHost, ":", DbPort, ")/", DbName, "?charset=utf8&parseTime=true"}, "")
-	model.Database(path)
+	dao.Database(path)
 	cache.Redis()
 }
 
