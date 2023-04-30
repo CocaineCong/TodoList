@@ -69,31 +69,35 @@ TodoList/
 ├── consts
 ├── docs
 ├── middleware
-├── model
 ├── pkg
 │  ├── e
 │  └── util
 ├── routes
 ├── respository
 │  ├── cache
-│  ├── dao
-│  └── model
+│  └── db
+│     ├── dao
+│     └── model
 ├── routes
 ├── service
 └── types
 ```
 
 - api : 用于定义接口函数,也就是controller层
-- cache : 放置redis缓存
+- cmd : 程序启动
 - conf : 用于存储配置文件
 - middleware : 应用中间件
-- model : 应用数据库模型
 - pkg/e : 封装错误码
 - pkg/logging : 日志打印
 - pkg/util : 工具函数
+- repository: 仓库放置所有存储
+- repository/cache: 放置redis缓存
+- repository/db: 持久层MySQL仓库
+- repository/db/dao: 对db进行操作的dao层
+- repository/db/model: 定义所有持久层数据库表结构的model层
 - routes : 路由逻辑处理
-- serializer : 将数据序列化为 json 的函数
 - service : 接口函数的实现
+- types : 放置所有的定义的结构体
 
 ## 配置文件
 配置文件在conf/config.ini.example中，把.example去掉，然后根据自己的情况配置就好了

@@ -9,7 +9,7 @@ import (
 
 	"to-do-list/pkg/ctl"
 	"to-do-list/pkg/util"
-	"to-do-list/repository/dao"
+	"to-do-list/repository/db/dao"
 	"to-do-list/repository/model"
 	"to-do-list/types"
 )
@@ -29,19 +29,19 @@ func GetUserSrv() *UserSrv {
 
 func (s *UserSrv) Register(ctx context.Context, req *types.UserServiceReq) (resp interface{}, err error) {
 	userDao := dao.NewUserDao(ctx)
-	user, err := userDao.FindUserByUserName(req.UserName)
+	u, err := userDao.FindUserByUserName(req.UserName)
 	switch err {
 	case gorm.ErrRecordNotFound:
-		user = &model.User{
+		u = &model.User{
 			UserName: req.UserName,
 		}
 		// 密码加密存储
-		if err = user.SetPassword(req.Password); err != nil {
+		if err = u.SetPassword(req.Password); err != nil {
 			util.LogrusObj.Info(err)
 			return
 		}
 
-		if err = userDao.CreateUser(user); err != nil {
+		if err = userDao.CreateUser(u); err != nil {
 			util.LogrusObj.Info(err)
 			return
 		}

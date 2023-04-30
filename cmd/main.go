@@ -3,7 +3,7 @@ package main
 import (
 	"to-do-list/conf"
 	"to-do-list/repository/cache"
-	"to-do-list/repository/dao"
+	"to-do-list/repository/db/dao"
 	"to-do-list/routes"
 )
 

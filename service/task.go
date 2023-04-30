@@ -9,7 +9,7 @@ import (
 
 	"to-do-list/pkg/ctl"
 	"to-do-list/pkg/util"
-	"to-do-list/repository/dao"
+	dao2 "to-do-list/repository/db/dao"
 	"to-do-list/repository/model"
 	"to-do-list/types"
 )
@@ -28,7 +28,7 @@ func GetTaskSrv() *TaskSrv {
 }
 
 func (s *TaskSrv) CreateTask(ctx context.Context, req *types.CreateTaskReq, userId uint) (resp interface{}, err error) {
-	u, err := dao.NewUserDao(ctx).FindUserByUserId(userId)
+	u, err := dao2.NewUserDao(ctx).FindUserByUserId(userId)
 	task := &model.Task{
 		User:      u,
 		Uid:       u.ID,
@@ -37,7 +37,7 @@ func (s *TaskSrv) CreateTask(ctx context.Context, req *types.CreateTaskReq, user
 		Status:    0,
 		StartTime: time.Now().Unix(),
 	}
-	err = dao.NewTaskDao(ctx).CreateTask(task)
+	err = dao2.NewTaskDao(ctx).CreateTask(task)
 	if err != nil {
 		util.LogrusObj.Info(err)
 		return
@@ -51,7 +51,7 @@ func (s *TaskSrv) ListTask(ctx context.Context, req *types.ListTasksReq) (resp i
 		util.LogrusObj.Info(err)
 		return
 	}
-	tasks, total, err := dao.NewTaskDao(ctx).ListTask(req.Start, req.Limit, u.Id)
+	tasks, total, err := dao2.NewTaskDao(ctx).ListTask(req.Start, req.Limit, u.Id)
 	if err != nil {
 		util.LogrusObj.Info(err)
 		return
@@ -79,7 +79,7 @@ func (s *TaskSrv) ShowTask(ctx context.Context, tId string) (resp interface{}, e
 		util.LogrusObj.Info(err)
 		return
 	}
-	task, err := dao.NewTaskDao(ctx).FindTaskByIdAndUserId(u.Id, cast.ToUint(tId))
+	task, err := dao2.NewTaskDao(ctx).FindTaskByIdAndUserId(u.Id, cast.ToUint(tId))
 	if err != nil {
 		util.LogrusObj.Info(err)
 		return
@@ -104,7 +104,7 @@ func (s *TaskSrv) DeleteTask(ctx context.Context, tId string) (resp interface{},
 		util.LogrusObj.Info(err)
 		return
 	}
-	err = dao.NewTaskDao(ctx).DeleteTaskById(u.Id, cast.ToUint(tId))
+	err = dao2.NewTaskDao(ctx).DeleteTaskById(u.Id, cast.ToUint(tId))
 	if err != nil {
 		util.LogrusObj.Info(err)
 		return
@@ -119,7 +119,7 @@ func (s *TaskSrv) UpdateTask(ctx context.Context, req *types.UpdateTaskReq, tId 
 		util.LogrusObj.Info(err)
 		return
 	}
-	err = dao.NewTaskDao(ctx).UpdateTask(u.Id, cast.ToUint(tId), req)
+	err = dao2.NewTaskDao(ctx).UpdateTask(u.Id, cast.ToUint(tId), req)
 	if err != nil {
 		util.LogrusObj.Info(err)
 		return
@@ -133,7 +133,7 @@ func (s *TaskSrv) SearchTask(ctx context.Context, req *types.SearchTaskReq) (res
 		util.LogrusObj.Info(err)
 		return
 	}
-	tasks, err := dao.NewTaskDao(ctx).SearchTask(u.Id, req.Info)
+	tasks, err := dao2.NewTaskDao(ctx).SearchTask(u.Id, req.Info)
 	if err != nil {
 		util.LogrusObj.Info(err)
 		return
