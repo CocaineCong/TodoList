@@ -7,11 +7,10 @@ import (
 
 	"gorm.io/gorm"
 
-	"to-do-list/pkg/e"
+	"to-do-list/pkg/ctl"
 	"to-do-list/pkg/util"
 	"to-do-list/repository/dao"
 	"to-do-list/repository/model"
-	"to-do-list/serializer"
 	"to-do-list/types"
 )
 
@@ -39,48 +38,53 @@ func (s *UserSrv) Register(ctx context.Context, req *types.UserServiceReq) (resp
 		// 密码加密存储
 		if err = user.SetPassword(req.Password); err != nil {
 			util.LogrusObj.Info(err)
-			return nil, err
+			return
 		}
 
 		if err = userDao.CreateUser(user); err != nil {
 			util.LogrusObj.Info(err)
-			return nil, err
+			return
 		}
 
-		return serializer.Response{
-			Status: e.SUCCESS,
-			Msg:    e.GetMsg(e.SUCCESS),
-		}, nil
+		return ctl.RespSuccess(), nil
 	case nil:
-		return nil, errors.New("用户已存在")
+		err = errors.New("用户已存在")
+		return
 	default:
-		return nil, err
+		return
 	}
 }
 
 // Login 用户登陆函数
 func (s *UserSrv) Login(ctx context.Context, req *types.UserServiceReq) (resp interface{}, err error) {
-
 	userDao := dao.NewUserDao(ctx)
 	user, err := userDao.FindUserByUserName(req.UserName)
 	if err == gorm.ErrRecordNotFound {
-		return nil, errors.New("用户不存在，请注册！")
+		util.LogrusObj.Info(err)
+		return
 	}
+
 	if !user.CheckPassword(req.Password) {
-		return nil, errors.New("账号/密码错误")
+		err = errors.New("账号/密码错误")
+		util.LogrusObj.Info(err)
+		return
 	}
+
 	token, err := util.GenerateToken(user.ID, req.UserName, 0)
 	if err != nil {
 		util.LogrusObj.Info(err)
-		return nil, err
+		return
 	}
 
-	return &serializer.Response{
-		Data: types.TokenData{
-			User:  serializer.BuildUser(user),
-			Token: token,
-		},
-		Status: e.SUCCESS,
-		Msg:    e.GetMsg(e.SUCCESS),
-	}, nil
+	u := &types.UserResp{
+		ID:       user.ID,
+		UserName: user.UserName,
+		CreateAt: user.CreatedAt.Unix(),
+	}
+	uResp := &types.TokenData{
+		User:  u,
+		Token: token,
+	}
+
+	return ctl.RespSuccessWithData(uResp), nil
 }
