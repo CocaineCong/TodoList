@@ -11,7 +11,7 @@ import (
 	"github.com/gin-gonic/gin"
 )
 
-// CreateTask @Tags TASK
+// CreateTaskHandler @Tags TASK
 // @Summary 创建任务
 // @Produce json
 // @Accept json
@@ -20,7 +20,7 @@ import (
 // @Success 200 {object} serializer.ResponseTask "{"success":true,"data":{},"msg":"ok"}"
 // @Failure 500 {json} {"status":500,"data":{},"Msg":{},"Error":"error"}
 // @Router /task [post]
-func CreateTask() gin.HandlerFunc {
+func CreateTaskHandler() gin.HandlerFunc {
 	return func(ctx *gin.Context) {
 		var req types.CreateTaskReq
 		if err := ctx.ShouldBind(&req); err == nil {
@@ -40,7 +40,7 @@ func CreateTask() gin.HandlerFunc {
 	}
 }
 
-// ListTasks @Tags TASK
+// ListTasksHandler @Tags TASK
 // @Summary 获取任务列表
 // @Produce json
 // @Accept json
@@ -49,7 +49,7 @@ func CreateTask() gin.HandlerFunc {
 // @Success 200 {object} serializer.ResponseTask "{"success":true,"data":{},"msg":"ok"}"
 // @Failure 500 {json} {"status":500,"data":{},"Msg":{},"Error":"error"}
 // @Router /tasks [get]
-func ListTasks() gin.HandlerFunc {
+func ListTasksHandler() gin.HandlerFunc {
 	return func(ctx *gin.Context) {
 		var req types.ListTasksReq
 		if err := ctx.ShouldBind(&req); err == nil {
@@ -72,7 +72,7 @@ func ListTasks() gin.HandlerFunc {
 	}
 }
 
-// ShowTask @Tags TASK
+// ShowTaskHandler @Tags TASK
 // @Summary 展示任务详细信息
 // @Produce json
 // @Accept json
@@ -81,7 +81,7 @@ func ListTasks() gin.HandlerFunc {
 // @Success 200 {object} serializer.ResponseTask "{"success":true,"data":{},"msg":"ok"}"
 // @Failure 500 {json} {"status":500,"data":{},"Msg":{},"Error":"error"}
 // @Router /task/:id [get]
-func ShowTask() gin.HandlerFunc {
+func ShowTaskHandler() gin.HandlerFunc {
 	return func(ctx *gin.Context) {
 		var req types.ShowTaskReq
 		if err := ctx.ShouldBind(&req); err == nil {
@@ -101,7 +101,7 @@ func ShowTask() gin.HandlerFunc {
 	}
 }
 
-// DeleteTask @Tags TASK
+// DeleteTaskHandler @Tags TASK
 // @Summary 删除任务
 // @Produce json
 // @Accept json
@@ -110,7 +110,7 @@ func ShowTask() gin.HandlerFunc {
 // @Success 200 {object} serializer.Response "{"success":true,"data":{},"msg":"ok"}"
 // @Failure 500 {json} {"status":500,"data":{},"Msg":{},"Error":"error"}
 // @Router /task/:id [delete]
-func DeleteTask() gin.HandlerFunc {
+func DeleteTaskHandler() gin.HandlerFunc {
 	return func(ctx *gin.Context) {
 		var req types.DeleteTaskReq
 		if err := ctx.ShouldBind(&req); err == nil {
@@ -130,7 +130,7 @@ func DeleteTask() gin.HandlerFunc {
 	}
 }
 
-// UpdateTask @Tags TASK
+// UpdateTaskHandler @Tags TASK
 // @Summary 修改任务
 // @Produce json
 // @Accept json
@@ -139,7 +139,7 @@ func DeleteTask() gin.HandlerFunc {
 // @Success 200 {object} serializer.Response "{"success":true,"data":{},"msg":"ok"}"
 // @Failure 500 {json} {"status":500,"data":{},"Msg":{},"Error":"error"}
 // @Router /task [put]
-func UpdateTask() gin.HandlerFunc {
+func UpdateTaskHandler() gin.HandlerFunc {
 	return func(ctx *gin.Context) {
 		req := new(types.UpdateTaskReq)
 		if err := ctx.ShouldBind(&req); err == nil {
@@ -159,7 +159,7 @@ func UpdateTask() gin.HandlerFunc {
 	}
 }
 
-// SearchTasks @Tags TASK
+// SearchTasksHandler @Tags TASK
 // @Summary 查询任务
 // @Produce json
 // @Accept json
@@ -168,7 +168,7 @@ func UpdateTask() gin.HandlerFunc {
 // @Success 200 {object} serializer.Response "{"success":true,"data":{},"msg":"ok"}"
 // @Failure 500 {json} {"status":500,"data":{},"Msg":{},"Error":"error"}
 // @Router /search [post]
-func SearchTasks() gin.HandlerFunc {
+func SearchTasksHandler() gin.HandlerFunc {
 	return func(ctx *gin.Context) {
 		req := new(types.SearchTaskReq)
 		if err := ctx.ShouldBind(&req); err == nil {

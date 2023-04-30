@@ -4,7 +4,7 @@
 
 **此项目比较适合小白入门`web开发`这一方面**
 
-## 注意，这里的版本已经更新了！！
+## 注意，最新版本是v2
 
 # 详细教程
 
@@ -64,19 +64,26 @@ B站: https://www.bilibili.com/video/BV1GT4y1R7tX \
 ```shell
 TodoList/
 ├── api
-├── cache
+├── cmd
 ├── conf
+├── consts
+├── docs
 ├── middleware
 ├── model
 ├── pkg
 │  ├── e
-│  └──  util
+│  └── util
 ├── routes
-├── serializer
-└── service
+├── respository
+│  ├── cache
+│  ├── dao
+│  └── model
+├── routes
+├── service
+└── types
 ```
 
-- api : 用于定义接口函数
+- api : 用于定义接口函数,也就是controller层
 - cache : 放置redis缓存
 - conf : 用于存储配置文件
 - middleware : 应用中间件
