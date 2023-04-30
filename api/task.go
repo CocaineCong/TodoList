@@ -26,7 +26,7 @@ func CreateTaskHandler() gin.HandlerFunc {
 		if err := ctx.ShouldBind(&req); err == nil {
 			// 参数校验
 			l := service.GetTaskSrv()
-			resp, err := l.CreateTask(ctx.Request.Context(), &req, ctx.Keys["user_id"].(uint))
+			resp, err := l.CreateTask(ctx.Request.Context(), &req)
 			if err != nil {
 				ctx.JSON(http.StatusInternalServerError, ErrorResponse(err))
 				return

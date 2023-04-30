@@ -27,11 +27,20 @@ func GetTaskSrv() *TaskSrv {
 	return TaskSrvIns
 }
 
-func (s *TaskSrv) CreateTask(ctx context.Context, req *types.CreateTaskReq, userId uint) (resp interface{}, err error) {
-	u, err := dao.NewUserDao(ctx).FindUserByUserId(userId)
+func (s *TaskSrv) CreateTask(ctx context.Context, req *types.CreateTaskReq) (resp interface{}, err error) {
+	u, err := ctl.GetUserInfo(ctx)
+	if err != nil {
+		util.LogrusObj.Info(err)
+		return
+	}
+	user, err := dao.NewUserDao(ctx).FindUserByUserId(u.Id)
+	if err != nil {
+		util.LogrusObj.Info(err)
+		return
+	}
 	task := &model.Task{
-		User:      *u,
-		Uid:       u.ID,
+		User:      *user,
+		Uid:       user.ID,
 		Title:     req.Title,
 		Content:   req.Content,
 		Status:    0,
