@@ -10,7 +10,7 @@ import (
 	"to-do-list/pkg/ctl"
 	"to-do-list/pkg/util"
 	"to-do-list/repository/db/dao"
-	"to-do-list/repository/model"
+	"to-do-list/repository/db/model"
 	"to-do-list/types"
 )
 
