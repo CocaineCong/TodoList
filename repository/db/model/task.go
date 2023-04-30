@@ -5,13 +5,13 @@ import (
 
 	"github.com/jinzhu/gorm"
 
-	"to-do-list/cache"
+	"to-do-list/repository/cache"
 )
 
 // 任务模型
 type Task struct {
 	gorm.Model
-	User      *User  `gorm:"ForeignKey:Uid"`
+	User      User   `gorm:"ForeignKey:Uid"`
 	Uid       uint   `gorm:"not null"`
 	Title     string `gorm:"index;not null"`
 	Status    int    `gorm:"default:0"`
@@ -27,7 +27,7 @@ func (Task *Task) View() uint64 {
 	return count
 }
 
-// AddView 增加阅读数
+// AddView
 func (Task *Task) AddView() {
 	cache.RedisClient.Incr(cache.TaskViewKey(Task.ID))                      // 增加视频点击数
 	cache.RedisClient.ZIncrBy(cache.RankKey, 1, strconv.Itoa(int(Task.ID))) // 增加排行点击数

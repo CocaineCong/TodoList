@@ -1,24 +1,25 @@
 package conf
 
 import (
-	"strings"
-
 	"gopkg.in/ini.v1"
 
-	"to-do-list/cache"
 	"to-do-list/pkg/util"
-	"to-do-list/repository/dao"
 )
 
 var (
-	AppMode    string
-	HttpPort   string
+	AppMode  string
+	HttpPort string
+
 	Db         string
 	DbHost     string
 	DbPort     string
 	DbUser     string
 	DbPassWord string
 	DbName     string
+
+	RedisAddr   string
+	RedisPw     string
+	RedisDbName string
 )
 
 func Init() {
@@ -33,9 +34,7 @@ func Init() {
 	}
 	LoadServer(file)
 	LoadMysqlData(file)
-	path := strings.Join([]string{DbUser, ":", DbPassWord, "@tcp(", DbHost, ":", DbPort, ")/", DbName, "?charset=utf8&parseTime=true"}, "")
-	dao.Database(path)
-	cache.Redis()
+	LoadRedis(file)
 }
 
 func LoadServer(file *ini.File) {
@@ -50,4 +49,10 @@ func LoadMysqlData(file *ini.File) {
 	DbUser = file.Section("mysql").Key("DbUser").String()
 	DbPassWord = file.Section("mysql").Key("DbPassWord").String()
 	DbName = file.Section("mysql").Key("DbName").String()
+}
+
+func LoadRedis(file *ini.File) {
+	RedisAddr = file.Section("redis").Key("RedisAddr").String()
+	RedisPw = file.Section("redis").Key("RedisPw").String()
+	RedisDbName = file.Section("redis").Key("RedisDbName").String()
 }

@@ -25,18 +25,21 @@ func NewRouter() *gin.Engine {
 			c.JSON(200, "success")
 		})
 		// 用户操作
-		v1.POST("user/register", api.UserRegister())
-		v1.POST("user/login", api.UserLogin())
+		v1.POST("user/register", api.UserRegisterHandler())
+		v1.POST("user/login", api.UserLoginHandler())
 		authed := v1.Group("/") // 需要登陆保护
 		authed.Use(middleware.JWT())
 		{
 			// 任务操作
-			authed.GET("tasks", api.ListTasks())
-			authed.POST("task", api.CreateTask())
-			authed.GET("task/:id", api.ShowTask())
-			authed.DELETE("task/:id", api.DeleteTask())
-			authed.PUT("task/:id", api.UpdateTask())
-			authed.POST("search", api.SearchTasks())
+			authed.GET("tasks", api.ListTasksHandler())
+			authed.POST("task", api.CreateTaskHandler())
+			authed.GET("task/:id", api.ShowTaskHandler())
+			authed.DELETE("task/:id", api.DeleteTaskHandler())
+			authed.PUT("task/:id", api.UpdateTaskHandler())
+			authed.POST("search", api.SearchTasksHandler())
+			// Tip: 这个RESTful api的路由其实一般不怎么用，RESTful风格的路由算 模糊路由
+			// 但是在企业实际生产中，我们一般需要 精确路由 给到网关进行对应的配置，所以我们的请求一般都是清一色的GET、POST
+			// 虽然RESTful不怎么用，但是也是要知道，也要会使用这个风格。
 		}
 	}
 	return r

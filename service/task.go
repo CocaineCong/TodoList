@@ -7,11 +7,10 @@ import (
 
 	"github.com/spf13/cast"
 
-	"to-do-list/pkg/e"
+	"to-do-list/pkg/ctl"
 	"to-do-list/pkg/util"
-	"to-do-list/repository/dao"
-	model2 "to-do-list/repository/model"
-	"to-do-list/serializer"
+	dao2 "to-do-list/repository/db/dao"
+	"to-do-list/repository/model"
 	"to-do-list/types"
 )
 
@@ -29,8 +28,8 @@ func GetTaskSrv() *TaskSrv {
 }
 
 func (s *TaskSrv) CreateTask(ctx context.Context, req *types.CreateTaskReq, userId uint) (resp interface{}, err error) {
-	u, err := dao.NewUserDao(ctx).FindUserByUserId(userId)
-	task := &model2.Task{
+	u, err := dao2.NewUserDao(ctx).FindUserByUserId(userId)
+	task := &model.Task{
 		User:      u,
 		Uid:       u.ID,
 		Title:     req.Title,
@@ -38,88 +37,106 @@ func (s *TaskSrv) CreateTask(ctx context.Context, req *types.CreateTaskReq, user
 		Status:    0,
 		StartTime: time.Now().Unix(),
 	}
-	code := e.SUCCESS
-	err = dao.NewTaskDao(ctx).CreateTask(task)
+	err = dao2.NewTaskDao(ctx).CreateTask(task)
 	if err != nil {
 		util.LogrusObj.Info(err)
-		return nil, err
+		return
 	}
-	return serializer.Response{
-		Status: code,
-		Data:   serializer.BuildTask(task),
-		Msg:    e.GetMsg(code),
-	}, nil
+	return ctl.RespSuccess(), nil
 }
 
-func (s *TaskSrv) ListTask(ctx context.Context, req *types.ListTasksReq, uId uint) (*serializer.Response, error) {
-	if req.Limit == 0 {
-		req.Limit = 15
-	}
-	tasks, total, err := dao.NewTaskDao(ctx).ListTask(req.Start, req.Limit, uId)
+func (s *TaskSrv) ListTask(ctx context.Context, req *types.ListTasksReq) (resp interface{}, err error) {
+	u, err := ctl.GetUserInfo(ctx)
 	if err != nil {
-		return nil, err
+		util.LogrusObj.Info(err)
+		return
 	}
-	return serializer.BuildListResponse(serializer.BuildTasks(tasks), uint(total)), nil
+	tasks, total, err := dao2.NewTaskDao(ctx).ListTask(req.Start, req.Limit, u.Id)
+	if err != nil {
+		util.LogrusObj.Info(err)
+		return
+	}
+	taskRespList := make([]*types.TaskResp, 0)
+	for _, v := range tasks {
+		taskRespList = append(taskRespList, &types.TaskResp{
+			ID:        v.ID,
+			Title:     v.Title,
+			Content:   v.Content,
+			View:      v.View(),
+			Status:    v.Status,
+			CreatedAt: v.CreatedAt.Unix(),
+			StartTime: v.StartTime,
+			EndTime:   v.EndTime,
+		})
+	}
+	return ctl.RespList(taskRespList, total), nil
 }
 
 // ShowTask 展示Task作用
-func (s *TaskSrv) ShowTask(ctx context.Context, uId uint, tId string) (resp interface{}, err error) {
-	code := e.SUCCESS
-	task, err := dao.NewTaskDao(ctx).FindTaskByIdAndUserId(uId, cast.ToUint(tId))
+func (s *TaskSrv) ShowTask(ctx context.Context, tId string) (resp interface{}, err error) {
+	u, err := ctl.GetUserInfo(ctx)
 	if err != nil {
 		util.LogrusObj.Info(err)
-		code = e.ErrorDatabase
-		return nil, err
+		return
+	}
+	task, err := dao2.NewTaskDao(ctx).FindTaskByIdAndUserId(u.Id, cast.ToUint(tId))
+	if err != nil {
+		util.LogrusObj.Info(err)
+		return
+	}
+	respTask := &types.TaskResp{
+		ID:        task.ID,
+		Title:     task.Title,
+		Content:   task.Content,
+		View:      task.View(),
+		Status:    task.Status,
+		CreatedAt: task.CreatedAt.Unix(),
+		StartTime: task.StartTime,
+		EndTime:   task.EndTime,
 	}
 	task.AddView() // 增加点击数
-	return serializer.Response{
-		Status: code,
-		Data:   serializer.BuildTask(task),
-		Msg:    e.GetMsg(code),
-	}, nil
+	return ctl.RespSuccessWithData(respTask), nil
 }
 
-func (s *TaskSrv) DeleteTask(ctx context.Context, uId uint, tId string) (resp interface{}, err error) {
-	code := e.SUCCESS
-	taskDao := dao.NewTaskDao(ctx)
-
-	err = taskDao.DeleteTaskById(uId, cast.ToUint(tId))
+func (s *TaskSrv) DeleteTask(ctx context.Context, tId string) (resp interface{}, err error) {
+	u, err := ctl.GetUserInfo(ctx)
 	if err != nil {
 		util.LogrusObj.Info(err)
-		code = e.ErrorDatabase
-		return nil, err
+		return
+	}
+	err = dao2.NewTaskDao(ctx).DeleteTaskById(u.Id, cast.ToUint(tId))
+	if err != nil {
+		util.LogrusObj.Info(err)
+		return
 	}
 
-	return serializer.Response{
-		Status: code,
-		Msg:    e.GetMsg(code),
-	}, nil
+	return ctl.RespSuccess(), nil
 }
 
-func (s *TaskSrv) UpdateTask(ctx context.Context, req *types.UpdateTaskReq, uId uint, tId string) (resp interface{}, err error) {
-	err = dao.NewTaskDao(ctx).UpdateTask(uId, cast.ToUint(tId), req)
+func (s *TaskSrv) UpdateTask(ctx context.Context, req *types.UpdateTaskReq, tId string) (resp interface{}, err error) {
+	u, err := ctl.GetUserInfo(ctx)
 	if err != nil {
 		util.LogrusObj.Info(err)
-		return nil, err
+		return
 	}
-	code := e.SUCCESS
-	return serializer.Response{
-		Status: code,
-		Msg:    e.GetMsg(code),
-		Data:   "修改成功",
-	}, nil
+	err = dao2.NewTaskDao(ctx).UpdateTask(u.Id, cast.ToUint(tId), req)
+	if err != nil {
+		util.LogrusObj.Info(err)
+		return
+	}
+	return ctl.RespSuccess(), nil
 }
 
-func (s *TaskSrv) SearchTask(ctx context.Context, req *types.SearchTaskReq, uId uint) (resp interface{}, err error) {
-	tasks, err := dao.NewTaskDao(ctx).SearchTask(uId, req.Info)
+func (s *TaskSrv) SearchTask(ctx context.Context, req *types.SearchTaskReq) (resp interface{}, err error) {
+	u, err := ctl.GetUserInfo(ctx)
 	if err != nil {
 		util.LogrusObj.Info(err)
-		return nil, err
+		return
 	}
-	code := e.SUCCESS
-	return serializer.Response{
-		Status: code,
-		Msg:    e.GetMsg(code),
-		Data:   serializer.BuildTasks(tasks),
-	}, nil
+	tasks, err := dao2.NewTaskDao(ctx).SearchTask(u.Id, req.Info)
+	if err != nil {
+		util.LogrusObj.Info(err)
+		return
+	}
+	return ctl.RespSuccessWithData(tasks), nil
 }

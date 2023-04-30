@@ -2,6 +2,7 @@ package dao
 
 import (
 	"context"
+	"strings"
 	"time"
 
 	"github.com/gin-gonic/gin"
@@ -9,11 +10,14 @@ import (
 	"gorm.io/gorm"
 	"gorm.io/gorm/logger"
 	"gorm.io/gorm/schema"
+
+	"to-do-list/conf"
 )
 
 var _db *gorm.DB
 
-func Database(conn string) {
+func MySQLInit() {
+	conn := strings.Join([]string{conf.DbUser, ":", conf.DbPassWord, "@tcp(", conf.DbHost, ":", conf.DbPort, ")/", conf.DbName, "?charset=utf8&parseTime=true"}, "")
 	var ormLogger logger.Interface
 	if gin.Mode() == "debug" {
 		ormLogger = logger.Default.LogMode(logger.Info)

@@ -4,7 +4,7 @@
 
 **此项目比较适合小白入门`web开发`这一方面**
 
-## 注意，这里的版本已经更新了！！
+## 注意，最新版本是v2
 
 # 详细教程
 
@@ -64,29 +64,40 @@ B站: https://www.bilibili.com/video/BV1GT4y1R7tX \
 ```shell
 TodoList/
 ├── api
-├── cache
+├── cmd
 ├── conf
+├── consts
+├── docs
 ├── middleware
-├── model
 ├── pkg
 │  ├── e
-│  └──  util
+│  └── util
 ├── routes
-├── serializer
-└── service
+├── respository
+│  ├── cache
+│  └── db
+│     ├── dao
+│     └── model
+├── routes
+├── service
+└── types
 ```
 
-- api : 用于定义接口函数
-- cache : 放置redis缓存
+- api : 用于定义接口函数,也就是controller层
+- cmd : 程序启动
 - conf : 用于存储配置文件
 - middleware : 应用中间件
-- model : 应用数据库模型
 - pkg/e : 封装错误码
 - pkg/logging : 日志打印
 - pkg/util : 工具函数
+- repository: 仓库放置所有存储
+- repository/cache: 放置redis缓存
+- repository/db: 持久层MySQL仓库
+- repository/db/dao: 对db进行操作的dao层
+- repository/db/model: 定义所有持久层数据库表结构的model层
 - routes : 路由逻辑处理
-- serializer : 将数据序列化为 json 的函数
 - service : 接口函数的实现
+- types : 放置所有的定义的结构体
 
 ## 配置文件
 配置文件在conf/config.ini.example中，把.example去掉，然后根据自己的情况配置就好了

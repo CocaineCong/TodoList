@@ -7,32 +7,23 @@ import (
 	"gopkg.in/go-playground/validator.v8"
 
 	"to-do-list/conf"
-	"to-do-list/serializer"
+	"to-do-list/pkg/ctl"
+	"to-do-list/pkg/e"
 )
 
-// 返回错误信息 ErrorResponse
-func ErrorResponse(err error) serializer.Response {
+// ErrorResponse 返回错误信息
+func ErrorResponse(err error) *ctl.TrackedErrorResponse {
 	if ve, ok := err.(validator.ValidationErrors); ok {
-		for _, e := range ve {
-			field := conf.T(fmt.Sprintf("Field.%s", e.Field))
-			tag := conf.T(fmt.Sprintf("Tag.Valid.%s", e.Tag))
-			return serializer.Response{
-				Status: 40001,
-				Msg:    fmt.Sprintf("%s%s", field, tag),
-				Error:  fmt.Sprint(err),
-			}
+		for _, fieldError := range ve {
+			field := conf.T(fmt.Sprintf("Field.%s", fieldError.Field))
+			tag := conf.T(fmt.Sprintf("Tag.Valid.%s", fieldError.Tag))
+			return ctl.RespError(err, fmt.Sprintf("%s%s", field, tag))
 		}
 	}
+
 	if _, ok := err.(*json.UnmarshalTypeError); ok {
-		return serializer.Response{
-			Status: 40001,
-			Msg:    "JSON类型不匹配",
-			Error:  fmt.Sprint(err),
-		}
+		return ctl.RespError(err, "JSON类型不匹配")
 	}
-	return serializer.Response{
-		Status: 40001,
-		Msg:    "参数错误",
-		Error:  fmt.Sprint(err),
-	}
+
+	return ctl.RespError(err, "参数错误", e.InvalidParams)
 }
