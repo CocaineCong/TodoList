@@ -1,7 +1,7 @@
 package dao
 
 import (
-	"to-do-list/repository/model"
+	"to-do-list/repository/db/model"
 )
 
 // 执行数据迁移
