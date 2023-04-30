@@ -3,6 +3,7 @@ package api
 import (
 	"net/http"
 
+	"to-do-list/consts"
 	"to-do-list/pkg/util"
 	"to-do-list/service"
 	"to-do-list/types"
@@ -53,8 +54,11 @@ func ListTasks() gin.HandlerFunc {
 		var req types.ListTasksReq
 		if err := ctx.ShouldBind(&req); err == nil {
 			// 参数校验
+			if req.Limit == 0 {
+				req.Limit = consts.BasePageLimit
+			}
 			l := service.GetTaskSrv()
-			resp, err := l.ListTask(ctx.Request.Context(), &req, ctx.Keys["user_id"].(uint))
+			resp, err := l.ListTask(ctx.Request.Context(), &req)
 			if err != nil {
 				ctx.JSON(http.StatusInternalServerError, ErrorResponse(err))
 				return
@@ -83,7 +87,7 @@ func ShowTask() gin.HandlerFunc {
 		if err := ctx.ShouldBind(&req); err == nil {
 			// 参数校验
 			l := service.GetTaskSrv()
-			resp, err := l.ShowTask(ctx.Request.Context(), ctx.Keys["user_id"].(uint), ctx.Param("id"))
+			resp, err := l.ShowTask(ctx.Request.Context(), ctx.Param("id"))
 			if err != nil {
 				ctx.JSON(http.StatusInternalServerError, ErrorResponse(err))
 				return
@@ -112,7 +116,7 @@ func DeleteTask() gin.HandlerFunc {
 		if err := ctx.ShouldBind(&req); err == nil {
 			// 参数校验
 			l := service.GetTaskSrv()
-			resp, err := l.DeleteTask(ctx.Request.Context(), ctx.Keys["user_id"].(uint), ctx.Param("id"))
+			resp, err := l.DeleteTask(ctx.Request.Context(), ctx.Param("id"))
 			if err != nil {
 				ctx.JSON(http.StatusInternalServerError, ErrorResponse(err))
 				return
@@ -141,7 +145,7 @@ func UpdateTask() gin.HandlerFunc {
 		if err := ctx.ShouldBind(&req); err == nil {
 			// 参数校验
 			l := service.GetTaskSrv()
-			resp, err := l.UpdateTask(ctx.Request.Context(), req, ctx.Keys["user_id"].(uint), ctx.Param("id"))
+			resp, err := l.UpdateTask(ctx.Request.Context(), req, ctx.Param("id"))
 			if err != nil {
 				ctx.JSON(http.StatusInternalServerError, ErrorResponse(err))
 				return
@@ -170,7 +174,7 @@ func SearchTasks() gin.HandlerFunc {
 		if err := ctx.ShouldBind(&req); err == nil {
 			// 参数校验
 			l := service.GetTaskSrv()
-			resp, err := l.SearchTask(ctx.Request.Context(), req, ctx.Keys["user_id"].(uint))
+			resp, err := l.SearchTask(ctx.Request.Context(), req)
 			if err != nil {
 				ctx.JSON(http.StatusInternalServerError, ErrorResponse(err))
 				return

@@ -45,11 +45,13 @@ func (s *TaskSrv) CreateTask(ctx context.Context, req *types.CreateTaskReq, user
 	return ctl.RespSuccess(), nil
 }
 
-func (s *TaskSrv) ListTask(ctx context.Context, req *types.ListTasksReq, uId uint) (resp interface{}, err error) {
-	if req.Limit == 0 {
-		req.Limit = 15
+func (s *TaskSrv) ListTask(ctx context.Context, req *types.ListTasksReq) (resp interface{}, err error) {
+	u, err := ctl.GetUserInfo(ctx)
+	if err != nil {
+		util.LogrusObj.Info(err)
+		return
 	}
-	tasks, total, err := dao.NewTaskDao(ctx).ListTask(req.Start, req.Limit, uId)
+	tasks, total, err := dao.NewTaskDao(ctx).ListTask(req.Start, req.Limit, u.Id)
 	if err != nil {
 		util.LogrusObj.Info(err)
 		return
@@ -71,11 +73,16 @@ func (s *TaskSrv) ListTask(ctx context.Context, req *types.ListTasksReq, uId uin
 }
 
 // ShowTask 展示Task作用
-func (s *TaskSrv) ShowTask(ctx context.Context, uId uint, tId string) (resp interface{}, err error) {
-	task, err := dao.NewTaskDao(ctx).FindTaskByIdAndUserId(uId, cast.ToUint(tId))
+func (s *TaskSrv) ShowTask(ctx context.Context, tId string) (resp interface{}, err error) {
+	u, err := ctl.GetUserInfo(ctx)
 	if err != nil {
 		util.LogrusObj.Info(err)
-		return nil, err
+		return
+	}
+	task, err := dao.NewTaskDao(ctx).FindTaskByIdAndUserId(u.Id, cast.ToUint(tId))
+	if err != nil {
+		util.LogrusObj.Info(err)
+		return
 	}
 	respTask := &types.TaskResp{
 		ID:        task.ID,
@@ -91,27 +98,42 @@ func (s *TaskSrv) ShowTask(ctx context.Context, uId uint, tId string) (resp inte
 	return ctl.RespSuccessWithData(respTask), nil
 }
 
-func (s *TaskSrv) DeleteTask(ctx context.Context, uId uint, tId string) (resp interface{}, err error) {
-	err = dao.NewTaskDao(ctx).DeleteTaskById(uId, cast.ToUint(tId))
+func (s *TaskSrv) DeleteTask(ctx context.Context, tId string) (resp interface{}, err error) {
+	u, err := ctl.GetUserInfo(ctx)
 	if err != nil {
 		util.LogrusObj.Info(err)
-		return nil, err
+		return
+	}
+	err = dao.NewTaskDao(ctx).DeleteTaskById(u.Id, cast.ToUint(tId))
+	if err != nil {
+		util.LogrusObj.Info(err)
+		return
 	}
 
 	return ctl.RespSuccess(), nil
 }
 
-func (s *TaskSrv) UpdateTask(ctx context.Context, req *types.UpdateTaskReq, uId uint, tId string) (resp interface{}, err error) {
-	err = dao.NewTaskDao(ctx).UpdateTask(uId, cast.ToUint(tId), req)
+func (s *TaskSrv) UpdateTask(ctx context.Context, req *types.UpdateTaskReq, tId string) (resp interface{}, err error) {
+	u, err := ctl.GetUserInfo(ctx)
 	if err != nil {
 		util.LogrusObj.Info(err)
-		return nil, err
+		return
+	}
+	err = dao.NewTaskDao(ctx).UpdateTask(u.Id, cast.ToUint(tId), req)
+	if err != nil {
+		util.LogrusObj.Info(err)
+		return
 	}
 	return ctl.RespSuccess(), nil
 }
 
-func (s *TaskSrv) SearchTask(ctx context.Context, req *types.SearchTaskReq, uId uint) (resp interface{}, err error) {
-	tasks, err := dao.NewTaskDao(ctx).SearchTask(uId, req.Info)
+func (s *TaskSrv) SearchTask(ctx context.Context, req *types.SearchTaskReq) (resp interface{}, err error) {
+	u, err := ctl.GetUserInfo(ctx)
+	if err != nil {
+		util.LogrusObj.Info(err)
+		return
+	}
+	tasks, err := dao.NewTaskDao(ctx).SearchTask(u.Id, req.Info)
 	if err != nil {
 		util.LogrusObj.Info(err)
 		return
