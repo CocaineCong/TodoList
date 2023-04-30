@@ -30,7 +30,7 @@ func GetUserSrv() *UserSrv {
 func (s *UserSrv) Register(ctx context.Context, req *types.UserServiceReq) (resp interface{}, err error) {
 	userDao := dao.NewUserDao(ctx)
 	u, err := userDao.FindUserByUserName(req.UserName)
-	switch err {
+	switch err { // TODO 优化一下
 	case gorm.ErrRecordNotFound:
 		u = &model.User{
 			UserName: req.UserName,
