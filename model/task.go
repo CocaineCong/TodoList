@@ -1,12 +1,14 @@
 package model
 
 import (
-	"github.com/jinzhu/gorm"
 	"strconv"
-	"to-do-list/cache"
+
+	"github.com/jinzhu/gorm"
+
+	cache2 "to-do-list/repository/cache"
 )
 
-//任务模型
+// 任务模型
 type Task struct {
 	gorm.Model
 	User      User   `gorm:"ForeignKey:Uid"`
@@ -19,14 +21,14 @@ type Task struct {
 }
 
 func (Task *Task) View() uint64 {
-	//增加点击数
-	countStr, _ := cache.RedisClient.Get(cache.TaskViewKey(Task.ID)).Result()
+	// 增加点击数
+	countStr, _ := cache2.RedisClient.Get(cache2.TaskViewKey(Task.ID)).Result()
 	count, _ := strconv.ParseUint(countStr, 10, 64)
 	return count
 }
 
-//AddView
+// AddView
 func (Task *Task) AddView() {
-	cache.RedisClient.Incr(cache.TaskViewKey(Task.ID))                      //增加视频点击数
-	cache.RedisClient.ZIncrBy(cache.RankKey, 1, strconv.Itoa(int(Task.ID))) //增加排行点击数
+	cache2.RedisClient.Incr(cache2.TaskViewKey(Task.ID))                      // 增加视频点击数
+	cache2.RedisClient.ZIncrBy(cache2.RankKey, 1, strconv.Itoa(int(Task.ID))) // 增加排行点击数
 }

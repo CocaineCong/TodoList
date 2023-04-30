@@ -10,7 +10,7 @@ import (
 	"to-do-list/pkg/e"
 	"to-do-list/pkg/util"
 	"to-do-list/repository/dao"
-	model2 "to-do-list/repository/model"
+	"to-do-list/repository/model"
 	"to-do-list/serializer"
 	"to-do-list/types"
 )
@@ -30,7 +30,7 @@ func GetTaskSrv() *TaskSrv {
 
 func (s *TaskSrv) CreateTask(ctx context.Context, req *types.CreateTaskReq, userId uint) (resp interface{}, err error) {
 	u, err := dao.NewUserDao(ctx).FindUserByUserId(userId)
-	task := &model2.Task{
+	task := &model.Task{
 		User:      u,
 		Uid:       u.ID,
 		Title:     req.Title,
