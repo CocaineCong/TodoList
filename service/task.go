@@ -147,5 +147,18 @@ func (s *TaskSrv) SearchTask(ctx context.Context, req *types.SearchTaskReq) (res
 		util.LogrusObj.Info(err)
 		return
 	}
-	return ctl.RespSuccessWithData(tasks), nil
+	taskRespList := make([]*types.TaskResp, 0)
+	for _, v := range tasks {
+		taskRespList = append(taskRespList, &types.TaskResp{
+			ID:        v.ID,
+			Title:     v.Title,
+			Content:   v.Content,
+			Status:    v.Status,
+			View:      v.View(),
+			CreatedAt: v.CreatedAt.Unix(),
+			StartTime: v.StartTime,
+			EndTime:   v.EndTime,
+		})
+	}
+	return ctl.RespList(taskRespList, int64(len(taskRespList))), nil
 }
