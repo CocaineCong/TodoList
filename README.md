@@ -150,6 +150,6 @@ go mod tidy
 **运行**
 
 ```shell
-go run main.go
+go run .\cmd\main.go
 ```
 
