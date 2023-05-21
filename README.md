@@ -12,6 +12,35 @@ B站: https://www.bilibili.com/video/BV1GT4y1R7tX \
 
 博客: https://blog.csdn.net/weixin_45304503/article/details/120680957
 
+
+## 项目运行
+### 手动执行
+**本项目使用`Go Mod`管理依赖。**
+
+将所有环境拉取启动
+
+```shell
+make env-up
+```
+
+**下载依赖**
+
+```shell
+go mod tidy
+```
+
+**运行**
+
+```shell
+go run ./cmd/main.go
+```
+
+将所有环境关闭并删除
+
+```shell
+make env-down
+```
+
 # 接口文档
 
 [Todo List 接口文档](https://www.showdoc.cc/1510696761141710)
@@ -136,20 +165,3 @@ DbName =
 ## 简要说明
 1. `mysql`是存储主要数据
 2. `redis`用来存储备忘录的浏览次数
-
-## 项目运行
-
-**本项目使用`Go Mod`管理依赖。**
-
-**下载依赖**
-
-```shell
-go mod tidy
-```
-
-**运行**
-
-```shell
-go run main.go
-```
-
