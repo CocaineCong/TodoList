@@ -43,9 +43,9 @@ func (s *TaskDao) FindTaskByIdAndUserId(uId, id uint) (r *model.Task, err error)
 }
 
 // UpdateTask 修改
-func (s *TaskDao) UpdateTask(uId, tId uint, req *types.UpdateTaskReq) error {
+func (s *TaskDao) UpdateTask(uId uint, req *types.UpdateTaskReq) error {
 	t := new(model.Task)
-	err := s.Model(&model.Task{}).Where("id = ? AND uid=?", tId, uId).First(&t).Error
+	err := s.Model(&model.Task{}).Where("id = ? AND uid=?", req.ID, uId).First(&t).Error
 	if err != nil {
 		return err
 	}

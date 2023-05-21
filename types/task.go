@@ -1,9 +1,11 @@
 package types
 
 type ShowTaskReq struct {
+	Id uint `json:"id" form:"id"`
 }
 
 type DeleteTaskReq struct {
+	Id uint `json:"id" form:"id"`
 }
 
 type UpdateTaskReq struct {

@@ -31,12 +31,12 @@ func NewRouter() *gin.Engine {
 		authed.Use(middleware.JWT())
 		{
 			// 任务操作
-			authed.GET("tasks", api.ListTasksHandler())
-			authed.POST("task", api.CreateTaskHandler())
-			authed.GET("task/:id", api.ShowTaskHandler())
-			authed.DELETE("task/:id", api.DeleteTaskHandler())
-			authed.PUT("task/:id", api.UpdateTaskHandler())
-			authed.POST("search", api.SearchTasksHandler())
+			authed.POST("task_create", api.CreateTaskHandler())
+			authed.GET("task_list", api.ListTaskHandler())
+			authed.GET("task_show", api.ShowTaskHandler())
+			authed.POST("task_update", api.UpdateTaskHandler())
+			authed.POST("task_search", api.SearchTaskHandler())
+			authed.POST("task_delete", api.DeleteTaskHandler())
 			// Tip: 这个RESTful api的路由其实一般不怎么用，RESTful风格的路由算 模糊路由
 			// 但是在企业实际生产中，我们一般需要 精确路由 给到网关进行对应的配置，所以我们的请求一般都是清一色的GET、POST
 			// 虽然RESTful不怎么用，但是也是要知道，也要会使用这个风格。

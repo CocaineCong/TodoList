@@ -84,15 +84,15 @@
 								},
 								{
 									"key": "Date",
-									"value": "Fri, 03 Jun 2022 11:32:05 GMT"
+									"value": "Sun, 21 May 2023 11:00:45 GMT"
 								},
 								{
 									"key": "Content-Length",
-									"value": "48"
+									"value": "68"
 								}
 							],
 							"cookie": [],
-							"body": "{\n    \"status\": 200,\n    \"data\": null,\n    \"msg\": \"ok\",\n    \"error\": \"\"\n}"
+							"body": "{\n    \"status\": 200,\n    \"data\": \"操作成功\",\n    \"msg\": \"操作成功\",\n    \"error\": \"\"\n}"
 						}
 					]
 				},
@@ -215,19 +215,18 @@
 								{
 									"key": "status",
 									"value": "1",
-									"type": "text",
-									"disabled": true
+									"type": "text"
 								}
 							]
 						},
 						"url": {
-							"raw": "{{url}}api/v1/task",
+							"raw": "{{url}}api/v1/task_create",
 							"host": [
 								"{{url}}api"
 							],
 							"path": [
 								"v1",
-								"task"
+								"task_create"
 							]
 						}
 					},
@@ -253,25 +252,24 @@
 										},
 										{
 											"key": "content",
-											"value": "一键三连",
+											"value": "我太喜欢一键三连啦！",
 											"type": "text"
 										},
 										{
 											"key": "status",
 											"value": "1",
-											"type": "text",
-											"disabled": true
+											"type": "text"
 										}
 									]
 								},
 								"url": {
-									"raw": "{{url}}api/v1/task",
+									"raw": "{{url}}api/v1/task_create",
 									"host": [
 										"{{url}}api"
 									],
 									"path": [
 										"v1",
-										"task"
+										"task_create"
 									]
 								}
 							},
@@ -285,15 +283,15 @@
 								},
 								{
 									"key": "Date",
-									"value": "Fri, 03 Jun 2022 11:54:07 GMT"
+									"value": "Sun, 21 May 2023 11:03:15 GMT"
 								},
 								{
 									"key": "Content-Length",
-									"value": "177"
+									"value": "68"
 								}
 							],
 							"cookie": [],
-							"body": "{\n    \"status\": 200,\n    \"data\": {\n        \"id\": 1,\n        \"title\": \"BiliBili\",\n        \"content\": \"一键三连\",\n        \"view\": 0,\n        \"status\": 0,\n        \"created_at\": 1654257247,\n        \"start_time\": 1654257247,\n        \"end_time\": 0\n    },\n    \"msg\": \"ok\",\n    \"error\": \"\"\n}"
+							"body": "{\n    \"status\": 200,\n    \"data\": \"操作成功\",\n    \"msg\": \"操作成功\",\n    \"error\": \"\"\n}"
 						}
 					]
 				},
@@ -322,20 +320,20 @@
 								},
 								{
 									"key": "start",
-									"value": "2",
+									"value": "1",
 									"description": "页码",
 									"type": "text"
 								}
 							]
 						},
 						"url": {
-							"raw": "{{url}}api/v1/tasks",
+							"raw": "{{url}}api/v1/task_list",
 							"host": [
 								"{{url}}api"
 							],
 							"path": [
 								"v1",
-								"tasks"
+								"task_list"
 							]
 						}
 					},
@@ -413,14 +411,19 @@
 							}
 						],
 						"url": {
-							"raw": "{{url}}api/v1/task/1",
+							"raw": "{{url}}api/v1/task_show?id=1",
 							"host": [
 								"{{url}}api"
 							],
 							"path": [
 								"v1",
-								"task",
-								"1"
+								"task_show"
+							],
+							"query": [
+								{
+									"key": "id",
+									"value": "1"
+								}
 							]
 						}
 					},
@@ -437,14 +440,19 @@
 									}
 								],
 								"url": {
-									"raw": "{{url}}api/v1/task/1",
+									"raw": "{{url}}api/v1/task_show?id=1",
 									"host": [
 										"{{url}}api"
 									],
 									"path": [
 										"v1",
-										"task",
-										"1"
+										"task_show"
+									],
+									"query": [
+										{
+											"key": "id",
+											"value": "1"
+										}
 									]
 								}
 							},
@@ -458,22 +466,22 @@
 								},
 								{
 									"key": "Date",
-									"value": "Fri, 03 Jun 2022 11:58:29 GMT"
+									"value": "Sun, 21 May 2023 11:05:37 GMT"
 								},
 								{
 									"key": "Content-Length",
-									"value": "177"
+									"value": "205"
 								}
 							],
 							"cookie": [],
-							"body": "{\n    \"status\": 200,\n    \"data\": {\n        \"id\": 1,\n        \"title\": \"BiliBili\",\n        \"content\": \"一键三连\",\n        \"view\": 1,\n        \"status\": 0,\n        \"created_at\": 1654257248,\n        \"start_time\": 1654257247,\n        \"end_time\": 0\n    },\n    \"msg\": \"ok\",\n    \"error\": \"\"\n}"
+							"body": "{\n    \"status\": 200,\n    \"data\": {\n        \"id\": 1,\n        \"title\": \"BiliBili\",\n        \"content\": \"我太喜欢一键三连啦！\",\n        \"view\": 1,\n        \"status\": 0,\n        \"created_at\": 1684666996,\n        \"start_time\": 1684666995,\n        \"end_time\": 0\n    },\n    \"msg\": \"操作成功\",\n    \"error\": \"\"\n}"
 						}
 					]
 				},
 				{
 					"name": "更改某条备忘录信息",
 					"request": {
-						"method": "PUT",
+						"method": "POST",
 						"header": [
 							{
 								"key": "Authorization",
@@ -498,18 +506,22 @@
 									"key": "status",
 									"value": "1",
 									"type": "text"
+								},
+								{
+									"key": "id",
+									"value": "1",
+									"type": "text"
 								}
 							]
 						},
 						"url": {
-							"raw": "{{url}}api/v1/task/1",
+							"raw": "{{url}}api/v1/task_update",
 							"host": [
 								"{{url}}api"
 							],
 							"path": [
 								"v1",
-								"task",
-								"1"
+								"task_update"
 							]
 						}
 					},
@@ -517,7 +529,7 @@
 						{
 							"name": "更改某条备忘录信息",
 							"originalRequest": {
-								"method": "PUT",
+								"method": "POST",
 								"header": [
 									{
 										"key": "Authorization",
@@ -542,18 +554,22 @@
 											"key": "status",
 											"value": "1",
 											"type": "text"
+										},
+										{
+											"key": "id",
+											"value": "1",
+											"type": "text"
 										}
 									]
 								},
 								"url": {
-									"raw": "{{url}}api/v1/task/1",
+									"raw": "{{url}}api/v1/task_update",
 									"host": [
 										"{{url}}api"
 									],
 									"path": [
 										"v1",
-										"task",
-										"1"
+										"task_update"
 									]
 								}
 							},
@@ -567,15 +583,15 @@
 								},
 								{
 									"key": "Date",
-									"value": "Fri, 03 Jun 2022 12:00:24 GMT"
+									"value": "Sun, 21 May 2023 11:06:53 GMT"
 								},
 								{
 									"key": "Content-Length",
-									"value": "58"
+									"value": "68"
 								}
 							],
 							"cookie": [],
-							"body": "{\n    \"status\": 200,\n    \"data\": \"修改成功\",\n    \"msg\": \"ok\",\n    \"error\": \"\"\n}"
+							"body": "{\n    \"status\": 200,\n    \"data\": \"操作成功\",\n    \"msg\": \"操作成功\",\n    \"error\": \"\"\n}"
 						}
 					]
 				},
@@ -595,19 +611,19 @@
 							"formdata": [
 								{
 									"key": "info",
-									"value": "一键三连",
+									"value": "更",
 									"type": "text"
 								}
 							]
 						},
 						"url": {
-							"raw": "{{url}}api/v1/search",
+							"raw": "{{url}}api/v1/task_search",
 							"host": [
 								"{{url}}api"
 							],
 							"path": [
 								"v1",
-								"search"
+								"task_search"
 							]
 						}
 					},
@@ -628,19 +644,19 @@
 									"formdata": [
 										{
 											"key": "info",
-											"value": "一键三连",
+											"value": "更",
 											"type": "text"
 										}
 									]
 								},
 								"url": {
-									"raw": "{{url}}api/v1/search",
+									"raw": "{{url}}api/v1/task_search",
 									"host": [
 										"{{url}}api"
 									],
 									"path": [
 										"v1",
-										"search"
+										"task_search"
 									]
 								}
 							},
@@ -654,22 +670,22 @@
 								},
 								{
 									"key": "Date",
-									"value": "Fri, 03 Jun 2022 12:01:57 GMT"
+									"value": "Sun, 21 May 2023 11:07:07 GMT"
 								},
 								{
 									"key": "Content-Length",
-									"value": "197"
+									"value": "196"
 								}
 							],
 							"cookie": [],
-							"body": "{\n    \"status\": 200,\n    \"data\": [\n        {\n            \"id\": 2,\n            \"title\": \"BiliBili\",\n            \"content\": \"我太喜欢一键三连啦！\",\n            \"view\": 0,\n            \"status\": 0,\n            \"created_at\": 1654257326,\n            \"start_time\": 1654257325,\n            \"end_time\": 0\n        }\n    ],\n    \"msg\": \"ok\",\n    \"error\": \"\"\n}"
+							"body": "{\n    \"status\": 200,\n    \"data\": {\n        \"item\": [\n            {\n                \"id\": 1,\n                \"title\": \"OHHHHH\",\n                \"content\": \"更改一下\",\n                \"view\": 2,\n                \"status\": 1,\n                \"created_at\": 1684666996,\n                \"start_time\": 1684666995,\n                \"end_time\": 0\n            }\n        ],\n        \"total\": 1\n    },\n    \"msg\": \"ok\",\n    \"error\": \"\"\n}"
 						}
 					]
 				},
 				{
 					"name": "删除用户某条备忘录",
 					"request": {
-						"method": "DELETE",
+						"method": "POST",
 						"header": [
 							{
 								"key": "Authorization",
@@ -678,14 +694,19 @@
 							}
 						],
 						"url": {
-							"raw": "{{url}}api/v1/task/1",
+							"raw": "{{url}}api/v1/task_delete?id=1",
 							"host": [
 								"{{url}}api"
 							],
 							"path": [
 								"v1",
-								"task",
-								"1"
+								"task_delete"
+							],
+							"query": [
+								{
+									"key": "id",
+									"value": "1"
+								}
 							]
 						}
 					},
@@ -693,7 +714,7 @@
 						{
 							"name": "删除用户某条备忘录",
 							"originalRequest": {
-								"method": "DELETE",
+								"method": "POST",
 								"header": [
 									{
 										"key": "Authorization",
@@ -702,14 +723,19 @@
 									}
 								],
 								"url": {
-									"raw": "{{url}}api/v1/task/1",
+									"raw": "{{url}}api/v1/task_delete?id=1",
 									"host": [
 										"{{url}}api"
 									],
 									"path": [
 										"v1",
-										"task",
-										"1"
+										"task_delete"
+									],
+									"query": [
+										{
+											"key": "id",
+											"value": "1"
+										}
 									]
 								}
 							},
@@ -723,15 +749,15 @@
 								},
 								{
 									"key": "Date",
-									"value": "Fri, 03 Jun 2022 12:02:36 GMT"
+									"value": "Sun, 21 May 2023 11:07:34 GMT"
 								},
 								{
 									"key": "Content-Length",
-									"value": "48"
+									"value": "68"
 								}
 							],
 							"cookie": [],
-							"body": "{\n    \"status\": 200,\n    \"data\": null,\n    \"msg\": \"ok\",\n    \"error\": \"\"\n}"
+							"body": "{\n    \"status\": 200,\n    \"data\": \"操作成功\",\n    \"msg\": \"操作成功\",\n    \"error\": \"\"\n}"
 						}
 					]
 				}

@@ -6,7 +6,7 @@ import (
 
 	"gopkg.in/go-playground/validator.v8"
 
-	"to-do-list/conf"
+	conf "to-do-list/config"
 	"to-do-list/pkg/ctl"
 	"to-do-list/pkg/e"
 )

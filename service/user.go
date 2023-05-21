@@ -60,7 +60,7 @@ func (s *UserSrv) Login(ctx context.Context, req *types.UserServiceReq) (resp in
 	userDao := dao.NewUserDao(ctx)
 	user, err := userDao.FindUserByUserName(req.UserName)
 	if err == gorm.ErrRecordNotFound {
-		util.LogrusObj.Info(err)
+		err = errors.New("用户不存在")
 		return
 	}
 
