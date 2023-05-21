@@ -14,7 +14,7 @@ main
 # Dependency directories (remove the comment below to include it)
 # vendor/
 uploadfile
-conf/config.ini
+config/config.ini
 conf/config_online.ini
 runtime
 go.sum

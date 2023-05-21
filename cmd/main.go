@@ -1,8 +1,7 @@
 package main
 
 import (
-	"to-do-list/conf"
-	"to-do-list/pkg/track"
+	conf "to-do-list/config"
 	"to-do-list/pkg/util"
 	"to-do-list/repository/cache"
 	"to-do-list/repository/db/dao"
@@ -26,6 +25,5 @@ func loading() {
 	conf.Init()
 	util.InitLog()
 	dao.MySQLInit()
-	track.InitJaeger()
 	cache.Redis()
 }

@@ -24,9 +24,6 @@ services:
     container_name: redis
     image: redis:latest
     restart: always
-    environment:
-      - REDIS_PASSWORD=123456
-      - ALLOW_EMPTY_PASSWORD=no
     volumes:
       - /usr/local/redis:/usr/local/redis
     ports:
