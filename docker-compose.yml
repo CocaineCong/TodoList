@@ -1,28 +1,22 @@
 version: '3.7'
 
-services:
-  todo_list:
-    build: ./
-    image: todolist:latest
-    container_name: todo_list
-    restart: always
-    environment:
-      MYSQL_DSN: "root:root@tcp/todolist?charset=utf8&parseTime=True&loc=Local"
-    ports:
-      - "3000:3000"
-    depends_on:
-      - mysql
-      - redis
+networks:
+  todolist:
+    driver: bridge
 
+services:
   mysql:
     container_name: mysql
-    image: mysql:8.0
+    image: mysql:latest
     restart: always
     environment:
-      MYSQL_ROOT_PASSWORD: root
-      MYSQL_DATABASE: todolist
+      - MYSQL_ROOT_PASSWORD=root
+      - MYSQL_DATABASE=todolist
+      - MYSQL_USER=todolist
+      - MYSQL_PASSWORD=todolist
+      - TZ=Asia/Shanghai
     volumes:
-      - /var/lib/mysql:/var/lib/mysql
+      - ./config/sql:/docker-entrypoint-initdb.d/
     ports:
       - "3306:3306"
 
@@ -30,11 +24,7 @@ services:
     container_name: redis
     image: redis:latest
     restart: always
-    command:
-      --requirepass "123456" #这一行是设置密码
-    privileged: true
-
     volumes:
-      - /usr/local/redis:/var/lib/redis
+      - /usr/local/redis:/usr/local/redis
     ports:
       - "6379:6379"

@@ -1,17 +1,17 @@
 [service]
 AppMode = debug
-HttpPort = :4000
+HttpPort = :3000
 
 [redis]
 RedisDb = redis
 RedisAddr = localhost:6379
-RedisPw = 123456
+RedisPw =
 RedisDbName = 2
 
 [mysql]
 Db = mysql
 DbHost = localhost
 DbPort = 3306
-DbUser = root
-DbPassWord = root
+DbUser = todolist
+DbPassWord = todolist
 DbName = todolist

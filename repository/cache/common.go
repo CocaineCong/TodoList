@@ -6,7 +6,7 @@ import (
 	"github.com/go-redis/redis"
 	logging "github.com/sirupsen/logrus"
 
-	"to-do-list/conf"
+	conf "to-do-list/config"
 )
 
 var RedisClient *redis.Client

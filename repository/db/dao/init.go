@@ -11,7 +11,7 @@ import (
 	"gorm.io/gorm/logger"
 	"gorm.io/gorm/schema"
 
-	"to-do-list/conf"
+	conf "to-do-list/config"
 )
 
 var _db *gorm.DB

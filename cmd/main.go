@@ -1,7 +1,7 @@
 package main
 
 import (
-	"to-do-list/conf"
+	conf "to-do-list/config"
 	"to-do-list/pkg/util"
 	"to-do-list/repository/cache"
 	"to-do-list/repository/db/dao"

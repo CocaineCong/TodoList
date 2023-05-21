@@ -40,7 +40,7 @@ func CreateTaskHandler() gin.HandlerFunc {
 	}
 }
 
-// ListTasksHandler @Tags TASK
+// ListTaskHandler @Tags TASK
 // @Summary 获取任务列表
 // @Produce json
 // @Accept json
@@ -49,7 +49,7 @@ func CreateTaskHandler() gin.HandlerFunc {
 // @Success 200 {object} serializer.ResponseTask "{"success":true,"data":{},"msg":"ok"}"
 // @Failure 500 {json} {"status":500,"data":{},"Msg":{},"Error":"error"}
 // @Router /tasks [get]
-func ListTasksHandler() gin.HandlerFunc {
+func ListTaskHandler() gin.HandlerFunc {
 	return func(ctx *gin.Context) {
 		var req types.ListTasksReq
 		if err := ctx.ShouldBind(&req); err == nil {
@@ -87,7 +87,7 @@ func ShowTaskHandler() gin.HandlerFunc {
 		if err := ctx.ShouldBind(&req); err == nil {
 			// 参数校验
 			l := service.GetTaskSrv()
-			resp, err := l.ShowTask(ctx.Request.Context(), ctx.Param("id"))
+			resp, err := l.ShowTask(ctx.Request.Context(), &req)
 			if err != nil {
 				ctx.JSON(http.StatusInternalServerError, ErrorResponse(err))
 				return
@@ -116,7 +116,7 @@ func DeleteTaskHandler() gin.HandlerFunc {
 		if err := ctx.ShouldBind(&req); err == nil {
 			// 参数校验
 			l := service.GetTaskSrv()
-			resp, err := l.DeleteTask(ctx.Request.Context(), ctx.Param("id"))
+			resp, err := l.DeleteTask(ctx.Request.Context(), &req)
 			if err != nil {
 				ctx.JSON(http.StatusInternalServerError, ErrorResponse(err))
 				return
@@ -145,7 +145,7 @@ func UpdateTaskHandler() gin.HandlerFunc {
 		if err := ctx.ShouldBind(&req); err == nil {
 			// 参数校验
 			l := service.GetTaskSrv()
-			resp, err := l.UpdateTask(ctx.Request.Context(), req, ctx.Param("id"))
+			resp, err := l.UpdateTask(ctx.Request.Context(), req)
 			if err != nil {
 				ctx.JSON(http.StatusInternalServerError, ErrorResponse(err))
 				return
@@ -159,7 +159,7 @@ func UpdateTaskHandler() gin.HandlerFunc {
 	}
 }
 
-// SearchTasksHandler @Tags TASK
+// SearchTaskHandler @Tags TASK
 // @Summary 查询任务
 // @Produce json
 // @Accept json
@@ -168,13 +168,13 @@ func UpdateTaskHandler() gin.HandlerFunc {
 // @Success 200 {object} serializer.Response "{"success":true,"data":{},"msg":"ok"}"
 // @Failure 500 {json} {"status":500,"data":{},"Msg":{},"Error":"error"}
 // @Router /search [post]
-func SearchTasksHandler() gin.HandlerFunc {
+func SearchTaskHandler() gin.HandlerFunc {
 	return func(ctx *gin.Context) {
-		req := new(types.SearchTaskReq)
+		var req types.SearchTaskReq
 		if err := ctx.ShouldBind(&req); err == nil {
 			// 参数校验
 			l := service.GetTaskSrv()
-			resp, err := l.SearchTask(ctx.Request.Context(), req)
+			resp, err := l.SearchTask(ctx.Request.Context(), &req)
 			if err != nil {
 				ctx.JSON(http.StatusInternalServerError, ErrorResponse(err))
 				return
