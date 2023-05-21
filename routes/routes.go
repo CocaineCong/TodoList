@@ -18,7 +18,7 @@ func NewRouter() *gin.Engine {
 	store := cookie.NewStore([]byte("something-very-secret"))
 	r.GET("/swagger/*any", ginSwagger.WrapHandler(swaggerFiles.Handler)) // 开启swag
 	r.Use(sessions.Sessions("mysession", store))
-	r.Use(middleware.Cors())
+	r.Use(middleware.Cors(), middleware.Jaeger())
 	v1 := r.Group("api/v1")
 	{
 		v1.GET("ping", func(c *gin.Context) {

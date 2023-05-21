@@ -1,10 +1,12 @@
 package api
 
 import (
+	"fmt"
 	"net/http"
 
 	"github.com/gin-gonic/gin"
 
+	"to-do-list/middleware"
 	"to-do-list/pkg/util"
 	"to-do-list/service"
 	"to-do-list/types"
@@ -51,6 +53,9 @@ func UserLoginHandler() gin.HandlerFunc {
 		var req types.UserServiceReq
 		if err := ctx.ShouldBind(&req); err == nil {
 			// 参数校验
+			spanCtxInterface, _ := ctx.Get(middleware.SpanCTX)
+			fmt.Println("spanCtxInterface", fmt.Sprintf("%v", spanCtxInterface))
+
 			l := service.GetUserSrv()
 			resp, err := l.Login(ctx.Request.Context(), &req)
 			if err != nil {
