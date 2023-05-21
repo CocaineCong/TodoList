@@ -5,8 +5,6 @@ import (
 	"sync"
 	"time"
 
-	"github.com/spf13/cast"
-
 	"to-do-list/pkg/ctl"
 	"to-do-list/pkg/util"
 	"to-do-list/repository/db/dao"
@@ -122,13 +120,13 @@ func (s *TaskSrv) DeleteTask(ctx context.Context, req *types.DeleteTaskReq) (res
 	return ctl.RespSuccess(), nil
 }
 
-func (s *TaskSrv) UpdateTask(ctx context.Context, req *types.UpdateTaskReq, tId string) (resp interface{}, err error) {
+func (s *TaskSrv) UpdateTask(ctx context.Context, req *types.UpdateTaskReq) (resp interface{}, err error) {
 	u, err := ctl.GetUserInfo(ctx)
 	if err != nil {
 		util.LogrusObj.Info(err)
 		return
 	}
-	err = dao.NewTaskDao(ctx).UpdateTask(u.Id, cast.ToUint(tId), req)
+	err = dao.NewTaskDao(ctx).UpdateTask(u.Id, req)
 	if err != nil {
 		util.LogrusObj.Info(err)
 		return

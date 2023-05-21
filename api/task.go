@@ -145,7 +145,7 @@ func UpdateTaskHandler() gin.HandlerFunc {
 		if err := ctx.ShouldBind(&req); err == nil {
 			// 参数校验
 			l := service.GetTaskSrv()
-			resp, err := l.UpdateTask(ctx.Request.Context(), req, ctx.Param("id"))
+			resp, err := l.UpdateTask(ctx.Request.Context(), req)
 			if err != nil {
 				ctx.JSON(http.StatusInternalServerError, ErrorResponse(err))
 				return
