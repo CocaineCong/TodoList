@@ -82,13 +82,13 @@ func (s *TaskSrv) ListTask(ctx context.Context, req *types.ListTasksReq) (resp i
 }
 
 // ShowTask 展示Task作用
-func (s *TaskSrv) ShowTask(ctx context.Context, tId string) (resp interface{}, err error) {
+func (s *TaskSrv) ShowTask(ctx context.Context, req *types.ShowTaskReq) (resp interface{}, err error) {
 	u, err := ctl.GetUserInfo(ctx)
 	if err != nil {
 		util.LogrusObj.Info(err)
 		return
 	}
-	task, err := dao.NewTaskDao(ctx).FindTaskByIdAndUserId(u.Id, cast.ToUint(tId))
+	task, err := dao.NewTaskDao(ctx).FindTaskByIdAndUserId(u.Id, req.Id)
 	if err != nil {
 		util.LogrusObj.Info(err)
 		return
@@ -107,13 +107,13 @@ func (s *TaskSrv) ShowTask(ctx context.Context, tId string) (resp interface{}, e
 	return ctl.RespSuccessWithData(respTask), nil
 }
 
-func (s *TaskSrv) DeleteTask(ctx context.Context, tId string) (resp interface{}, err error) {
+func (s *TaskSrv) DeleteTask(ctx context.Context, req *types.DeleteTaskReq) (resp interface{}, err error) {
 	u, err := ctl.GetUserInfo(ctx)
 	if err != nil {
 		util.LogrusObj.Info(err)
 		return
 	}
-	err = dao.NewTaskDao(ctx).DeleteTaskById(u.Id, cast.ToUint(tId))
+	err = dao.NewTaskDao(ctx).DeleteTaskById(u.Id, req.Id)
 	if err != nil {
 		util.LogrusObj.Info(err)
 		return
