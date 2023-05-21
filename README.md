@@ -3,15 +3,17 @@
 **此项目使用`Gin`+`Gorm` ，基于`RESTful API`实现的一个备忘录**。
 
 **此项目比较适合小白入门`web开发`这一方面**
-
-## 注意，最新版本是v2
-
 # 详细教程
 
-B站: https://www.bilibili.com/video/BV1GT4y1R7tX \
+**注意，最新版本是v2**
 
-博客: https://blog.csdn.net/weixin_45304503/article/details/120680957
+B站: 
+- v1版本:https://www.bilibili.com/video/BV1GT4y1R7tX 
+- 重构v2版本:https://www.bilibili.com/video/BV13z4y1a7ZJ
 
+博客: 
+- v1版本:https://blog.csdn.net/weixin_45304503/article/details/120680957
+- 重构v2版本:https://blog.csdn.net/weixin_45304503/article/details/130460797
 
 ## 项目运行
 ### 手动执行
