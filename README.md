@@ -8,12 +8,15 @@
 **注意，最新版本是v2**
 
 B站: 
-- v1版本:https://www.bilibili.com/video/BV1GT4y1R7tX 
-- 重构v2版本:https://www.bilibili.com/video/BV13z4y1a7ZJ
+- v1版本：https://www.bilibili.com/video/BV1GT4y1R7tX 
+- 重构v2版本：https://www.bilibili.com/video/BV13z4y1a7ZJ
 
 博客: 
-- v1版本:https://blog.csdn.net/weixin_45304503/article/details/120680957
-- 重构v2版本:https://blog.csdn.net/weixin_45304503/article/details/130460797
+- v1版本：https://blog.csdn.net/weixin_45304503/article/details/120680957
+- 重构v2版本：https://blog.csdn.net/weixin_45304503/article/details/130460797
+
+**前端仓库地址：https://github.com/CocaineCong/react-todolist**
+
 
 ## 项目运行
 ### 手动执行
